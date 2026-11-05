@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { ArrowDownToLine, ArrowRight, ArrowUpDown, Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Compass, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
+import { ArrowDownToLine, ArrowRight, ArrowUpDown, Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Code2, Compass, FlaskConical, Leaf, Palette, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
 import EventCard from './components/EventCard';
 import EventCalendar from './components/EventCalendar';
 import type { Notice, Opportunity, Profile } from './types';
@@ -9,6 +9,7 @@ import { dateLabel, happensOn, isPast, monthKey, monthLabel, TODAY } from './typ
 type Page = 'catalog' | 'profile' | 'achievements' | 'messages';
 const nav = [{ id: 'catalog' as Page, label: 'Возможности', icon: Compass }, { id: 'profile' as Page, label: 'Профиль', icon: UserRound }, { id: 'achievements' as Page, label: 'Мои достижения', icon: Trophy }, { id: 'messages' as Page, label: 'Сообщения', icon: UserRound }];
 const categories = ['Все направления', 'Технологии', 'Творчество', 'Наука', 'Экология'];
+const interestIcons = [Code2, Palette, FlaskConical, Leaf];
 function readStored(key: string): unknown { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; } }
 function dateMonth(date: string) { return new Date(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 1, 1); }
 function firstParticipationMonth(events: Opportunity[], ids: string[]) { const own = events.filter(event => ids.includes(event.id)).sort((a, b) => a.date.localeCompare(b.date)); return dateMonth(own.find(event => !isPast(event))?.date || own.at(-1)?.date || TODAY); }
@@ -78,7 +79,7 @@ export default function StudentApp({ sharedEvents, participationIds, onParticipa
   const exportPortfolio = () => { const content = `${profile?.fullName}\n${profile?.school}, ${profile?.grade} класс\n\nУЧАСТИЕ В СОБЫТИЯХ\n\n${achievements.map(event => `${event.title}\n${dateLabel(event.date)} · ${event.venue}\nОрганизатор: ${event.organizer}`).join('\n\n')}`; const url = URL.createObjectURL(new Blob([content], { type: 'text/plain;charset=utf-8' })); const link = document.createElement('a'); link.href = url; link.download = 'Мои достижения — ВнеКласса.txt'; link.click(); URL.revokeObjectURL(url); };
   const renderCard = (event: Opportunity) => <EventCard key={event.id} event={event} joined={joined.includes(event.id)} onSelect={setSelected} onToggle={toggleJoined} />;
 
-  const interestSelector = <section className="student-interests" aria-label="Мои интересы"><h2>Мои интересы</h2><div className="interest-chips">{categories.slice(1).map(value => <button key={value} className={interests.includes(value) ? 'active' : ''} onClick={() => toggleInterest(value)} aria-pressed={interests.includes(value)}>{interests.includes(value) && <Check size={18} />}{value}</button>)}</div></section>;
+  const interestSelector = <section className="student-interests" aria-label="Мои интересы"><h2>Мои интересы</h2><div className="interest-chips">{categories.slice(1).map((value, index) => { const Icon = interestIcons[index]; const active = interests.includes(value); return <button key={value} className={active ? 'active' : ''} onClick={() => toggleInterest(value)} aria-pressed={active}><Icon size={24} aria-hidden="true" /><span>{value}</span><span className="interest-selection" aria-hidden="true">{active && <Check size={17} />}</span></button>; })}</div></section>;
 
   if (error) return <div className="loading-screen"><Star /><h1>Не получилось загрузить события</h1><button className="button primary" onClick={() => location.reload()}>Попробовать снова</button></div>;
   if (!profile) return <div className="loading-screen" role="status"><Star /><p>Загрузка…</p></div>;
@@ -106,8 +107,8 @@ export default function StudentApp({ sharedEvents, participationIds, onParticipa
         <div className="page-intro"><h1><span>Профиль</span></h1></div>
         <section className="portfolio-profile"><span className="large-avatar">{profile.initials}</span><div><h2>{profile.fullName}</h2><p>{profile.school} · {profile.grade} класс</p></div></section>
         {interestSelector}
-        <div className="section-title"><h2>Календарь участия</h2><button className="text-button" onClick={() => navigate('catalog')}>Найти событие<ArrowRight size={15} /></button></div>
-        <div className="profile-calendar-layout"><aside className="profile-calendar"><EventCalendar label="Календарь участия" events={participation} month={profileMonth} onMonthChange={setProfileMonth} selectedDate={profileDate} onSelectDate={setProfileDate} compact /></aside><section className="profile-month-events" aria-label="Мои события"><div className="section-title profile-events-heading"><h2>{profileDate ? dateLabel(profileDate) : 'События месяца'}</h2>{profileDate && <button className="text-button" onClick={() => setProfileDate(null)}>Все даты<X size={13} /></button>}</div>
+        <div className="section-title"><h2>Мои события</h2><button className="text-button" onClick={() => navigate('catalog')}>Найти событие<ArrowRight size={15} /></button></div>
+        <div className="profile-calendar-layout"><aside className="profile-calendar"><EventCalendar label="Календарь моих событий" events={participation} month={profileMonth} onMonthChange={setProfileMonth} selectedDate={profileDate} onSelectDate={setProfileDate} compact /></aside><section className="profile-month-events" aria-label="Мои события">{profileDate && <div className="date-filter"><span>{dateLabel(profileDate)}</span><button className="text-button" onClick={() => setProfileDate(null)}>Все даты<X size={13} /></button></div>}
         {profileEvents.length ? <div className="profile-events-grid">{profileEvents.map(renderCard)}</div> : <div className="empty-state"><p>{participation.length ? 'В выбранном периоде нет событий с твоим участием.' : 'Ты пока не участвуешь в событиях.'}</p><button className="button secondary" onClick={() => navigate('catalog')}>Перейти к возможностям</button></div>}</section></div>
       </>}
       {page === 'achievements' && <>
