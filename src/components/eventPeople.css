@@ -7,14 +7,14 @@
 .event-award svg{flex-shrink:0;margin-top:2px}
 .event-winner-row{background:#f1f8df}
 .event-winner-row th{font-weight:600!important}
-.event-people-table-wrap{overflow-x:auto;border:1px solid #dfe2d5;border-radius:16px}
+.event-people-table-wrap{overflow-x:auto;border:2px solid #dfe2d5;border-radius:16px}
 .event-people-table{border-collapse:collapse;width:100%;text-align:left;font-size:16px;line-height:1.5}
 .event-people-table thead{background:#f6f7f1;color:#646a59}
 .event-people-table th,.event-people-table td{padding:16px;text-align:left;vertical-align:top;font-weight:400}
 .event-people-table tbody th{font-weight:500}
-.event-people-table tbody tr+tr{border-top:1px solid #dfe2d5}
+.event-people-table tbody tr+tr{border-top:2px solid #dfe2d5}
 .event-people-empty{font-size:17px;line-height:1.6;color:#626a55;padding:18px 0}
-.event-people-search{display:flex;align-items:center;gap:10px;border:1px solid #c8ceba;border-radius:14px;padding:0 15px;margin-bottom:20px}
+.event-people-search{display:flex;align-items:center;gap:10px;border:2px solid #c8ceba;border-radius:14px;padding:0 15px;margin-bottom:20px}
 .event-people-search input{width:100%;min-width:0;height:52px;background:none;border:0;font-size:16px;outline:none}
 .event-people-search:focus-within{outline:2px solid var(--accent)}
 .event-registry-summary{font-size:18px;line-height:1.5;color:#616a51;margin:0}

@@ -1,5 +1,5 @@
 :root{color-scheme:light}
-.theme-toggle{position:fixed;right:24px;bottom:24px;z-index:129;display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:13px 18px;border:1px solid #c5cbb9;border-radius:999px;background:#fff;color:#171817;font-size:16px;box-shadow:0 6px 28px #0002}
+.theme-toggle{position:fixed;right:24px;bottom:24px;z-index:129;display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:13px 18px;border:2px solid #c5cbb9;border-radius:999px;background:#fff;color:#171817;font-size:16px;box-shadow:0 6px 28px #0002}
 .theme-toggle:hover{background:#f1f6e5}
 :root[data-theme=dark]{color-scheme:dark;--ink:#f1f4e9;--accent:#d2f76a;--line:#394131;--muted:#b2bcaa;--surface:#22271f;--panel:#191d17;--canvas:#101310;background:var(--canvas);color:var(--ink)}
 [data-theme=dark] body{background:var(--canvas);color:var(--ink)}
@@ -18,7 +18,7 @@
 [data-theme=dark] :is(.staff-class-list button.active small,.staff-contacts>button.active small){color:#3e501c}
 [data-theme=dark] .nav-item.active{background:#e9efde;color:#171817}
 [data-theme=dark] :is(.brand-mark,.large-avatar,.chat-avatar,.staff-avatar){background:#2d3820;color:var(--accent)}
-[data-theme=dark] :is(.role-switch-button,.toast){background:#20271b;color:var(--ink);border:1px solid #596847}
+[data-theme=dark] :is(.role-switch-button,.toast){background:#20271b;color:var(--ink);border:2px solid #596847}
 [data-theme=dark] .role-demo-label,[data-theme=dark] .toast>span{background:var(--accent);color:#171817}
 [data-theme=dark] .theme-toggle{background:var(--panel);color:var(--ink);border-color:#596847}
 [data-theme=dark] .theme-toggle:hover{background:#303a25}
@@ -37,7 +37,7 @@
 [data-theme=dark] :is(.event-people-search,.staff-search){background:var(--panel);border-color:#6a765d;color:var(--muted)}
 [data-theme=dark] .form-error{background:#3d261d;color:#ffbf9e;border-color:#86513c}
 /* Calendars preserve lime event days and the square selection. */
-[data-theme=dark] .event-calendar.compact{background:var(--panel);border:1px solid var(--line);color:var(--ink)}
+[data-theme=dark] .event-calendar.compact{background:var(--panel);border:2px solid var(--line);color:var(--ink)}
 [data-theme=dark] .compact .calendar-toolbar h3{color:var(--ink)}
 [data-theme=dark] .compact .calendar-days{color:var(--muted)}
 [data-theme=dark] .compact .month-controls .icon-button{color:var(--ink)}
@@ -59,7 +59,7 @@
 [data-theme=dark] .active .interest-selection{background:#171817;color:var(--accent);border-color:#171817}
 /* Landing accents keep dark text against the original lime. */
 [data-theme=dark] .landing-hero h1 span{background-image:url('/images/marker-stroke-dark.svg')}
-[data-theme=dark] .landing-final-cta{background:#29391e;border:1px solid #536c39;color:var(--ink)}
+[data-theme=dark] .landing-final-cta{background:#29391e;border:2px solid #536c39;color:var(--ink)}
 [data-theme=dark] .landing-final-cta .landing-eyebrow{color:var(--muted)}
 [data-theme=dark] :is(.landing-image-caption>span:last-child,.landing-role-action span){background:var(--accent);color:#171817}
 [data-theme=dark] ::selection{background:var(--accent);color:#171817}
@@ -71,7 +71,7 @@
 
 .theme-control{position:fixed;right:24px;bottom:24px;z-index:129}
 .theme-control .theme-toggle{position:static}
-.theme-menu{position:absolute;right:0;bottom:68px;width:280px;max-width:calc(100vw - 32px);padding:16px;border:1px solid #c5cbb9;border-radius:22px;background:#fff;color:#171817;box-shadow:0 12px 45px #0003}
+.theme-menu{position:absolute;right:0;bottom:68px;width:280px;max-width:calc(100vw - 32px);padding:16px;border:2px solid #c5cbb9;border-radius:22px;background:#fff;color:#171817;box-shadow:0 12px 45px #0003}
 .theme-menu h2{font-size:20px;font-weight:600;padding:6px 10px 15px}
 .theme-menu>button{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:12px;border-radius:12px;font-size:17px;text-align:left}
 .theme-menu>button>span{flex:1}
