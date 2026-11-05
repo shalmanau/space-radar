@@ -20,8 +20,6 @@ export default function EventCalendar({ events, month, onMonthChange, selectedDa
       const dayEvents = events.filter(event => happensOn(event, date));
       return <button className={`calendar-cell ${date === TODAY ? 'today-cell' : ''} ${selectedDate === date ? 'selected-cell' : ''} ${dayEvents.length ? 'has-events' : ''}`} key={date} onClick={() => onSelectDate(selectedDate === date ? null : date)} aria-label={`${dateLabel(date)}, событий: ${dayEvents.length}`} aria-pressed={selectedDate === date}>
         <span className="cell-number">{day}</span>
-        {dayEvents.length === 1 && <span className="calendar-dots" aria-hidden="true"><i /></span>}
-        {dayEvents.length > 1 && <span className="calendar-event-count" aria-hidden="true">{dayEvents.length}</span>}
       </button>;
     })}</div>
   </section>;

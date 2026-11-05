@@ -27,3 +27,27 @@ main{max-width:1480px;margin:auto;padding:60px 48px 90px;min-height:calc(100vh -
 @media(max-width:600px){.nav-notifications{display:inline-flex}.nav-utilities{gap:5px}.nav-utilities .nav-item{font-size:16px;padding:11px 15px}}
 
 .notice-read{margin-top:23px}.popover-title>.icon-button{flex-shrink:0}
+
+/* Student interests and compact participation calendar. */
+.student-interests{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:30px}
+.student-interests h2{font-size:22px;font-weight:600;letter-spacing:-.4px}
+.interest-chips{display:flex;flex-wrap:wrap;gap:10px}
+.interest-chips button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:11px 18px;font-size:16px;font-weight:500;border:1px solid #b7b9ac;border-radius:999px;background:#fff}
+.interest-chips button.active{background:var(--accent);border-color:var(--ink)}
+.interest-chips button:hover{border-color:var(--ink)}
+.recommended-card{border:2px solid #9ebf45;background:#fbfef3}
+.recommended-card:hover{border-color:#657d26}
+.interest-match{display:inline-flex;align-self:flex-start;margin-bottom:15px;padding:7px 12px;border-radius:8px;font-size:15px;font-weight:500;background:var(--accent);color:var(--ink)}
+.profile-calendar-layout{display:grid;grid-template-columns:minmax(0,1fr) 328px;gap:36px;align-items:start}
+.profile-calendar{grid-column:2;grid-row:1;position:sticky;top:25px}
+.profile-month-events{grid-column:1;grid-row:1;min-width:0}
+.profile-month-events .profile-events-heading{margin-top:0}
+.event-calendar.compact .calendar-cell,.event-calendar.compact .calendar-blank{aspect-ratio:1;min-height:0;padding:0;border-radius:7px}
+.event-calendar.compact .has-events{background:var(--accent);color:var(--ink);border-color:var(--accent)}
+.event-calendar.compact .has-events:hover{background:#c1e85b;border-color:#c1e85b}
+.event-calendar.compact .selected-cell{outline:2px solid #fff;outline-offset:-4px;background:var(--accent)!important}
+.event-calendar.compact .calendar-cell:not(.has-events).selected-cell{background:#fff!important}
+@media(min-width:1650px){.profile-calendar-layout{grid-template-columns:minmax(0,1fr) 352px;gap:42px}}
+@media(max-width:1250px){.profile-calendar-layout{grid-template-columns:minmax(0,1fr) 300px;gap:24px}}
+@media(max-width:1000px){.profile-calendar-layout{grid-template-columns:minmax(0,1fr) 280px;gap:22px}.profile-month-events .profile-events-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.profile-calendar-layout{grid-template-columns:1fr;gap:28px}.profile-calendar{grid-column:1;grid-row:1;position:static;width:100%;max-width:352px;justify-self:start}.profile-month-events{grid-column:1;grid-row:2}.profile-month-events .profile-events-grid{grid-template-columns:1fr}.student-interests{gap:15px;margin-bottom:26px}.student-interests h2{font-size:22px}.interest-chips{gap:9px}.interest-chips button{font-size:16px;padding:10px 15px;min-height:46px}}

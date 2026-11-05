@@ -2,12 +2,13 @@ import { CalendarDays, Check, MapPin, Monitor } from 'lucide-react';
 import type { Opportunity } from '../types';
 import { dateLabel, isPast } from '../types';
 
-type Props = { event: Opportunity; joined: boolean; onSelect: (event: Opportunity) => void; onToggle: (id: string) => void; hideParticipation?: boolean; action?: { label: string; onClick: () => void } };
-export default function EventCard({ event, joined, onSelect, onToggle, hideParticipation = false, action }: Props) {
+type Props = { event: Opportunity; joined: boolean; onSelect: (event: Opportunity) => void; onToggle: (id: string) => void; recommended?: boolean; hideParticipation?: boolean; action?: { label: string; onClick: () => void } };
+export default function EventCard({ event, joined, onSelect, onToggle, hideParticipation = false, action, recommended = false }: Props) {
   const past = isPast(event);
-  return <article className="opportunity-card" data-event-id={event.id}>
+  return <article className={`opportunity-card${recommended ? ' recommended-card' : ''}`} data-event-id={event.id}>
     <img className="card-image" src={event.image} alt="" />
     <div className="card-content">
+      {recommended && <span className="interest-match">По интересам</span>}
       <h3 className="card-title">{event.title}</h3>
       <div className="card-meta">
         <span><CalendarDays size={18} />{dateLabel(event.date)}{event.endDate && ` — ${dateLabel(event.endDate)}`} · {event.time}</span>
