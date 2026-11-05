@@ -1,6 +1,4 @@
-:root{color-scheme:light}
-.theme-toggle{position:fixed;right:24px;bottom:24px;z-index:129;display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:13px 18px;border:2px solid #c4cdd9;border-radius:999px;background:#fff;color:#182331;font-size:16px;box-shadow:0 6px 28px #0002}
-.theme-toggle:hover{background:#f0f4f8}
+:root{color-scheme:dark}
 :root[data-theme=dark]{color-scheme:dark;--ink:#eef3fa;--accent:#cbd4e1;--line:#334359;--muted:#b0bdd0;--surface:#1b2a40;--panel:#142238;--canvas:#0b1525;background:var(--canvas);color:var(--ink)}
 [data-theme=dark] body{background:var(--canvas);color:var(--ink)}
 [data-theme=dark] .staff-workspace{--staff-ink:var(--ink);--staff-line:var(--line);--staff-muted:var(--muted)}
@@ -20,10 +18,7 @@
 [data-theme=dark] :is(.brand-mark,.large-avatar,.chat-avatar,.staff-avatar){background:#24374b;color:var(--accent)}
 [data-theme=dark] :is(.role-switch-button,.toast){background:#182a40;color:var(--ink);border:2px solid #536b86}
 [data-theme=dark] .role-demo-label,[data-theme=dark] .toast>span{background:var(--metal-gradient,var(--accent));color:#182331}
-[data-theme=dark] .theme-toggle{background:var(--panel);color:var(--ink);border-color:#536b86}
-[data-theme=dark] .theme-toggle:hover{background:#23364e}
 [data-theme=dark] .notification-dot{border-color:var(--panel);background:var(--metal-gradient,var(--accent))}
-[data-theme=dark] .page-intro h1>span:after{background:#52627b}
 /* Secondary copy stays readable on the navy surfaces. */
 [data-theme=dark] :is(.card-meta,.card-meta svg,.portfolio-profile p,.empty-state p,.notice p,.notice small,.detail-overline,.detail-venue p,.detail-content>p,.detail-meta svg,.demo-caption,.detail-content>.demo-caption,.help-step p,.workspace-role-label,.guest-catalog-intro,.form-organizer,.public-detail>p,.inbox-contact p,.message-time,.event-people-heading h3>span,.event-people-empty,.event-registry-summary,.achievement-venue,.achievement-table thead th,.student-teacher-list button>span:last-child>span,.pupil-profile-identity p,.pupil-olympiads p,.staff-eyebrow,.staff-event-type,.staff-message>div,.staff-dialog-actions>span,.landing-eyebrow,.landing-lead,.landing-event-type,.landing-role-number,.landing-role-card p){color:var(--muted)}
 [data-theme=dark] :is(.detail-overline>span,.detail-skills>span){color:var(--muted)}
@@ -58,29 +53,15 @@
 [data-theme=dark] .interest-selection{border-color:#8299b4}
 [data-theme=dark] .active .interest-selection{background:#182331;color:var(--accent);border-color:#182331}
 /* Landing accents keep dark text against the silver accents. */
-[data-theme=dark] .landing-hero h1 span{background-image:url('/images/marker-stroke-dark.svg')}
 [data-theme=dark] .landing-final-cta{background-color:#142238;border-color:var(--line);color:var(--ink)}
 [data-theme=dark] .landing-final-cta .landing-eyebrow{color:var(--muted)}
 [data-theme=dark] :is(.landing-image-caption>span:last-child,.landing-role-action span){background:var(--metal-gradient,var(--accent));color:#182331}
 [data-theme=dark] ::selection{background:var(--metal-gradient,var(--accent));color:#182331}
 @media(max-width:1150px){[data-theme=dark] .student-area .site-nav.open{background:var(--panel);border-color:var(--line)}}
 @media(max-width:900px){[data-theme=dark] .site-nav.open{background:var(--panel);border-color:var(--line)}}
-@media(max-width:600px){.theme-toggle{right:16px;bottom:16px;width:52px;min-height:52px;padding:0}.theme-toggle>span{display:none}}
 [data-theme=dark] .staff-empty{background:var(--surface);border-color:var(--line);color:var(--ink)}
 [data-theme=dark] .staff-class-list button:not(.active) small,[data-theme=dark] .staff-search svg{color:var(--muted)}
 
-.theme-control{position:fixed;right:24px;bottom:24px;z-index:129}
-.theme-control .theme-toggle{position:static}
-.theme-menu{position:absolute;right:0;bottom:68px;width:280px;max-width:calc(100vw - 32px);padding:16px;border:2px solid #c4cdd9;border-radius:22px;background:#fff;color:#182331;box-shadow:0 12px 45px #0003}
-.theme-menu h2{font-size:20px;font-weight:600;padding:6px 10px 15px}
-.theme-menu>button{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:12px;border-radius:12px;font-size:17px;text-align:left}
-.theme-menu>button>span{flex:1}
-.theme-menu>button:hover{background:#f0f4f8}
-.theme-menu>button[aria-pressed=true]{background:#cbd4e1;color:#182331}
-[data-theme=dark] .theme-menu{background:var(--panel);color:var(--ink);border-color:#536b86}
-[data-theme=dark] .theme-menu>button:hover{background:#23364e}
-[data-theme=dark] .theme-menu>button[aria-pressed=true]{background:var(--metal-gradient,var(--accent));color:#182331}
-@media(max-width:600px){.theme-control{right:16px;bottom:16px}.theme-menu{bottom:66px}}
 
 /* The orbital mark uses the same quiet night sky in every role. */
 .brand-mark{--brand-sky:#182331}
