@@ -84,8 +84,6 @@ html[data-theme] :is(.button.primary, .landing-button-dark):is(:hover, :focus-vi
 html[data-theme] .recommended-card { border-color: #8399b7; }
 html[data-theme] .event-calendar.compact .selected-cell { background-image: var(--accent-fill); }
 
-.landing-hero-visual img { box-shadow: 0 20px 64px #0813261f; }
-[data-theme=dark] .landing-hero-visual img { box-shadow: 0 20px 64px #02071459; }
 .landing-final-cta { border-color: #536883; }
 
 

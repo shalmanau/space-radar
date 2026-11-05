@@ -7,10 +7,11 @@ type Props = {
   events: Opportunity[];
   onRegister: () => void;
   onExplore: () => void;
+  onOpenEvent: (event: Opportunity) => void;
   onChooseRole: (role: Role) => void;
 };
 
-export default function Landing({ events, onRegister, onExplore, onChooseRole }: Props) {
+export default function Landing({ events, onRegister, onExplore, onOpenEvent, onChooseRole }: Props) {
   const upcoming = events.slice(0, 3);
   return (
     <main className="landing-page">
@@ -38,7 +39,7 @@ export default function Landing({ events, onRegister, onExplore, onChooseRole }:
             <article className="landing-event" key={event.id}>
               <p className="landing-event-date">{dateLabel(event.date)}</p>
               <div><h3>{event.title}</h3></div>
-              <span className="landing-event-arrow" aria-hidden="true">↗</span>
+              <button type="button" className="landing-event-arrow" aria-label={`Подробнее: ${event.title}`} onClick={() => onOpenEvent(event)}><span aria-hidden="true">↗</span></button>
             </article>
           ))}
         </div>
