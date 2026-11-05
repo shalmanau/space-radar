@@ -58,6 +58,13 @@ async function request<T>(path: string, method = 'GET', body?: unknown): Promise
   } finally { window.clearTimeout(timeout); }
 }
 
+/** Telegram binding requires the actual API; a local mock must never pretend to link a chat. */
+export async function requestBackend<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
+  if (source !== 'api') throw new Error('Для подключения Telegram нужен работающий сервер');
+  try { return await request<T>(path, method, body); }
+  catch (error) { if (error instanceof ApiError) throw error; throw new Error('Не удалось связаться с сервером. Попробуй позже.'); }
+}
+
 async function mockData(): Promise<AppData> {
   const cached = stored<unknown>(CACHE_KEY);
   if (isAppData(cached)) return cached;

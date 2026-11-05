@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Code2, Compass, FlaskConical, Leaf, Palette, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
 import EventCard from './components/EventCard';
 import Avatar, { EditAvatar } from './components/Avatar';
+import TelegramPanel from './components/TelegramPanel';
 import EventPeople from './components/EventPeople';
 import type { SchoolData, Enrollment } from './roleTypes';
 import EventCalendar from './components/EventCalendar';
@@ -102,6 +103,7 @@ export default function StudentApp({ onApply, school, enrollments, sharedEvents,
       {page === 'profile' && <>
         <div className="page-intro"><h1><span>Профиль</span></h1></div>
         <section className="portfolio-profile"><EditAvatar photo={profile.photo} initials={profile.initials} name={profile.fullName} onClick={onEditPhoto} /><div className="profile-identity"><h2>{profile.fullName}</h2><p>{profile.school} · {school.region} · {profile.grade} класс</p></div><button className="button secondary profile-interest-button" onClick={() => setEditingInterests(true)} aria-haspopup="dialog"><SlidersHorizontal size={21} />Мои интересы</button></section>
+        <TelegramPanel />
         <div className="section-title"><h2>Мои события</h2><button className="text-button" onClick={() => navigate('catalog')}>Найти событие<ArrowRight size={15} /></button></div>
         <div className="profile-calendar-layout"><aside className="profile-calendar"><EventCalendar label="Календарь моих событий" events={participation} month={profileMonth} onMonthChange={setProfileMonth} selectedDate={profileDate} onSelectDate={setProfileDate} compact /></aside><section className="profile-month-events" aria-label="Мои события">{profileDate && <div className="date-filter"><span>{dateLabel(profileDate)}</span><button className="text-button" onClick={() => setProfileDate(null)}>Все даты<X size={13} /></button></div>}
         {profileEvents.length ? <div className="profile-events-grid">{profileEvents.map(renderCard)}</div> : <div className="empty-state"><p>{participation.length ? 'В выбранном периоде нет событий с твоим участием.' : 'Ты пока не участвуешь в событиях.'}</p><button className="button secondary" onClick={() => navigate('catalog')}>Перейти к возможностям</button></div>}</section></div>
