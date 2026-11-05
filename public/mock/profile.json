@@ -17,9 +17,5 @@
   "completedEventIds": [
     "clean-shore",
     "school-hackathon"
-  ],
-  "achievementResults": {
-    "clean-shore": "participated",
-    "school-hackathon": "diploma"
-  }
+  ]
 }

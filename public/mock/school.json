@@ -34,43 +34,64 @@
       "id": "sasha",
       "name": "Александра Иванова",
       "classId": "10a",
-      "initials": "АИ"
+      "initials": "АИ",
+      "institution": "Гимназия № 12"
     },
     {
       "id": "maxim",
       "name": "Максим Петров",
       "classId": "10a",
-      "initials": "МП"
+      "initials": "МП",
+      "institution": "Гимназия № 12"
     },
     {
       "id": "daria",
       "name": "Дарья Козлова",
       "classId": "10a",
-      "initials": "ДК"
+      "initials": "ДК",
+      "institution": "Гимназия № 12"
     },
     {
       "id": "artem",
       "name": "Артём Новик",
       "classId": "10b",
-      "initials": "АН"
+      "initials": "АН",
+      "institution": "Гимназия № 12"
     },
     {
       "id": "anna",
       "name": "Анна Волкова",
       "classId": "10b",
-      "initials": "АВ"
+      "initials": "АВ",
+      "institution": "Гимназия № 12"
     },
     {
       "id": "nikita",
       "name": "Никита Сидоров",
       "classId": "9a",
-      "initials": "НС"
+      "initials": "НС",
+      "institution": "Гимназия № 12"
     },
     {
       "id": "polina",
       "name": "Полина Морозова",
       "classId": "9a",
-      "initials": "ПМ"
+      "initials": "ПМ",
+      "institution": "Гимназия № 12"
+    },
+    {
+      "id": "alina",
+      "name": "Алина Орлова",
+      "classId": "10a",
+      "initials": "АО",
+      "institution": "Лицей БГУ"
+    },
+    {
+      "id": "egor",
+      "name": "Егор Климов",
+      "classId": "9a",
+      "initials": "ЕК",
+      "institution": "Средняя школа № 37"
     }
   ],
   "enrollments": [
@@ -187,6 +208,18 @@
       "studentId": "polina",
       "eventId": "clean-shore",
       "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "external-code-1",
+      "studentId": "alina",
+      "eventId": "code",
+      "registeredAt": "2026-11-02T10:00:00"
+    },
+    {
+      "id": "external-code-2",
+      "studentId": "egor",
+      "eventId": "code",
+      "registeredAt": "2026-11-03T10:00:00"
     }
   ],
   "messages": [
@@ -197,6 +230,18 @@
       "text": "Саша, посмотри школьный хакатон. Если понадобится помощь с выбором команды, напиши мне.",
       "eventId": "hackathon",
       "createdAt": "2026-11-04T14:30:00"
+    }
+  ],
+  "eventResults": [
+    {
+      "eventId": "school-hackathon",
+      "studentId": "sasha",
+      "award": "Диплом I степени"
+    },
+    {
+      "eventId": "school-hackathon",
+      "studentId": "maxim",
+      "award": "Диплом II степени"
     }
   ]
 }

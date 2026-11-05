@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, MessageCircle, Plus, Search, Send, Users, X } from 'lucide-react';
 import EventCard from './EventCard';
+import EventPeople from './EventPeople';
 import type { Enrollment, Message, SchoolData, SchoolStudent } from '../roleTypes';
 import type { Opportunity } from '../types';
 import { dateLabel, isPast } from '../types';
@@ -19,7 +20,7 @@ type Props = {
 };
 
 const teacherTabs = ['Лента', 'Классы', 'Сообщения', 'Участники олимпиад'] as const;
-const organizationTabs = ['Мои активности', 'Участники'] as const;
+const organizationTabs = ['Мои активности'] as const;
 const studentClassName = (school: SchoolData, student: SchoolStudent) => school.classes.find(item => item.id === student.classId)?.name ?? 'Класс не указан';
 const escapeCsv = (value: string) => `"${value.replaceAll('"', '""')}"`;
 function downloadCsv(filename: string, rows: string[][]) {
@@ -28,17 +29,19 @@ function downloadCsv(filename: string, rows: string[][]) {
   const link = document.createElement('a'); link.href = url; link.download = filename; link.click(); URL.revokeObjectURL(url);
 }
 
-function WorkspaceDialog({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+function WorkspaceDialog({ title, onClose, children, wide = false }: { title: string; onClose: () => void; children: ReactNode; wide?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
   // The dialog stays mounted while open; showModal supplies keyboard and backdrop behavior.
   useEffect(() => { const dialog = ref.current; if (dialog && !dialog.open) dialog.showModal(); const previousOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = previousOverflow; }; }, []);
-  return <dialog className="staff-dialog" ref={ref} aria-label={title} onCancel={onClose} onClick={event => { if (event.target === ref.current) onClose(); }}>
+  return <dialog className={`staff-dialog${wide ? ' registry-dialog' : ''}`} ref={ref} aria-label={title} onCancel={onClose} onClick={event => { if (event.target === ref.current) onClose(); }}>
     <div className="staff-dialog-head"><h2>{title}</h2><button className="icon-button" type="button" aria-label="Закрыть окно" onClick={onClose}><X size={22} /></button></div>
     {children}
   </dialog>;
 }
 
-export default function RoleWorkspace({ role, events, school, enrollments, messages, onPublish, onSendMessage, onOpenEvent }: Props) {
+export default function RoleWorkspace({ role, events, school: directory, enrollments, messages, onPublish, onSendMessage, onOpenEvent }: Props) {
+  const school = role === 'teacher' ? { ...directory, students: directory.students.filter(student => student.institution === directory.school) } : directory;
+  const [participantEvent, setParticipantEvent] = useState<Opportunity | null>(null);
   const [tab, setTab] = useState<string>(role === 'teacher' ? teacherTabs[0] : organizationTabs[0]);
   const [query, setQuery] = useState('');
   const [classFilter, setClassFilter] = useState('all');
@@ -67,10 +70,6 @@ export default function RoleWorkspace({ role, events, school, enrollments, messa
     const student = school.students.find(item => item.id === enrollment.studentId);
     const event = events.find(item => item.id === enrollment.eventId && item.type === 'Олимпиада');
     return Boolean(student && event && (classFilter === 'all' || student.classId === classFilter) && (eventFilter === 'all' || event.id === eventFilter));
-  });
-  const organizationEnrollments = enrollments.filter(enrollment => {
-    const student = school.students.find(item => item.id === enrollment.studentId);
-    return ownerEvents.some(event => event.id === enrollment.eventId) && Boolean(student && (classFilter === 'all' || student.classId === classFilter)) && (eventFilter === 'all' || enrollment.eventId === eventFilter) && `${student?.name} ${student && studentClassName(school, student)}`.toLocaleLowerCase('ru').includes(query.toLocaleLowerCase('ru'));
   });
   const threadMessages = messages.filter(message => message.studentId === conversationStudent).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
   const sendDialog = () => {
@@ -124,15 +123,10 @@ export default function RoleWorkspace({ role, events, school, enrollments, messa
 
     {role === 'organization' && tab === 'Мои активности' && <section className="staff-section">
       <div className="staff-section-heading"><div><span className="staff-eyebrow">Публикации организации</span><h2>Мои активности</h2></div><button className="button primary" onClick={onPublish}><Plus size={19} />Создать активность</button></div>
-      {ownerEvents.length ? <div className="staff-owned-events">{ownerEvents.map(event => { const count = enrollments.filter(enrollment => enrollment.eventId === event.id).length; return <article className="staff-owned-event" key={event.id}><img src={event.image} alt="" /><div className="staff-owned-main"><span className="staff-event-type">{event.type} · {isPast(event) ? 'Завершено' : 'Предстоит'}</span><h3>{event.title}</h3><p>{dateLabel(event.date)} · {event.time} · {event.venue}</p></div><div className="staff-owned-actions"><span className="staff-participant-count"><Users size={19} />{count} участников</span><button className="button secondary" onClick={() => { setTab('Участники'); setEventFilter(event.id); setClassFilter('all'); }}>Участники<ArrowRight size={17} /></button></div></article>; })}</div> : <div className="staff-empty"><h3>Активностей пока нет</h3><p>Создайте первую публикацию, чтобы пригласить школьников.</p><button className="button primary" onClick={onPublish}><Plus size={19} />Создать активность</button></div>}
+      {ownerEvents.length ? <div className="staff-owned-events">{ownerEvents.map(event => { const count = enrollments.filter(enrollment => enrollment.eventId === event.id).length; return <article className="staff-owned-event" key={event.id}><img src={event.image} alt="" /><div className="staff-owned-main"><span className="staff-event-type">{event.type} · {isPast(event) ? 'Завершено' : 'Предстоит'}</span><h3>{event.title}</h3><p>{dateLabel(event.date)} · {event.time} · {event.venue}</p></div><div className="staff-owned-actions"><span className="staff-participant-count"><Users size={19} />{count} участников</span><button className="button secondary" onClick={() => setParticipantEvent(event)}>Участники<ArrowRight size={17} /></button><button className="button secondary" onClick={() => onOpenEvent(event)}>Подробнее</button></div></article>; })}</div> : <div className="staff-empty"><h3>Активностей пока нет</h3><p>Создайте первую публикацию, чтобы пригласить школьников.</p><button className="button primary" onClick={onPublish}><Plus size={19} />Создать активность</button></div>}
     </section>}
 
-    {role === 'organization' && tab === 'Участники' && <section className="staff-section">
-      <div className="staff-section-heading"><div><span className="staff-eyebrow">Все регистрации</span><h2>Участники активностей</h2></div><button className="button secondary" disabled={!organizationEnrollments.length} onClick={() => downloadCsv('участники-активностей.csv', [['Ученик', 'Класс', 'Активность', 'Дата регистрации', 'Статус'], ...organizationEnrollments.map(enrollment => { const student = school.students.find(item => item.id === enrollment.studentId)!; const event = events.find(item => item.id === enrollment.eventId)!; return [student.name, studentClassName(school, student), event.title, dateLabel(enrollment.registeredAt.slice(0, 10)), isPast(event) ? 'Завершено' : 'Зарегистрирован']; })])}><ArrowDownToLine size={19} />Скачать CSV</button></div>
-      <label className="staff-search"><Search size={21} /><span className="visually-hidden">Поиск участников</span><input value={query} onChange={event => setQuery(event.target.value)} placeholder="Поиск по имени или классу" /></label>
-      <div className="staff-filters"><label>Активность<select value={eventFilter} onChange={event => setEventFilter(event.target.value)}><option value="all">Все активности организации</option>{ownerEvents.map(event => <option key={event.id} value={event.id}>{event.title}</option>)}</select></label><label>Класс<select value={classFilter} onChange={event => setClassFilter(event.target.value)}><option value="all">Все классы</option>{school.classes.map(group => <option key={group.id} value={group.id}>{group.name}</option>)}</select></label><span className="staff-count">{organizationEnrollments.length} регистраций</span></div>
-      <div className="staff-table-wrap"><table className="staff-table"><thead><tr><th>Ученик</th><th>Класс</th><th>Активность</th><th>Дата регистрации</th><th>Статус</th></tr></thead><tbody>{organizationEnrollments.map(enrollment => { const student = school.students.find(item => item.id === enrollment.studentId)!; const event = events.find(item => item.id === enrollment.eventId)!; return <tr key={enrollment.id}><td>{student.name}</td><td>{studentClassName(school, student)}</td><td><button className="staff-link-button" onClick={() => onOpenEvent(event)}>{event.title}</button></td><td>{dateLabel(enrollment.registeredAt.slice(0, 10))}</td><td><span className={`staff-status ${isPast(event) ? 'complete' : ''}`}>{isPast(event) ? 'Завершено' : 'Зарегистрирован'}</span></td></tr>; })}</tbody></table>{!organizationEnrollments.length && <div className="staff-empty"><p>Регистраций с такими фильтрами нет.</p></div>}</div>
-    </section>}
+    {participantEvent && <WorkspaceDialog wide title={`Участники: ${participantEvent.title}`} onClose={() => setParticipantEvent(null)}><p className="event-registry-summary">{dateLabel(participantEvent.date)} · {participantEvent.venue}</p><EventPeople key={participantEvent.id} event={participantEvent} school={directory} enrollments={enrollments} registry /></WorkspaceDialog>}
 
     {dialog && <WorkspaceDialog title={dialog === 'invite' ? 'Предложить активность ученикам' : dialog === 'portfolio' ? `Портфолио: ${portfolioStudent?.name ?? ''}` : 'Новое сообщение'} onClose={() => { setDialog(null); setDialogEvent(null); setInviteEventId(''); setPortfolioStudent(null); }}>
       {dialog === 'portfolio' ? <><div className="staff-portfolio-summary"><span className="staff-avatar">{portfolioStudent?.initials}</span><div><h3>{portfolioStudent?.name}</h3><p>{portfolioStudent ? studentClassName(school, portfolioStudent) : ''} · {school.school}</p></div></div><div className="staff-dialog-actions portfolio-export"><span>{studentPortfolioEvents.length} завершённых событий</span><button className="button secondary" disabled={!studentPortfolioEvents.length} onClick={() => downloadCsv(`портфолио-${portfolioStudent?.name.replaceAll(' ', '-') ?? 'ученика'}.csv`, [['Активность', 'Дата', 'Место', 'Организатор'], ...studentPortfolioEvents.map(event => [event.title, dateLabel(event.date), event.venue, event.organizer])])}><ArrowDownToLine size={18} />Скачать CSV</button></div>{studentPortfolioEvents.length ? <div className="staff-event-grid staff-portfolio-events">{studentPortfolioEvents.map(event => <EventCard key={event.id} event={event} joined={false} onSelect={onOpenEvent} onToggle={() => {}} hideParticipation />)}</div> : <div className="staff-empty"><p>Завершённых событий с регистрациями этого ученика пока нет.</p></div>}</> : dialog === 'invite' && (dialogEvent ? <div className="staff-invite-event"><strong>{dialogEvent.title}</strong><span>{dateLabel(dialogEvent.date)} · {dialogEvent.organizer}</span></div> : <label className="staff-dialog-event-select">Активность<select value={inviteEventId} onChange={event => setInviteEventId(event.target.value)}><option value="">Выберите активность</option>{teacherEvents.map(event => <option key={event.id} value={event.id}>{event.title} · {dateLabel(event.date)}</option>)}</select></label>)}

@@ -30,7 +30,6 @@ export type Profile = {
   interests: string[];
   joined: string[];
   completedEventIds: string[];
-  achievementResults?: Record<string, 'participated' | 'diploma'>;
 };
 export type Notice = { id: number; title: string; text: string; time: string };
 export const TODAY = '2026-11-05';
