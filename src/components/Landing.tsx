@@ -1,19 +1,17 @@
 import './landing.css';
+import type { Opportunity } from '../types';
+import { dateLabel } from '../types';
 
 type Role = 'teacher' | 'organization';
 type Props = {
+  events: Opportunity[];
   onRegister: () => void;
   onExplore: () => void;
   onChooseRole: (role: Role) => void;
 };
 
-const upcoming = [
-  { date: '8 ноября', title: 'Экологическая волонтёрская акция' },
-  { date: '14 ноября', title: 'Школа новых медиа' },
-  { date: '21 ноября', title: 'Хакатон для школьников' },
-];
-
-export default function Landing({ onRegister, onExplore, onChooseRole }: Props) {
+export default function Landing({ events, onRegister, onExplore, onChooseRole }: Props) {
+  const upcoming = events.slice(0, 3);
   return (
     <main className="landing-page">
       <section className="landing-hero" aria-labelledby="landing-title">
@@ -37,8 +35,8 @@ export default function Landing({ onRegister, onExplore, onChooseRole }: Props) 
         </div>
         <div className="landing-event-list">
           {upcoming.map((event) => (
-            <article className="landing-event" key={event.title}>
-              <p className="landing-event-date">{event.date}</p>
+            <article className="landing-event" key={event.id}>
+              <p className="landing-event-date">{dateLabel(event.date)}</p>
               <div><h3>{event.title}</h3></div>
               <span className="landing-event-arrow" aria-hidden="true">↗</span>
             </article>

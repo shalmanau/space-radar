@@ -1,0 +1,128 @@
+import type { Notice, Opportunity, Profile } from './types';
+import type { DemoAccount, Enrollment, Message, Role, SchoolData } from './roleTypes';
+
+export type AppData = {
+  events: Opportunity[];
+  school: SchoolData;
+  profile: Profile;
+  notices: Notice[];
+  noticesRead: boolean;
+  accounts: Partial<Record<Exclude<Role, 'guest'>, DemoAccount>>;
+};
+export type Saved<T> = { value: T; local: boolean };
+const CACHE_KEY = 'vneklassa-data-v1';
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
+let source: 'api' | 'mock' = 'mock';
+let loading: Promise<AppData> | undefined;
+
+export class ApiError extends Error {}
+
+function stored<T>(key: string): T | null {
+  try { return JSON.parse(localStorage.getItem(key) || 'null') as T | null; } catch { return null; }
+}
+function isAppData(value: unknown): value is AppData {
+  if (!value || typeof value !== 'object') return false;
+  const data = value as AppData;
+  return Array.isArray(data.events) && data.events.every(event => event &&
+    ['id', 'title', 'date', 'deadline', 'time', 'organizer', 'venue', 'category', 'type', 'format', 'age', 'image', 'description', 'details'].every(key => typeof event[key as keyof Opportunity] === 'string') && Array.isArray(event.skills))
+    && typeof data.school?.id === 'string' && ['teachers', 'organizations', 'students', 'classes', 'enrollments', 'messages', 'eventResults'].every(key => Array.isArray(data.school[key as keyof SchoolData]))
+    && data.school.teachers.length > 0 && data.school.teachers.every(person => person && typeof person.id === 'string' && typeof person.name === 'string')
+    && data.school.organizations.length > 0 && data.school.organizations.every(item => item && typeof item.id === 'string' && typeof item.name === 'string')
+    && data.school.students.some(student => student?.id === 'sasha')
+    && typeof data.profile?.fullName === 'string' && typeof data.profile.initials === 'string'
+    && Array.isArray(data.profile.interests) && data.profile.interests.every(item => typeof item === 'string')
+    && Array.isArray(data.notices) && data.notices.every(item => item && typeof item.title === 'string' && typeof item.text === 'string')
+    && typeof data.noticesRead === 'boolean' && Boolean(data.accounts) && typeof data.accounts === 'object' && !Array.isArray(data.accounts);
+}
+export function cacheData(data: AppData) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch { /* State stays usable in memory. */ }
+}
+
+async function request<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 4000);
+  try {
+    const response = await fetch(`${API_BASE}${path}`, {
+      method, signal: controller.signal, cache: 'no-store',
+      headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    if (!response.ok) {
+      if (response.status >= 400 && response.status < 500) {
+        const payload = await response.json().catch(() => null);
+        throw new ApiError(typeof payload?.detail === 'string' ? payload.detail : 'Проверь заполненные поля. Сервер отклонил запрос.');
+      }
+      throw new Error('Сервер недоступен');
+    }
+    return response.status === 204 ? undefined as T : await response.json() as T;
+  } finally { window.clearTimeout(timeout); }
+}
+
+async function mockData(): Promise<AppData> {
+  const cached = stored<unknown>(CACHE_KEY);
+  if (isAppData(cached)) return cached;
+  const read = async <T,>(name: string): Promise<T> => {
+    const response = await fetch(`/mock/${name}.json`);
+    if (!response.ok) throw new Error('Не удалось загрузить резервные данные');
+    return response.json();
+  };
+  const [events, school, profile, notices] = await Promise.all([
+    read<Opportunity[]>('opportunities'), read<SchoolData>('school'), read<Profile>('profile'), read<Notice[]>('notifications'),
+  ]);
+  // Preserve work created by the previous browser-only version on its first offline launch.
+  const published = stored<Opportunity[]>('vneklassa-published-events-v1');
+  if (Array.isArray(published)) events.push(...published.filter(event => event && typeof event.id === 'string' && !events.some(item => item.id === event.id)));
+  const enrollments = stored<Enrollment[]>('vneklassa-enrollments-v1');
+  if (Array.isArray(enrollments)) school.enrollments = enrollments.filter(item => item && events.some(event => event.id === item.eventId)).map(record => ({ ...record, application: record.application ?? school.enrollments.find(seed => seed.studentId === record.studentId && seed.eventId === record.eventId)?.application }));
+  const messages = stored<Message[]>('vneklassa-messages-v1');
+  if (Array.isArray(messages)) school.messages = messages.filter(item => item && typeof item.text === 'string').map(item => ({ ...item, teacherId: item.teacherId || school.teacher.id }));
+  const interests = stored<string[]>('vneklassa-interests');
+  if (Array.isArray(interests)) profile.interests = interests.filter(value => ['Технологии', 'Творчество', 'Наука', 'Экология'].includes(value));
+  let result: AppData = { events, school, profile, notices, noticesRead: stored('vneklassa-notices') === true, accounts: {} };
+  const accounts = stored<AppData['accounts']>('vneklassa-demo-accounts-v1');
+  for (const role of ['student', 'teacher', 'organization'] as const) {
+    const account = accounts?.[role];
+    if (account && typeof account.name === 'string' && typeof account.email === 'string') result = withAccount(result, { ...account, role });
+  }
+  return result;
+}
+
+export function loadData(): Promise<AppData> {
+  loading ??= (async () => {
+    try {
+      const data = await request<AppData>('/bootstrap');
+      if (!isAppData(data)) throw new Error('Несовместимый ответ API');
+      source = 'api';
+      return data;
+    } catch {
+      source = 'mock';
+      return mockData();
+    }
+  })();
+  return loading;
+}
+
+/** A network/5xx failure switches this session to local data. 4xx errors stay errors. */
+export async function save<T>(path: string, method: string, body: unknown, fallback: T): Promise<Saved<T>> {
+  if (source === 'api') {
+    try { return { value: await request<T>(path, method, body), local: false }; }
+    catch (error) {
+      if (error instanceof ApiError) throw error;
+      source = 'mock';
+    }
+  }
+  return { value: fallback, local: true };
+}
+
+export function withAccount(data: AppData, account: DemoAccount): AppData {
+  const initials = account.name.split(' ').slice(0, 2).map(part => part[0]).join('').toUpperCase();
+  return { ...data, accounts: { ...data.accounts, [account.role]: account },
+    profile: account.role === 'student' ? { ...data.profile, name: account.name.split(' ')[0], fullName: account.name, initials } : data.profile,
+    school: { ...data.school,
+      students: data.school.students.map(student => account.role === 'student' && student.id === 'sasha' ? { ...student, name: account.name, initials } : student),
+      teachers: data.school.teachers.map(teacher => account.role === 'teacher' && teacher.id === 'teacher-1' ? { ...teacher, name: account.name } : teacher),
+    },
+  };
+}
+
+export const savedMessage = (message: string, local: boolean) => local ? `${message}. Сохранено в этом браузере` : message;

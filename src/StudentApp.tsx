@@ -12,7 +12,6 @@ type Page = 'catalog' | 'profile' | 'achievements' | 'messages';
 const nav = [{ id: 'catalog' as Page, label: 'Возможности', icon: Compass }, { id: 'profile' as Page, label: 'Профиль', icon: UserRound }, { id: 'achievements' as Page, label: 'Мои достижения', icon: Trophy }, { id: 'messages' as Page, label: 'Сообщения', icon: UserRound }];
 const categories = ['Все направления', 'Технологии', 'Творчество', 'Наука', 'Экология'];
 const interestIcons = [Code2, Palette, FlaskConical, Leaf];
-function readStored(key: string): unknown { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; } }
 function dateMonth(date: string) { return new Date(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 1, 1); }
 function firstParticipationMonth(events: Opportunity[], ids: string[]) { const own = events.filter(event => ids.includes(event.id)).sort((a, b) => a.date.localeCompare(b.date)); return dateMonth(own.find(event => !isPast(event))?.date || own.at(-1)?.date || TODAY); }
 function Star() { return <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 62 32 92 15 74 44 100 50 74 59 90 89 60 73 50 100 40 73 10 89 26 59 0 50 27 40 10 12 40 29Z" /></svg>; }
@@ -22,12 +21,11 @@ function Modal({ title, children, onClose, wide = false }: { title: string; chil
   return <dialog ref={ref} className={`modal ${wide ? 'wide' : ''}`} onCancel={onClose} onClick={e => { if (e.target === ref.current) onClose(); }} aria-label={title}><div className="modal-head"><h2>{title}</h2><button className="icon-button" aria-label="Закрыть" onClick={onClose}><X size={21} /></button></div>{children}</dialog>;
 }
 
-type Props = { onApply: (event: Opportunity) => void; school: SchoolData; enrollments: Enrollment[]; sharedEvents: Opportunity[]; participationIds: string[]; onParticipationChange: (ids: string[]) => void; messagesView: ReactNode; accountName?: string };
-export default function StudentApp({ onApply, school, enrollments, sharedEvents, participationIds, onParticipationChange, messagesView, accountName }: Props) {
-  const [data, setData] = useState<Opportunity[]>([]);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [notices, setNotices] = useState<Notice[]>([]);
-  const [error, setError] = useState(false);
+type Props = { onApply: (event: Opportunity) => void; school: SchoolData; enrollments: Enrollment[]; sharedEvents: Opportunity[]; participationIds: string[]; onParticipationChange: (ids: string[]) => void; messagesView: ReactNode; profile: Profile; notices: Notice[]; noticesRead: boolean; onInterestsChange: (interests: string[]) => Promise<void>; onReadNotices: () => Promise<void> };
+export default function StudentApp({ onApply, school, enrollments, sharedEvents, participationIds, onParticipationChange, messagesView, profile, notices, noticesRead, onInterestsChange, onReadNotices }: Props) {
+  const data = sharedEvents;
+  const interests = profile.interests;
+  const [savingInterests, setSavingInterests] = useState(false);
   const [page, setPage] = useState<Page>('catalog');
   const [category, setCategory] = useState(categories[0]);
   const [scope, setScope] = useState<'organization' | 'region' | 'country'>('organization');
@@ -38,41 +36,31 @@ export default function StudentApp({ onApply, school, enrollments, sharedEvents,
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selected, setSelected] = useState<Opportunity | null>(null);
   const joined = participationIds;
-  const [interests, setInterests] = useState<string[]>([]);
   const [help, setHelp] = useState(false);
   const [editingInterests, setEditingInterests] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [readNotices, setReadNotices] = useState(() => readStored('vneklassa-notices') === true);
   const [mobileNav, setMobileNav] = useState(false);
   const [toast, setToast] = useState('');
   const [catalogMonth, setCatalogMonth] = useState(dateMonth(TODAY));
-  const [profileMonth, setProfileMonth] = useState(dateMonth(TODAY));
+  const [profileMonth, setProfileMonth] = useState(firstParticipationMonth(sharedEvents, participationIds));
   const [catalogDate, setCatalogDate] = useState<string | null>(null);
   const [profileDate, setProfileDate] = useState<string | null>(null);
   const [calendarOpen, setCalendarOpen] = useState(false);
 
-  useEffect(() => {
-    async function load() {
-      const fetchJson = async <T,>(url: string): Promise<T> => { const response = await fetch(url); if (!response.ok) throw new Error('Не удалось загрузить данные'); return response.json(); };
-      try {
-        const [events, user, messages] = await Promise.all([Promise.resolve(sharedEvents), fetchJson<Profile>('/mock/profile.json'), fetchJson<Notice[]>('/mock/notifications.json')]);
-        const ids = participationIds;
-        setData(events); setProfile(accountName ? { ...user, fullName: accountName, name: accountName.split(' ')[0], initials: accountName.split(' ').slice(0, 2).map(part => part[0]).join('').toUpperCase() } : user); setNotices(messages); setProfileMonth(firstParticipationMonth(events, ids));
-        const storedInterests = readStored('vneklassa-interests');
-        setInterests(Array.isArray(storedInterests) ? storedInterests.filter((value): value is string => typeof value === 'string').map(value => value === 'Волонтёрство' ? 'Экология' : value).filter(value => categories.includes(value)) : user.interests);
-      } catch { setError(true); }
-    }
-    void load();
-  }, [sharedEvents, accountName, onParticipationChange]);
   useEffect(() => { if (!toast) return; const timeout = window.setTimeout(() => setToast(''), 3200); return () => clearTimeout(timeout); }, [toast]);
   useEffect(() => { const listener = (e: KeyboardEvent) => { if (e.key === 'Escape') { setNotificationsOpen(false); setMobileNav(false); } }; window.addEventListener('keydown', listener); return () => window.removeEventListener('keydown', listener); }, []);
-  const store = (key: string, value: unknown) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { setToast('Изменения доступны до закрытия вкладки'); } };
   const navigate = (next: Page) => { setPage(next); setMobileNav(false); setNotificationsOpen(false); if (next === 'profile') { setProfileDate(null); setProfileMonth(firstParticipationMonth(data, joined)); } window.scrollTo({ top: 0, behavior: 'smooth' }); };
   const toggleJoined = (id: string) => {
-    if (joined.includes(id)) { onParticipationChange(joined.filter(value => value !== id)); setToast('Участие отменено'); }
+    if (joined.includes(id)) { onParticipationChange(joined.filter(value => value !== id)); }
     else { const event = data.find(item => item.id === id); if (event) { setSelected(null); onApply(event); } }
   };
-  const toggleInterest = (value: string) => { const next = interests.includes(value) ? interests.filter(item => item !== value) : [...interests, value]; setInterests(next); store('vneklassa-interests', next); };
+  const toggleInterest = async (value: string) => {
+    if (savingInterests) return;
+    setSavingInterests(true);
+    try { await onInterestsChange(interests.includes(value) ? interests.filter(item => item !== value) : [...interests, value]); }
+    catch (error) { setToast(error instanceof Error ? error.message : 'Не удалось обновить интересы'); }
+    finally { setSavingInterests(false); }
+  };
   const resetFilters = () => { setQuery(''); setCategory(categories[0]); setFormat('Любой формат'); setVenue('Все площадки'); setPeriod('upcoming'); setCatalogDate(null); setCatalogMonth(dateMonth(TODAY)); };
   const scopedEvents = data.filter(event => scope === 'organization' ? event.organizationId === school.id : scope === 'region' ? event.region === school.region : event.country === school.country);
   const catalogue = scopedEvents.filter(event => (category === categories[0] || event.category === category) && (format === 'Любой формат' || event.format === format) && (venue === 'Все площадки' || event.venue === venue) && (period === 'all' || (period === 'past' ? isPast(event) : !isPast(event))) && `${event.title} ${event.organizer} ${event.venue} ${event.category}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
@@ -88,16 +76,14 @@ export default function StudentApp({ onApply, school, enrollments, sharedEvents,
   const exportPortfolio = () => { const content = `${profile?.fullName}\n${profile?.school}, ${profile?.grade} класс\n\nУЧАСТИЕ В СОБЫТИЯХ\n\n${achievements.map(event => `${event.title}\n${achievementDate(event)} · ${event.venue}\nСтатус: ${achievementStatus(event)}\nОрганизатор: ${event.organizer}`).join('\n\n')}`; const url = URL.createObjectURL(new Blob([content], { type: 'text/plain;charset=utf-8' })); const link = document.createElement('a'); link.href = url; link.download = 'Мои достижения — ВнеКласса.txt'; link.click(); URL.revokeObjectURL(url); };
   const renderCard = (event: Opportunity) => <EventCard key={event.id} event={event} joined={joined.includes(event.id)} onSelect={setSelected} onToggle={toggleJoined} />;
 
-  const interestSelector = <section className="student-interests" aria-label="Мои интересы"><h2>Мои интересы</h2><div className="interest-chips">{categories.slice(1).map((value, index) => { const Icon = interestIcons[index]; const active = interests.includes(value); return <button key={value} className={active ? 'active' : ''} onClick={() => toggleInterest(value)} aria-pressed={active}><Icon size={24} aria-hidden="true" /><span>{value}</span><span className="interest-selection" aria-hidden="true">{active && <Check size={17} />}</span></button>; })}</div></section>;
+  const interestSelector = <section className="student-interests" aria-label="Мои интересы"><h2>Мои интересы</h2><div className="interest-chips">{categories.slice(1).map((value, index) => { const Icon = interestIcons[index]; const active = interests.includes(value); return <button key={value} className={active ? 'active' : ''} disabled={savingInterests} onClick={() => void toggleInterest(value)} aria-pressed={active}><Icon size={24} aria-hidden="true" /><span>{value}</span><span className="interest-selection" aria-hidden="true">{active && <Check size={17} />}</span></button>; })}</div></section>;
 
-  if (error) return <div className="loading-screen"><Star /><h1>Не получилось загрузить события</h1><button className="button primary" onClick={() => location.reload()}>Попробовать снова</button></div>;
-  if (!profile) return <div className="loading-screen" role="status"><Star /><p>Загрузка…</p></div>;
   return <div className="app-shell">
     {mobileNav && <button className="nav-backdrop" onClick={() => setMobileNav(false)} aria-label="Закрыть меню" />}
     <header className="site-header">
       <button className="brand" onClick={() => navigate('catalog')} aria-label="ВнеКласса — на главную"><span className="brand-mark"><Star /></span>ВнеКласса</button>
       <nav className={`site-nav ${mobileNav ? 'open' : ''}`} aria-label="Основная навигация">{nav.map(({ id, label }) => <button className={`nav-item ${page === id ? 'active' : ''}`} key={id} onClick={() => navigate(id)} aria-current={page === id ? 'page' : undefined}>{label}</button>)}<div className="nav-utilities"><button className="nav-item" onClick={() => { setMobileNav(false); setHelp(true); }}>Справка</button><button className="nav-item nav-notifications" onClick={() => { setMobileNav(false); setNotificationsOpen(true); }}>Уведомления</button></div></nav>
-      <div className="header-actions"><div className="notification-wrap"><button className="notification-button icon-button" aria-label="Уведомления" aria-expanded={notificationsOpen} onClick={() => setNotificationsOpen(!notificationsOpen)}><Bell size={24} />{!readNotices && <span className="notification-dot" />}</button>{notificationsOpen && <><button className="popover-backdrop" onClick={() => setNotificationsOpen(false)} aria-label="Закрыть уведомления" /><section className="notification-popover"><div className="popover-title"><h3>Уведомления</h3><button className="icon-button" aria-label="Закрыть панель уведомлений" onClick={() => setNotificationsOpen(false)}><X size={23} /></button></div>{notices.map(notice => <div className="notice" key={notice.id}><span className={`notice-dot ${readNotices ? 'read' : ''}`} /><div><strong>{notice.title}</strong><p>{notice.text}</p><small>{notice.time}</small></div></div>)}<button className="text-button full-width notice-read" aria-label="Отметить все прочитанными" onClick={() => { setReadNotices(true); store('vneklassa-notices', true); }}><CheckCheck size={22} />Прочитать всё</button></section></>}</div><button className="icon-button header-help" onClick={() => setHelp(true)} aria-label="Справка"><CircleHelp size={24} /></button><button className="account-button" onClick={() => navigate('profile')} aria-label="Открыть профиль">{profile.initials}</button><button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label="Открыть меню" aria-expanded={mobileNav}><Menu size={25} /></button></div>
+      <div className="header-actions"><div className="notification-wrap"><button className="notification-button icon-button" aria-label="Уведомления" aria-expanded={notificationsOpen} onClick={() => setNotificationsOpen(!notificationsOpen)}><Bell size={24} />{!noticesRead && <span className="notification-dot" />}</button>{notificationsOpen && <><button className="popover-backdrop" onClick={() => setNotificationsOpen(false)} aria-label="Закрыть уведомления" /><section className="notification-popover"><div className="popover-title"><h3>Уведомления</h3><button className="icon-button" aria-label="Закрыть панель уведомлений" onClick={() => setNotificationsOpen(false)}><X size={23} /></button></div>{notices.map(notice => <div className="notice" key={notice.id}><span className={`notice-dot ${noticesRead ? 'read' : ''}`} /><div><strong>{notice.title}</strong><p>{notice.text}</p><small>{notice.time}</small></div></div>)}<button className="text-button full-width notice-read" aria-label="Отметить все прочитанными" onClick={() => void onReadNotices()}><CheckCheck size={22} />Прочитать всё</button></section></>}</div><button className="icon-button header-help" onClick={() => setHelp(true)} aria-label="Справка"><CircleHelp size={24} /></button><button className="account-button" onClick={() => navigate('profile')} aria-label="Открыть профиль">{profile.initials}</button><button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label="Открыть меню" aria-expanded={mobileNav}><Menu size={25} /></button></div>
     </header>
     <div className="workspace">
     <main>
