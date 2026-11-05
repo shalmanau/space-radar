@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarDays, Check, Clock3, MapPin, Monitor } from 'lucide-react';
+import { CalendarDays, Check, MapPin, Monitor } from 'lucide-react';
 import type { Opportunity } from '../types';
 import { dateLabel, isPast } from '../types';
 
@@ -6,11 +6,17 @@ type Props = { event: Opportunity; joined: boolean; onSelect: (event: Opportunit
 export default function EventCard({ event, joined, onSelect, onToggle }: Props) {
   const past = isPast(event);
   return <article className="opportunity-card" data-event-id={event.id}>
-    <div className="card-top"><span className="card-category">{event.type}</span>
-      {past ? joined && <span className="participation-status"><Check size={14} />Участие</span> : <button className={`participation-toggle ${joined ? 'active' : ''}`} aria-label={`${joined ? 'Отменить участие' : 'Участвовать'}: ${event.title}`} aria-pressed={joined} onClick={() => onToggle(event.id)}><span className="participation-checkbox">{joined && <Check size={12} />}</span>{joined ? 'Участвую' : 'Участвовать'}</button>}
+    <img className="card-image" src={event.image} alt="" />
+    <div className="card-content">
+      <h3 className="card-title">{event.title}</h3>
+      <div className="card-meta">
+        <span><CalendarDays size={18} />{dateLabel(event.date)}{event.endDate && ` — ${dateLabel(event.endDate)}`} · {event.time}</span>
+        <span>{event.format === 'Онлайн' ? <Monitor size={18} /> : <MapPin size={18} />}{event.venue}{event.format === 'Онлайн' && ' · онлайн'}</span>
+      </div>
+      <div className="card-actions">
+        <button className="button secondary card-details" onClick={() => onSelect(event)} aria-label={`Подробнее: ${event.title}`}>Подробнее</button>
+        {past ? joined && <span className="participation-status"><Check size={16} />Участие</span> : <button className={`button primary participation-toggle ${joined ? 'active' : ''}`} aria-label={`${joined ? 'Отменить участие' : 'Участвовать'}: ${event.title}`} aria-pressed={joined} onClick={() => onToggle(event.id)}>{joined && <Check size={16} />}{joined ? 'Участвую' : 'Участвовать'}</button>}
+      </div>
     </div>
-    <button className="card-title" onClick={() => onSelect(event)}>{event.title}</button>
-    <div className="card-meta"><span><CalendarDays size={15} />{dateLabel(event.date)}{event.endDate && ` — ${dateLabel(event.endDate)}`}<span className="event-time">{event.time}</span></span><span>{event.format === 'Онлайн' ? <Monitor size={15} /> : <MapPin size={15} />}{event.venue}{event.format === 'Онлайн' && ' · онлайн'}</span></div>
-    <div className="card-bottom"><span>{past ? 'Событие завершено' : <><Clock3 size={12} />Заявки до {dateLabel(event.deadline)}</>}</span><button className="text-button" onClick={() => onSelect(event)} aria-label={`Подробнее: ${event.title}`}>Подробнее<ArrowRight size={15} /></button></div>
   </article>;
 }
