@@ -18,6 +18,10 @@
 .event-people-search input{width:100%;min-width:0;height:52px;background:none;border:0;font-size:16px;outline:none}
 .event-people-search:focus-within{outline:2px solid var(--accent)}
 .event-registry-summary{font-size:18px;line-height:1.5;color:#616a51;margin:0}
-@media(max-width:600px){.event-people-table thead{display:none}.event-people-table,.event-people-table tbody{display:block}.event-people-table tr{display:grid;grid-template-columns:1fr auto;gap:8px 14px;padding:17px}.event-people-table th,.event-people-table td{display:block;padding:0;overflow-wrap:anywhere}.event-people-table td:nth-child(3),.event-people-table td:nth-child(4){grid-column:1/-1}.event-people-heading h3{font-size:23px}}
+@media(max-width:900px){.event-people-table thead{display:none}.event-people-table,.event-people-table tbody{display:block}.event-people-table tr{display:grid;grid-template-columns:1fr auto;gap:8px 14px;padding:17px}.event-people-table th,.event-people-table td{display:block;padding:0;overflow-wrap:anywhere}.event-people-table td:nth-child(3),.event-people-table td:nth-child(4){grid-column:1/-1}.event-people-heading h3{font-size:23px}}
 
 .staff-dialog.registry-dialog{width:min(960px,calc(100vw - 32px))}
+
+.application-action .button{font-size:16px;min-height:46px;padding:10px 15px}
+.application-missing-note{font-size:16px;line-height:1.6;color:var(--muted);margin-top:20px}
+@media(max-width:900px){.event-people-table td.application-action{grid-column:1/-1;margin-top:5px}.application-action .button{width:100%}}

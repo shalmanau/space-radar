@@ -56,7 +56,7 @@ export default function App() {
         const initialEnrollments = storedArray<Enrollment>(KEYS.enrollments) ?? directory.enrollments;
         const priorParticipation = storedArray<string>('vneklassa-participation-v2');
         const initialIds = priorParticipation?.filter(id => typeof id === 'string' && [...events, ...published].some(activity => activity.id === id));
-        setEnrollments(initialIds ? [...initialEnrollments.filter(item => item.studentId !== 'sasha'), ...initialIds.map(eventId => initialEnrollments.find(item => item.studentId === 'sasha' && item.eventId === eventId) || { id: crypto.randomUUID(), studentId: 'sasha', eventId, registeredAt: new Date().toISOString() })] : initialEnrollments); setMessages((storedArray<Message>(KEYS.messages) ?? directory.messages).map(message => ({ ...message, teacherId: message.teacherId || directory.teacher.id }))); setSchool(directory);
+        setEnrollments((initialIds ? [...initialEnrollments.filter(item => item.studentId !== 'sasha'), ...initialIds.map(eventId => initialEnrollments.find(item => item.studentId === 'sasha' && item.eventId === eventId) || { id: crypto.randomUUID(), studentId: 'sasha', eventId, registeredAt: new Date().toISOString() })] : initialEnrollments).map(record => ({ ...record, application: record.application ?? directory.enrollments.find(seed => seed.studentId === record.studentId && seed.eventId === record.eventId)?.application }))); setMessages((storedArray<Message>(KEYS.messages) ?? directory.messages).map(message => ({ ...message, teacherId: message.teacherId || directory.teacher.id }))); setSchool(directory);
       } catch { setError(true); }
     }
     void load();
