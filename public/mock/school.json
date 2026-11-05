@@ -1,14 +1,16 @@
 {
-  "school": "Гимназия № 12",
+  "school": "Лицей БГУ",
   "teacher": {
     "id": "teacher-1",
     "name": "Марина Соколова",
     "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»",
-    "institution": "Гимназия № 12"
+    "institution": "Лицей БГУ"
   },
   "organization": {
     "id": "org-1",
-    "name": "Образовательный центр «Старт»"
+    "name": "ЭФ БГУ",
+    "region": "Минск",
+    "country": "Беларусь"
   },
   "classes": [
     {
@@ -39,49 +41,49 @@
       "name": "Александра Иванова",
       "classId": "10a",
       "initials": "АИ",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "maxim",
       "name": "Максим Петров",
       "classId": "10a",
       "initials": "МП",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "daria",
       "name": "Дарья Козлова",
       "classId": "10a",
       "initials": "ДК",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "artem",
       "name": "Артём Новик",
       "classId": "10b",
       "initials": "АН",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "anna",
       "name": "Анна Волкова",
       "classId": "10b",
       "initials": "АВ",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "nikita",
       "name": "Никита Сидоров",
       "classId": "9a",
       "initials": "НС",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "polina",
       "name": "Полина Морозова",
       "classId": "9a",
       "initials": "ПМ",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "alina",
@@ -95,7 +97,7 @@
       "name": "Егор Климов",
       "classId": "9a",
       "initials": "ЕК",
-      "institution": "Средняя школа № 37"
+      "institution": "Лицей БГУ"
     }
   ],
   "enrollments": [
@@ -271,7 +273,7 @@
       "teacherId": "teacher-2",
       "studentId": "sasha",
       "sender": "teacher",
-      "text": "Саша, приглашаю на олимпиаду по естественным наукам. Можем обсудить подготовку.",
+      "text": "Саша, приглашаю на олимпиаду по экономике. Можем обсудить подготовку.",
       "eventId": "science",
       "createdAt": "2026-11-04T16:00:00"
     },
@@ -307,19 +309,36 @@
       "id": "teacher-1",
       "name": "Марина Соколова",
       "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "teacher-2",
       "name": "Андрей Ковалёв",
       "subject": "Учитель физики",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
     },
     {
       "id": "teacher-3",
       "name": "Елена Морозова",
       "subject": "Учитель информатики",
-      "institution": "Гимназия № 12"
+      "institution": "Лицей БГУ"
+    }
+  ],
+  "id": "lyceum-bsu",
+  "region": "Минск",
+  "country": "Беларусь",
+  "organizations": [
+    {
+      "id": "org-1",
+      "name": "ЭФ БГУ",
+      "region": "Минск",
+      "country": "Беларусь"
+    },
+    {
+      "id": "org-nbrb",
+      "name": "Нацбанк",
+      "region": "Минск",
+      "country": "Беларусь"
     }
   ]
 }

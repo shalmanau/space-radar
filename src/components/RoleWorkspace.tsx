@@ -16,6 +16,7 @@ type Props = {
   enrollments: Enrollment[];
   messages: Message[];
   onTeacherChange: (teacherId: string) => void;
+  onOrganizationChange: (organizationId: string) => void;
   onPublish: () => void;
   onSendMessage: (studentId: string, text: string, eventId?: string) => void;
   onOpenEvent: (event: Opportunity) => void;
@@ -41,7 +42,7 @@ function WorkspaceDialog({ title, onClose, children, wide = false }: { title: st
   </dialog>;
 }
 
-export default function RoleWorkspace({ role, events, school: directory, enrollments, messages, onTeacherChange, onPublish, onSendMessage, onOpenEvent }: Props) {
+export default function RoleWorkspace({ role, events, school: directory, enrollments, messages, onTeacherChange, onOrganizationChange, onPublish, onSendMessage, onOpenEvent }: Props) {
   const school = role === 'teacher' ? { ...directory, students: directory.students.filter(student => student.institution === directory.school) } : directory;
   const [participantEvent, setParticipantEvent] = useState<Opportunity | null>(null);
   const [tab, setTab] = useState<string>(role === 'teacher' ? teacherTabs[0] : organizationTabs[0]);
@@ -79,7 +80,7 @@ export default function RoleWorkspace({ role, events, school: directory, enrollm
   return <div className="staff-workspace">
     <section className="staff-identity">
       <div className="staff-identity-copy"><span className="staff-eyebrow">{role === 'teacher' ? school.school : 'Партнёр ВнеКласса'}</span><h1>{role === 'teacher' ? school.teacher.name : school.organization.name}</h1><p>{role === 'teacher' ? school.teacher.subject : 'Кабинет организатора активностей'}</p></div>
-      <div className="staff-identity-actions">{role === 'teacher' && <label className="teacher-account-select">Учитель<select aria-label="Выбрать учителя" value={school.teacher.id} onChange={event => onTeacherChange(event.target.value)}>{school.teachers.map(teacher => <option key={teacher.id} value={teacher.id}>{teacher.name}</option>)}</select></label>}{role === 'teacher' && <button className="button primary" onClick={onPublish}><Plus size={20} />Объявить активность</button>}<span className="staff-role-pill">{role === 'teacher' ? 'Учитель' : 'Организация'}</span></div>
+      <div className="staff-identity-actions">{role === 'organization' && <label className="teacher-account-select">Организация<select aria-label="Выбрать организацию" value={school.organization.id} onChange={event => onOrganizationChange(event.target.value)}>{school.organizations.map(organization => <option key={organization.id} value={organization.id}>{organization.name}</option>)}</select></label>}{role === 'teacher' && <label className="teacher-account-select">Учитель<select aria-label="Выбрать учителя" value={school.teacher.id} onChange={event => onTeacherChange(event.target.value)}>{school.teachers.map(teacher => <option key={teacher.id} value={teacher.id}>{teacher.name}</option>)}</select></label>}{role === 'teacher' && <button className="button primary" onClick={onPublish}><Plus size={20} />Объявить активность</button>}<span className="staff-role-pill">{role === 'teacher' ? 'Учитель' : 'Организация'}</span></div>
     </section>
     <nav className="staff-tabs" aria-label="Разделы рабочего пространства">{(role === 'teacher' ? teacherTabs : organizationTabs).map(label => <button key={label} className={tab === label ? 'active' : ''} onClick={() => { setTab(label); setQuery(''); }} aria-current={tab === label ? 'page' : undefined}>{label}</button>)}</nav>
 

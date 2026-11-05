@@ -1,6 +1,9 @@
 export type Opportunity = {
   id: string;
   ownerId?: string;
+  organizationId?: string;
+  region?: string;
+  country?: string;
   authorRole?: 'teacher' | 'organization';
   title: string;
   organizer: string;

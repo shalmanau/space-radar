@@ -39,3 +39,16 @@
 .staff-owned-event.olympiad-event{grid-template-columns:minmax(0,1fr) auto;padding:24px}
 .olympiad-event .staff-owned-actions{grid-column:2}
 @media(max-width:760px){.student-teacher-list{display:block;overflow:visible;padding:16px}.student-teacher-list>button{display:none}.mobile-teacher-choice{display:flex;flex-direction:column;gap:10px;font-size:17px;font-weight:500}.mobile-teacher-choice select{width:100%;min-width:0;min-height:48px;padding:10px 12px;font-size:18px;background:#fff;color:var(--ink);border:1px solid #b9c2a9;border-radius:12px}.staff-owned-event.olympiad-event{grid-template-columns:1fr;padding:20px}.olympiad-event .staff-owned-actions{grid-column:1}}
+.catalog-scope{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:30px}
+.catalog-scope button{display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:22px 24px;border:1px solid #cbd0c1;border-radius:20px;background:#fff;text-align:left;min-width:0}
+.catalog-scope strong{font-size:21px;font-weight:600;line-height:1.3;letter-spacing:-.3px}
+.catalog-scope span{font-size:17px;line-height:1.4;color:#616b52}
+.catalog-scope button.active{background:var(--accent);border-color:#9db74c;color:#171817}
+.catalog-scope button:hover{border-color:#75845d}
+[data-theme=dark] .catalog-scope button{background:var(--panel);color:var(--ink);border-color:var(--line)}
+[data-theme=dark] .catalog-scope span{color:var(--muted)}
+[data-theme=dark] .catalog-scope button.active{background:var(--accent);color:#171817;border-color:var(--accent)}
+[data-theme=dark] .catalog-scope button.active span{color:#3f4e24}
+@media(max-width:700px){.catalog-scope{gap:8px;margin-bottom:25px}.catalog-scope button{padding:16px 12px;border-radius:15px;gap:10px}.catalog-scope strong{font-size:17px}.catalog-scope span{font-size:16px}}
+
+@media(max-width:600px){.catalog-scope{grid-template-columns:1fr;gap:9px}.catalog-scope button{flex-direction:row;align-items:center;justify-content:space-between;padding:15px 17px;min-height:60px}.catalog-scope strong{font-size:19px}.catalog-scope span{text-align:right}}
