@@ -23,8 +23,8 @@ function Modal({ title, children, onClose, wide = false }: { title: string; chil
   return <dialog ref={ref} className={`modal ${wide ? 'wide' : ''}`} onCancel={onClose} onClick={e => { if (e.target === ref.current) onClose(); }} aria-label={title}><div className="modal-head"><h2>{title}</h2><button className="icon-button" aria-label="Закрыть" onClick={onClose}><X size={21} /></button></div>{children}</dialog>;
 }
 
-type Props = { onApply: (event: Opportunity) => void; school: SchoolData; enrollments: Enrollment[]; sharedEvents: Opportunity[]; participationIds: string[]; onParticipationChange: (ids: string[]) => void; messagesView: ReactNode; profile: Profile; onEditPhoto: () => void; notices: Notice[]; noticesRead: boolean; onInterestsChange: (interests: string[]) => Promise<void>; onReadNotices: () => Promise<void> };
-export default function StudentApp({ onApply, school, enrollments, sharedEvents, participationIds, onParticipationChange, messagesView, profile, onEditPhoto, notices, noticesRead, onInterestsChange, onReadNotices }: Props) {
+type Props = { navigationRequest?: { page: Page; id: number }; onApply: (event: Opportunity) => void; school: SchoolData; enrollments: Enrollment[]; sharedEvents: Opportunity[]; participationIds: string[]; onParticipationChange: (ids: string[]) => void; messagesView: ReactNode; profile: Profile; onEditPhoto: () => void; notices: Notice[]; noticesRead: boolean; onInterestsChange: (interests: string[]) => Promise<void>; onReadNotices: () => Promise<void> };
+export default function StudentApp({ navigationRequest, onApply, school, enrollments, sharedEvents, participationIds, onParticipationChange, messagesView, profile, onEditPhoto, notices, noticesRead, onInterestsChange, onReadNotices }: Props) {
   const data = sharedEvents;
   const interests = profile.interests;
   const [savingInterests, setSavingInterests] = useState(false);
@@ -52,6 +52,7 @@ export default function StudentApp({ onApply, school, enrollments, sharedEvents,
   useEffect(() => { if (!toast) return; const timeout = window.setTimeout(() => setToast(''), 3200); return () => clearTimeout(timeout); }, [toast]);
   useEffect(() => { const listener = (e: KeyboardEvent) => { if (e.key === 'Escape') { setNotificationsOpen(false); setMobileNav(false); } }; window.addEventListener('keydown', listener); return () => window.removeEventListener('keydown', listener); }, []);
   const navigate = (next: Page) => { setPage(next); setMobileNav(false); setNotificationsOpen(false); if (next === 'profile') { setProfileDate(null); setProfileMonth(firstParticipationMonth(data, joined)); } window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  useEffect(() => { if (navigationRequest) navigate(navigationRequest.page); }, [navigationRequest]);
   const toggleJoined = (id: string) => {
     if (joined.includes(id)) { onParticipationChange(joined.filter(value => value !== id)); }
     else { const event = data.find(item => item.id === id); if (event) { setSelected(null); onApply(event); } }

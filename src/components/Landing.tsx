@@ -24,7 +24,7 @@ export default function Landing({ events, onRegister, onExplore, onChooseRole }:
           </div>
         </div>
         <div className="landing-hero-visual">
-          <img src="/images/orbit-world.svg" alt="Планета с орбитами и звёздами" width="640" height="520" fetchPriority="high" />
+          <img src="/images/miki/peace.webp" alt="Мики — мятный инопланетянин с жестом мира" width="1280" height="1280" fetchPriority="high" />
         </div>
       </section>
 

@@ -1,0 +1,27 @@
+.miki-widget{position:fixed;right:24px;bottom:24px;z-index:85}
+.miki-launcher{display:flex;align-items:center;gap:7px;min-height:62px;padding:2px 23px 2px 5px;border:2px solid var(--line);border-radius:999px;background:#101c2ef5;color:var(--ink);box-shadow:0 8px 32px #02071366;font-size:18px;font-weight:500}
+.miki-launcher img{display:block;width:76px;height:76px;margin-top:-23px;object-fit:contain;transition:transform .2s}
+.miki-launcher:hover{background:#192b41;border-color:#91bfba}
+.miki-launcher:hover img{transform:rotate(-5deg) translateY(-2px)}
+.miki-dialog{display:flex;flex-direction:column;width:430px;max-width:calc(100vw - 32px);height:min(660px,calc(100dvh - 48px));border:2px solid var(--line);border-radius:26px;background:#101c2e;box-shadow:0 20px 70px #02071399;overflow:hidden}
+.miki-heading{display:flex;align-items:center;gap:15px;flex-shrink:0;padding:16px 20px;border-bottom:2px solid var(--line)}
+.miki-heading>img{width:78px;height:78px;object-fit:contain}
+.miki-heading h2{font-size:28px;line-height:1.2;font-weight:600;letter-spacing:-.6px;flex:1}
+.miki-heading .icon-button{width:44px;height:44px;border-radius:50%;flex-shrink:0}
+.miki-heading .icon-button:hover{color:var(--accent-ink)}
+.miki-history{display:flex;flex-direction:column;gap:16px;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#536b86 transparent;padding:22px 20px}
+.miki-message{max-width:100%;padding:17px 18px;border-radius:18px;background:#1b2c42;border:1px solid #334b65;overflow-wrap:anywhere}
+.miki-message p{font-size:18px;line-height:1.55}
+.miki-message.from-miki{align-self:flex-start;border-bottom-left-radius:5px}
+.miki-message.from-user{align-self:flex-end;max-width:88%;background:#24473f;border-color:#426c61;border-bottom-right-radius:5px}
+.miki-message.from-user p{color:#d7fff0}
+.miki-event{margin-top:18px;padding-top:18px;border-top:1px solid #445b72}
+.miki-event h3{font-size:21px;line-height:1.35;font-weight:600;letter-spacing:-.3px;margin:0 0 10px}
+.miki-event>p{font-size:17px;color:var(--muted)}
+.miki-event .button,.miki-reply-action{margin-top:18px;min-height:48px;font-size:17px;padding:11px 17px}
+.miki-topics{display:flex;flex-wrap:wrap;gap:9px;flex-shrink:0;padding:18px 20px 20px;border-top:2px solid var(--line);background:#0e192a}
+.miki-topics>button{min-height:46px;padding:11px 14px;border:2px solid #496078;border-radius:14px;color:var(--ink);background:#15253a;font-size:17px;line-height:1.3;text-align:left}
+.miki-topics>button:hover{background:#253d4a;border-color:#9bd7c5}
+.miki-widget button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:600px){.miki-widget{right:16px;bottom:16px}.miki-widget.is-open{bottom:88px}.miki-launcher{padding:0;width:62px;height:62px;justify-content:center}.miki-launcher img{height:76px;width:76px;max-width:none;margin-top:-17px}.miki-launcher>span{display:none}.miki-dialog{width:calc(100vw - 32px);height:min(620px,calc(100dvh - 100px));border-radius:22px}.miki-heading{padding:12px 15px;gap:12px}.miki-heading>img{width:65px;height:65px}.miki-heading h2{font-size:26px}.miki-history{padding:18px 15px;gap:14px}.miki-message{padding:15px}.miki-topics{padding:15px;gap:8px}.miki-topics>button{font-size:16px;min-height:45px;padding:10px 12px}}
+@media(prefers-reduced-motion:reduce){.miki-launcher img{transition:none}.miki-launcher:hover img{transform:none}}

@@ -11,7 +11,7 @@
 .landing-button-outline:hover{background:#f2f5f8;border-color:#182331}
 .landing-page button:focus-visible{outline:3px solid #798ba6;outline-offset:4px}
 .landing-hero-visual{position:relative;min-width:0}
-.landing-hero-visual img{display:block;width:100%;height:auto;aspect-ratio:640/520;object-fit:cover;border-radius:28px;background:#101c30}
+.landing-hero-visual img{display:block;width:100%;height:auto;aspect-ratio:640/520;object-fit:contain;padding:20px 24px;border-radius:28px;background:#101c30 url('/images/orbit-lines.svg') center/100% 100% no-repeat}
 .landing-upcoming{margin-bottom:108px}
 .landing-section-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:27px}
 .landing-section-heading h2,.landing-final-cta h2{margin-top:0;font-size:42px;line-height:1.12;letter-spacing:-1.4px;font-weight:700}
