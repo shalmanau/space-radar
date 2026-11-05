@@ -1,16 +1,17 @@
-/* A quiet star field and a soft mint accent shared by all roles. */
+/* A quiet star field and a pearl mint metal accent shared by all roles. */
 :root {
-  --accent: #baf3df;
-  --accent-ink: #12332e;
-  --accent-border: #98d7c1;
-  --accent-fill: linear-gradient(135deg, #cef9e9, #adebd6);
+  --accent: #d2e8dc;
+  --accent-ink: #243e35;
+  --accent-border: #c8ded2;
+  --accent-fill: linear-gradient(125deg, #ffffff33, transparent 43%), linear-gradient(165deg, #f2f8f5 0%, #c3dcd2 26%, #e6f1eb 48%, #adcfc1 74%, #d5e7de 100%);
+  --accent-fill-hover: linear-gradient(125deg, #ffffff55, transparent 43%), linear-gradient(165deg, #fbfdfb 0%, #d2e6dc 27%, #f2f8f3 49%, #c2ddce 75%, #e0eee6 100%);
   --canvas: #080f1e;
   --space-wash: linear-gradient(120deg, #080f1ed9, #080f1ebd 55%, #080f1ed1);
   background: var(--canvas);
 }
 
 :root[data-theme=dark] {
-  --accent: #baf3df;
+  --accent: #d2e8dc;
   --canvas: #080f1e;
   --panel: #101c2ef5;
   --surface: #1a293f;
@@ -58,7 +59,7 @@ html[data-theme] :is(
   background-image: var(--accent-fill);
   color: var(--accent-ink);
   border-color: var(--accent-border);
-  box-shadow: none;
+  box-shadow: inset 0 1px 0 #ffffffcc, inset 0 -1px 0 #769b893d;
 }
 
 html[data-theme] :is(.catalog-scope button.active span, .staff-class-list button.active small, .staff-contacts > button.active small) {
@@ -71,14 +72,16 @@ html[data-theme] :is(.button.primary, .landing-button-dark, .landing-final-cta .
   background-image: var(--accent-fill);
   color: var(--accent-ink);
   border-color: var(--accent-border);
-  box-shadow: 0 3px 12px #051d191a;
+  box-shadow: 0 4px 13px #071b1724, inset 0 1px 0 #ffffffcc, inset 0 -1px 0 #769b893d;
+  text-shadow: 0 1px 0 #ffffff44;
 }
 
 html[data-theme] :is(.button.primary, .landing-button-dark):is(:hover, :focus-visible) {
-  background-image: var(--accent-fill);
+  background-color: var(--accent);
+  background-image: var(--accent-fill-hover);
   color: var(--accent-ink);
-  border-color: #bdf8e3;
-  box-shadow: 0 0 0 3px #baf3df20;
+  border-color: #edf7f0;
+  box-shadow: 0 0 0 3px #d2e8dc20;
 }
 
 html[data-theme] .recommended-card { border-color: #8399b7; }
@@ -90,4 +93,16 @@ html[data-theme] .event-calendar.compact .selected-cell { background-image: var(
 @media (forced-colors: active) {
   body::before { display: none; }
   html[data-theme] :is(.button.primary, .landing-button-dark) { animation: none; }
+}
+
+/* Active navigation keeps the same opaque material while hovered or focused. */
+html[data-theme] .nav-item.active,
+html[data-theme] .nav-item.active:is(:hover, :focus-visible, :active) {
+  background: var(--accent-fill);
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  opacity: 1;
+  transition: color .15s, box-shadow .15s;
+  box-shadow: inset 0 1px 0 #ffffffcc, inset 0 -1px 0 #769b893d;
+  text-shadow: 0 1px 0 #ffffff44;
 }

@@ -20,7 +20,7 @@
 .landing-section-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:27px}
 .landing-section-heading h2,.landing-final-cta h2{margin-top:0;font-size:42px;line-height:1.12;letter-spacing:-1.4px;font-weight:700}
 .landing-link-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:10px 17px;border:2px solid #a5afbc;border-radius:999px;background:#fff;font-size:16px;font-weight:500;white-space:nowrap;cursor:pointer}
-.landing-link-button:hover{background:#baf3df;border-color:#baf3df}
+.landing-link-button:hover{background:#d2e8dc;border-color:#d2e8dc}
 .landing-event-list{border-top:2px solid #dce1e8}
 .landing-event{display:grid;grid-template-columns:180px minmax(0,1fr) 44px;align-items:center;gap:24px;padding:23px max(var(--landing-gutter),calc((100% - 1384px)/2));border-bottom:2px solid #dce1e8}
 .landing-event-date{font-size:17px;font-weight:600;white-space:nowrap}
@@ -32,7 +32,7 @@
 .landing-role-card h3{margin-top:0;font-size:27px;line-height:1.2;font-weight:600;letter-spacing:-.7px}
 .landing-role-card p{margin-top:12px;font-size:18px;line-height:1.55;color:#596676}
 .landing-role-action{display:inline-flex;align-items:center;gap:9px;margin-top:auto;padding:22px 0 0;background:transparent;border:0;font-size:16px;font-weight:600;text-align:left;cursor:pointer}
-.landing-role-action span{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#baf3df;font-size:18px;transition:transform .15s}
+.landing-role-action span{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#d2e8dc;font-size:18px;transition:transform .15s}
 .landing-role-action:hover span{transform:translate(2px,-2px)}
 .landing-final-cta{display:flex;align-items:center;justify-content:space-between;gap:26px;margin-top:108px;padding:38px 42px;border:2px solid transparent;border-radius:26px;background:#101c30 url('/images/orbit-lines.svg') no-repeat 55% center / 500px 300px;color:#eef3fa}
 .landing-final-cta .landing-button{flex:none}
@@ -41,7 +41,7 @@
 @keyframes miki-levitate{0%,100%{transform:translateY(6px)}50%{transform:translateY(-10px)}}
 @media(prefers-reduced-motion:reduce){.landing-page *{transition:none!important}.landing-hero-visual img{animation:none}}
 
-.landing-final-cta .landing-button-dark{background:#baf3df;color:#182331;border-color:#baf3df}
-.landing-final-cta .landing-button-dark:hover{background:#d6f9ec;border-color:#d6f9ec}
+.landing-final-cta .landing-button-dark{background:#d2e8dc;color:#182331;border-color:#d2e8dc}
+.landing-final-cta .landing-button-dark:hover{background:#e1eee7;border-color:#e1eee7}
 .landing-final-cta h2{position:relative}
 @media(max-width:700px){.landing-final-cta{background-position:120% center;background-size:400px 240px}}

@@ -4,5 +4,5 @@
     <ellipse cx="320" cy="260" rx="233" ry="183" transform="rotate(25 320 260)" stroke-opacity=".22"/>
     <circle cx="320" cy="260" r="208" stroke-opacity=".16"/>
   </g>
-  <circle cx="74" cy="354" r="6" fill="#baf3df"/>
+  <circle cx="74" cy="354" r="6" fill="#d2e8dc"/>
 </svg>

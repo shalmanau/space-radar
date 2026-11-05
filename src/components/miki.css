@@ -1,7 +1,8 @@
 .miki-widget{position:fixed;right:24px;bottom:24px;z-index:85}
-.miki-launcher{width:242px;display:flex;align-items:center;gap:7px;min-height:62px;padding:2px 23px 2px 5px;border:2px solid var(--line);border-radius:999px;background:#101c2ef5;color:var(--ink);box-shadow:0 8px 32px #02071366;font-size:18px;font-weight:500}
+.miki-launcher{width:242px;display:flex;align-items:center;gap:7px;min-height:62px;padding:2px 11px 2px 5px;border:2px solid var(--line);border-radius:999px;background:#101c2ef5;color:var(--ink);box-shadow:0 8px 32px #02071366;font-size:18px;font-weight:500}
 .miki-toggle-art{position:relative;display:flex;align-items:center;justify-content:center;width:76px;height:53px;flex-shrink:0}
 .miki-toggle-art img{position:absolute;bottom:0;display:block;width:76px;height:76px;object-fit:contain;transition:transform .2s}
+.miki-launcher-label{white-space:nowrap}
 .miki-launcher[aria-expanded=true]{background:#192b41;border-color:#91bfba}
 .miki-launcher[aria-expanded=true] .miki-toggle-art{color:var(--accent)}
 .miki-launcher:hover{background:#192b41;border-color:#91bfba}
