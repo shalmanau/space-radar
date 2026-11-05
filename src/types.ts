@@ -1,5 +1,7 @@
+export type ApplicationField = { id: string; label: string; type: 'text' | 'textarea' | 'select' | 'checkbox'; options?: string[]; minLength?: number; maxLength?: number };
 export type Opportunity = {
   id: string;
+  applicationFields?: ApplicationField[];
   ownerId?: string;
   organizationId?: string;
   region?: string;
@@ -27,6 +29,7 @@ export type Opportunity = {
 export type Profile = {
   name: string;
   fullName: string;
+  birthYear: number;
   initials: string;
   grade: number;
   school: string;

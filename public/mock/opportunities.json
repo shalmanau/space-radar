@@ -25,7 +25,16 @@
     "organizationId": "lyceum-bsu",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "teacher-1"
+    "ownerId": "teacher-1",
+    "applicationFields": [
+      {
+        "id": "motivation",
+        "label": "Почему ты хочешь участвовать в хакатоне?",
+        "type": "textarea",
+        "minLength": 60,
+        "maxLength": 1500
+      }
+    ]
   },
   {
     "id": "media",
@@ -52,7 +61,16 @@
     "organizationId": "lyceum-bsu",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "teacher-1"
+    "ownerId": "teacher-1",
+    "applicationFields": [
+      {
+        "id": "expectations",
+        "label": "Что ты хочешь узнать на мероприятии?",
+        "type": "textarea",
+        "minLength": 20,
+        "maxLength": 1000
+      }
+    ]
   },
   {
     "id": "eco",
@@ -79,7 +97,8 @@
     "organizationId": "lyceum-bsu",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "teacher-1"
+    "ownerId": "teacher-1",
+    "applicationFields": []
   },
   {
     "id": "science",
@@ -106,7 +125,8 @@
     "organizationId": "org-1",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "org-1"
+    "ownerId": "org-1",
+    "applicationFields": []
   },
   {
     "id": "design",
@@ -133,7 +153,16 @@
     "organizationId": "org-nbrb",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "org-nbrb"
+    "ownerId": "org-nbrb",
+    "applicationFields": [
+      {
+        "id": "idea",
+        "label": "Кратко опиши идею своего проекта",
+        "type": "textarea",
+        "minLength": 30,
+        "maxLength": 1500
+      }
+    ]
   },
   {
     "id": "code",
@@ -160,7 +189,16 @@
     "organizationId": "org-1",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "org-1"
+    "ownerId": "org-1",
+    "applicationFields": [
+      {
+        "id": "expectations",
+        "label": "Что ты хочешь узнать на мероприятии?",
+        "type": "textarea",
+        "minLength": 20,
+        "maxLength": 1000
+      }
+    ]
   },
   {
     "id": "clean-shore",
@@ -187,7 +225,8 @@
     "organizationId": "lyceum-bsu",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "teacher-1"
+    "ownerId": "teacher-1",
+    "applicationFields": []
   },
   {
     "id": "school-hackathon",
@@ -214,7 +253,16 @@
     "organizationId": "lyceum-bsu",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "teacher-1"
+    "ownerId": "teacher-1",
+    "applicationFields": [
+      {
+        "id": "motivation",
+        "label": "Почему ты хочешь участвовать в хакатоне?",
+        "type": "textarea",
+        "minLength": 60,
+        "maxLength": 1500
+      }
+    ]
   },
   {
     "id": "media-december",
@@ -241,7 +289,16 @@
     "organizationId": "lyceum-bsu",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "teacher-1"
+    "ownerId": "teacher-1",
+    "applicationFields": [
+      {
+        "id": "expectations",
+        "label": "Что ты хочешь узнать на мероприятии?",
+        "type": "textarea",
+        "minLength": 20,
+        "maxLength": 1000
+      }
+    ]
   },
   {
     "id": "science-december",
@@ -268,7 +325,16 @@
     "organizationId": "lyceum-bsu",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "teacher-1"
+    "ownerId": "teacher-1",
+    "applicationFields": [
+      {
+        "id": "expectations",
+        "label": "Что ты хочешь узнать на мероприятии?",
+        "type": "textarea",
+        "minLength": 20,
+        "maxLength": 1000
+      }
+    ]
   },
   {
     "id": "code-january",
@@ -295,7 +361,16 @@
     "organizationId": "org-nbrb",
     "region": "Минск",
     "country": "Беларусь",
-    "ownerId": "org-nbrb"
+    "ownerId": "org-nbrb",
+    "applicationFields": [
+      {
+        "id": "expectations",
+        "label": "Что ты хочешь узнать на мероприятии?",
+        "type": "textarea",
+        "minLength": 20,
+        "maxLength": 1000
+      }
+    ]
   },
   {
     "id": "science-october",
@@ -323,7 +398,8 @@
     "ownerId": "teacher-2",
     "organizationId": "lyceum-bsu",
     "region": "Минск",
-    "country": "Беларусь"
+    "country": "Беларусь",
+    "applicationFields": []
   },
   {
     "id": "math-december",
@@ -351,7 +427,8 @@
     "ownerId": "teacher-1",
     "organizationId": "lyceum-bsu",
     "region": "Минск",
-    "country": "Беларусь"
+    "country": "Беларусь",
+    "applicationFields": []
   },
   {
     "id": "finance-brest",
@@ -378,7 +455,16 @@
     "organizationId": "org-nbrb",
     "region": "Брест",
     "country": "Беларусь",
-    "ownerId": "org-nbrb"
+    "ownerId": "org-nbrb",
+    "applicationFields": [
+      {
+        "id": "expectations",
+        "label": "Что ты хочешь узнать на мероприятии?",
+        "type": "textarea",
+        "minLength": 20,
+        "maxLength": 1000
+      }
+    ]
   },
   {
     "id": "economics-gomel",
@@ -406,6 +492,15 @@
     "region": "Гомель",
     "country": "Беларусь",
     "ownerId": "org-1",
-    "address": "Учебная аудитория"
+    "address": "Учебная аудитория",
+    "applicationFields": [
+      {
+        "id": "expectations",
+        "label": "Что ты хочешь узнать на мероприятии?",
+        "type": "textarea",
+        "minLength": 20,
+        "maxLength": 1000
+      }
+    ]
   }
 ]

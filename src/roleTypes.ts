@@ -1,7 +1,9 @@
+import type { ApplicationField } from './types';
+import type { ApplicationAnswers } from './application';
 export type Role = 'guest' | 'student' | 'teacher' | 'organization';
-export type SchoolStudent = { id: string; name: string; classId: string; institution: string; initials: string };
+export type SchoolStudent = { id: string; name: string; classId: string; institution: string; birthYear: number; initials: string };
 export type SchoolClass = { id: string; name: string; curatorName: string; portfolioAccess: boolean; curatorId: string };
-export type Enrollment = { id: string; studentId: string; eventId: string; registeredAt: string };
+export type Enrollment = { id: string; studentId: string; eventId: string; registeredAt: string; application?: { profile: { name: string; birthYear: number; institution: string }; fields: ApplicationField[]; answers: ApplicationAnswers } };
 export type Message = { teacherId: string; id: string; studentId: string; sender: 'teacher' | 'student'; text: string; eventId?: string; createdAt: string };
 export type EventResult = { eventId: string; studentId: string; award: string };
 export type Teacher = { id: string; name: string; subject: string; institution: string };

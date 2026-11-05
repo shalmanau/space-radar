@@ -41,63 +41,72 @@
       "name": "Александра Иванова",
       "classId": "10a",
       "initials": "АИ",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2009
     },
     {
       "id": "maxim",
       "name": "Максим Петров",
       "classId": "10a",
       "initials": "МП",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2010
     },
     {
       "id": "daria",
       "name": "Дарья Козлова",
       "classId": "10a",
       "initials": "ДК",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2010
     },
     {
       "id": "artem",
       "name": "Артём Новик",
       "classId": "10b",
       "initials": "АН",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2010
     },
     {
       "id": "anna",
       "name": "Анна Волкова",
       "classId": "10b",
       "initials": "АВ",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2010
     },
     {
       "id": "nikita",
       "name": "Никита Сидоров",
       "classId": "9a",
       "initials": "НС",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2011
     },
     {
       "id": "polina",
       "name": "Полина Морозова",
       "classId": "9a",
       "initials": "ПМ",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2011
     },
     {
       "id": "alina",
       "name": "Алина Орлова",
       "classId": "10a",
       "initials": "АО",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2010
     },
     {
       "id": "egor",
       "name": "Егор Климов",
       "classId": "9a",
       "initials": "ЕК",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей БГУ",
+      "birthYear": 2011
     }
   ],
   "enrollments": [
