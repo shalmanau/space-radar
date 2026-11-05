@@ -67,3 +67,19 @@ main{max-width:1480px;margin:auto;padding:60px 48px 90px;min-height:calc(100vh -
 .interest-dialog .interest-chips button{padding:18px 14px;gap:10px;font-size:17px}
 .interest-dialog .interest-chips button.active:hover{background:var(--accent)}
 @media(max-width:760px){.portfolio-profile{flex-wrap:wrap}.profile-interest-button{margin-left:auto}.profile-identity{flex-basis:calc(100% - 100px)}}
+
+.achievement-list{border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.achievement-table{width:100%;border-collapse:collapse;text-align:left}
+.achievement-table thead{background:var(--surface)}
+.achievement-table thead th{font-size:16px;font-weight:500;color:#646a59;padding:18px 24px}
+.achievement-table tbody th,.achievement-table td{padding:26px 24px;border-top:1px solid var(--line);vertical-align:middle}
+.achievement-table tbody th{font-size:21px;font-weight:600;line-height:1.4;letter-spacing:-.35px;width:32%}
+.achievement-date{font-size:17px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.achievement-venue{font-size:17px;line-height:1.5;color:#575c50}
+.achievement-status{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-size:16px;font-weight:500;padding:10px 13px;border-radius:10px;background:#f0f2e9}
+.achievement-status.diploma{background:var(--accent)}
+.achievement-status svg{flex-shrink:0}
+.achievement-action{text-align:right}
+.achievement-action .button{white-space:nowrap;font-size:16px;min-height:48px;padding:11px 17px}
+@media(max-width:1150px){.achievement-table thead th{padding:16px}.achievement-table tbody th,.achievement-table td{padding:22px 16px}.achievement-table tbody th{font-size:19px}.achievement-status{padding:9px 10px}}
+@media(max-width:900px){.achievement-list{border:0;border-radius:0;overflow:visible}.achievement-table,.achievement-table tbody{display:block}.achievement-table thead{display:none}.achievement-table tbody tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:17px 16px;padding:24px 0;border-top:1px solid var(--line)}.achievement-table tbody th,.achievement-table td{display:block;padding:0;border:0;width:auto}.achievement-table tbody th{grid-column:1/-1;font-size:22px}.achievement-date{grid-column:1;grid-row:2;align-self:center}.achievement-result{grid-column:2;grid-row:2}.achievement-venue{grid-column:1/-1}.achievement-action{grid-column:1/-1}.achievement-action .button{width:100%;font-size:17px;min-height:50px}}
