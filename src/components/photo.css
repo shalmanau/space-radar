@@ -3,7 +3,7 @@
 .header-avatar{width:100%;height:100%;border-radius:50%}
 .avatar-edit{display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;padding:0;background:transparent}
 .avatar-edit-image{position:relative;display:block}
-.avatar-camera{position:absolute;bottom:0;right:-4px;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:2px solid var(--panel,#fff);background:var(--accent,#cbd4e1);color:#171817}
+.avatar-camera{position:absolute;bottom:0;right:-4px;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:2px solid var(--panel,#fff);background:var(--accent,#baf3df);color:#171817}
 .avatar-edit-label{font-size:16px;font-weight:500;white-space:nowrap}
 .avatar-edit:hover .avatar-edit-label{text-decoration:underline;text-underline-offset:4px}
 .avatar-edit:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:12px}

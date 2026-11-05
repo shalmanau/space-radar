@@ -1,5 +1,6 @@
 import type { Notice, Opportunity, Profile } from './types';
 import type { DemoAccount, Enrollment, Message, Role, SchoolData } from './roleTypes';
+import { hostedApiBaseUrl } from './deployment';
 
 export type AppData = {
   events: Opportunity[];
@@ -11,7 +12,8 @@ export type AppData = {
 };
 export type Saved<T> = { value: T; local: boolean };
 const CACHE_KEY = 'vneklassa-data-v1';
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? hostedApiBaseUrl : '/api')).replace(/\/$/, '');
+const ngrokApi = /^https:\/\/[^/]+\.(?:ngrok-free\.(?:app|dev)|ngrok\.(?:app|dev|io))(?:\/|$)/i.test(API_BASE);
 let source: 'api' | 'mock' = 'mock';
 let loading: Promise<AppData> | undefined;
 
@@ -42,9 +44,12 @@ async function request<T>(path: string, method = 'GET', body?: unknown): Promise
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), 4000);
   try {
+    const headers: Record<string, string> = {};
+    if (body !== undefined) headers['Content-Type'] = 'application/json';
+    if (ngrokApi) headers['ngrok-skip-browser-warning'] = '1';
     const response = await fetch(`${API_BASE}${path}`, {
       method, signal: controller.signal, cache: 'no-store',
-      headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
+      headers,
       body: body === undefined ? undefined : JSON.stringify(body),
     });
     if (!response.ok) {
@@ -60,9 +65,9 @@ async function request<T>(path: string, method = 'GET', body?: unknown): Promise
 
 /** Telegram binding requires the actual API; a local mock must never pretend to link a chat. */
 export async function requestBackend<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
-  if (source !== 'api') throw new Error('Для подключения Telegram нужен работающий сервер');
+  // Keep probing the real API even if bootstrap used cached data during an outage.
   try { return await request<T>(path, method, body); }
-  catch (error) { if (error instanceof ApiError) throw error; throw new Error('Не удалось связаться с сервером. Попробуй позже.'); }
+  catch (error) { if (error instanceof ApiError) throw error; throw new Error('Сервер уведомлений недоступен. Повтори подключение.'); }
 }
 
 async function mockData(): Promise<AppData> {

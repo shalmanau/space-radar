@@ -16,7 +16,7 @@
 .landing-section-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:27px}
 .landing-section-heading h2,.landing-final-cta h2{margin-top:0;font-size:42px;line-height:1.12;letter-spacing:-1.4px;font-weight:700}
 .landing-link-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:10px 17px;border:2px solid #a5afbc;border-radius:999px;background:#fff;font-size:16px;font-weight:500;white-space:nowrap;cursor:pointer}
-.landing-link-button:hover{background:#cbd4e1;border-color:#cbd4e1}
+.landing-link-button:hover{background:#baf3df;border-color:#baf3df}
 .landing-event-list{border-top:2px solid #dce1e8}
 .landing-event{display:grid;grid-template-columns:180px minmax(0,1fr) 42px;align-items:center;gap:24px;padding:23px 4px;border-bottom:2px solid #dce1e8}
 .landing-event-date{font-size:17px;font-weight:600;white-space:nowrap}
@@ -27,7 +27,7 @@
 .landing-role-card h3{margin-top:0;font-size:27px;line-height:1.2;font-weight:600;letter-spacing:-.7px}
 .landing-role-card p{margin-top:12px;font-size:18px;line-height:1.55;color:#596676}
 .landing-role-action{display:inline-flex;align-items:center;gap:9px;margin-top:auto;padding:22px 0 0;background:transparent;border:0;font-size:16px;font-weight:600;text-align:left;cursor:pointer}
-.landing-role-action span{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#cbd4e1;font-size:18px;transition:transform .15s}
+.landing-role-action span{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#baf3df;font-size:18px;transition:transform .15s}
 .landing-role-action:hover span{transform:translate(2px,-2px)}
 .landing-final-cta{display:flex;align-items:center;justify-content:space-between;gap:26px;margin-top:108px;padding:38px 42px;border:2px solid transparent;border-radius:26px;background:#101c30 url('/images/orbit-lines.svg') no-repeat 55% center / 500px 300px;color:#eef3fa}
 .landing-final-cta .landing-button{flex:none}
@@ -35,7 +35,7 @@
 @media(max-width:700px){.landing-page{padding:36px 20px 56px}.landing-hero{grid-template-columns:1fr;gap:30px;margin-bottom:72px}.landing-hero-copy{max-width:none}.landing-hero h1{max-width:560px;margin:0 0 16px;font-size:clamp(40px,10vw,52px);line-height:1.04;letter-spacing:-1.8px}.landing-lead{font-size:18px;line-height:1.55}.landing-hero-actions{gap:10px;margin-top:25px}.landing-button{min-height:52px;padding:13px 18px;font-size:16px}.landing-hero-visual img{height:auto;min-height:0;border-radius:22px}.landing-upcoming{margin-bottom:76px}.landing-section-heading{align-items:flex-start;flex-direction:column;gap:17px;margin-bottom:20px}.landing-section-heading h2,.landing-final-cta h2{font-size:34px;letter-spacing:-1px}.landing-link-button{min-height:46px;font-size:16px}.landing-event{grid-template-columns:1fr 34px;gap:6px 12px;padding:19px 0}.landing-event-date{grid-column:1;font-size:16px}.landing-event>div{grid-column:1;grid-row:2}.landing-event h3{font-size:19px;line-height:1.35}.landing-event-arrow{grid-column:2;grid-row:1 / span 2;width:34px;height:34px;font-size:18px}.landing-role-grid{grid-template-columns:1fr;gap:13px}.landing-role-card{min-height:0;padding:23px;border-radius:19px}.landing-role-card h3{margin-top:0;font-size:25px}.landing-role-card p{font-size:18px}.landing-role-action{padding-top:18px;min-height:48px}.landing-final-cta{align-items:flex-start;flex-direction:column;margin-top:76px;padding:27px 23px;border-radius:22px;gap:22px}.landing-final-cta h2{font-size:32px}}
 @media(prefers-reduced-motion:reduce){.landing-page *{transition:none!important}}
 
-.landing-final-cta .landing-button-dark{background:#cbd4e1;color:#182331;border-color:#cbd4e1}
-.landing-final-cta .landing-button-dark:hover{background:#e3e9f2;border-color:#e3e9f2}
+.landing-final-cta .landing-button-dark{background:#baf3df;color:#182331;border-color:#baf3df}
+.landing-final-cta .landing-button-dark:hover{background:#d6f9ec;border-color:#d6f9ec}
 .landing-final-cta h2{position:relative}
 @media(max-width:700px){.landing-final-cta{background-position:120% center;background-size:400px 240px}}

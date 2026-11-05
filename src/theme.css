@@ -1,5 +1,5 @@
 :root{color-scheme:dark}
-:root[data-theme=dark]{color-scheme:dark;--ink:#eef3fa;--accent:#cbd4e1;--line:#334359;--muted:#b0bdd0;--surface:#1b2a40;--panel:#142238;--canvas:#0b1525;background:var(--canvas);color:var(--ink)}
+:root[data-theme=dark]{color-scheme:dark;--ink:#eef3fa;--accent:#baf3df;--line:#334359;--muted:#b0bdd0;--surface:#1b2a40;--panel:#142238;--canvas:#0b1525;background:var(--canvas);color:var(--ink)}
 [data-theme=dark] body{background:var(--canvas);color:var(--ink)}
 [data-theme=dark] .staff-workspace{--staff-ink:var(--ink);--staff-line:var(--line);--staff-muted:var(--muted)}
 /* Surfaces shared by the student, teacher and organization workspaces. */
@@ -9,16 +9,16 @@
 [data-theme=dark] :is(.landing-page,.landing-button-outline,.landing-link-button,.form-organizer strong,.event-people-table,.teacher-account-select,.mobile-teacher-choice){color:var(--ink)}
 [data-theme=dark] :is(.button.secondary,.text-button,.landing-button-outline,.landing-link-button){background:var(--panel);color:var(--ink);border-color:#667991}
 [data-theme=dark] :is(.button.secondary:hover,.text-button:hover,.landing-button-outline:hover,.landing-link-button:hover,.nav-item:hover,.role-switch-menu>button:hover,.staff-class-list button:hover,.staff-contacts>button:hover,.staff-table tbody tr:hover){background:#23364e;color:var(--ink);border-color:#8ba0ba}
-[data-theme=dark] :is(.button.primary,.landing-button-dark){background:var(--metal-gradient,var(--accent));color:#182331;border-color:var(--accent)}
-[data-theme=dark] :is(.button.primary:hover,.landing-button-dark:hover){background:#e3e9f2;color:#182331;border-color:#e3e9f2}
-[data-theme=dark] :is(.category-tabs button.active,.staff-tabs button.active,.role-switch-menu>button[aria-pressed=true],.account-button,.button.joined-button,.participation-toggle.active,.participation-status,.image-badge,.interest-match,.interest-chips button.active,.staff-class-list button.active,.staff-contacts>button.active,.achievement-status.diploma){background:var(--metal-gradient,var(--accent));color:#182331;border-color:var(--accent)}
-[data-theme=dark] :is(.interest-chips button.active:hover,.participation-toggle.active:hover,.account-button:hover){background:#e3e9f2;color:#182331}
+[data-theme=dark] :is(.button.primary,.landing-button-dark){background:var(--accent-fill,var(--accent));color:#182331;border-color:var(--accent)}
+[data-theme=dark] :is(.button.primary:hover,.landing-button-dark:hover){background:#d6f9ec;color:#182331;border-color:#d6f9ec}
+[data-theme=dark] :is(.category-tabs button.active,.staff-tabs button.active,.role-switch-menu>button[aria-pressed=true],.account-button,.button.joined-button,.participation-toggle.active,.participation-status,.image-badge,.interest-match,.interest-chips button.active,.staff-class-list button.active,.staff-contacts>button.active,.achievement-status.diploma){background:var(--accent-fill,var(--accent));color:#182331;border-color:var(--accent)}
+[data-theme=dark] :is(.interest-chips button.active:hover,.participation-toggle.active:hover,.account-button:hover){background:#d6f9ec;color:#182331}
 [data-theme=dark] :is(.staff-class-list button.active small,.staff-contacts>button.active small){color:#303843}
-[data-theme=dark] .nav-item.active{background:#e5edf7;color:#182331}
+[data-theme=dark] .nav-item.active{background:#c3f4e2;color:#182331}
 [data-theme=dark] :is(.brand-mark,.large-avatar,.chat-avatar,.staff-avatar){background:#24374b;color:var(--accent)}
 [data-theme=dark] :is(.role-switch-button,.toast){background:#182a40;color:var(--ink);border:2px solid #536b86}
-[data-theme=dark] .role-demo-label,[data-theme=dark] .toast>span{background:var(--metal-gradient,var(--accent));color:#182331}
-[data-theme=dark] .notification-dot{border-color:var(--panel);background:var(--metal-gradient,var(--accent))}
+[data-theme=dark] .role-demo-label,[data-theme=dark] .toast>span{background:var(--accent-fill,var(--accent));color:#182331}
+[data-theme=dark] .notification-dot{border-color:var(--panel);background:var(--accent-fill,var(--accent))}
 /* Secondary copy stays readable on the navy surfaces. */
 [data-theme=dark] :is(.card-meta,.card-meta svg,.portfolio-profile p,.empty-state p,.notice p,.notice small,.detail-overline,.detail-venue p,.detail-content>p,.detail-meta svg,.demo-caption,.detail-content>.demo-caption,.help-step p,.workspace-role-label,.guest-catalog-intro,.form-organizer,.public-detail>p,.inbox-contact p,.message-time,.event-people-heading h3>span,.event-people-empty,.event-registry-summary,.achievement-venue,.achievement-table thead th,.student-teacher-list button>span:last-child>span,.pupil-profile-identity p,.pupil-olympiads p,.staff-eyebrow,.staff-event-type,.staff-message>div,.staff-dialog-actions>span,.landing-eyebrow,.landing-lead,.landing-event-type,.landing-role-number,.landing-role-card p){color:var(--muted)}
 [data-theme=dark] :is(.detail-overline>span,.detail-skills>span){color:var(--muted)}
@@ -31,15 +31,15 @@
 [data-theme=dark] option{background:var(--panel);color:var(--ink)}
 [data-theme=dark] :is(.event-people-search,.staff-search){background:var(--panel);border-color:#667991;color:var(--muted)}
 [data-theme=dark] .form-error{background:#3d261d;color:#ffbf9e;border-color:#86513c}
-/* Calendars preserve silver event days and the square selection. */
+/* Calendars preserve mint event days and the square selection. */
 [data-theme=dark] .event-calendar.compact{background:var(--panel);border:2px solid var(--line);color:var(--ink)}
 [data-theme=dark] .compact .calendar-toolbar h3{color:var(--ink)}
 [data-theme=dark] .compact .calendar-days{color:var(--muted)}
 [data-theme=dark] .compact .month-controls .icon-button{color:var(--ink)}
 [data-theme=dark] .event-calendar.compact .calendar-cell:not(.has-events):not(.selected-cell){color:var(--ink);background:transparent}
-[data-theme=dark] .event-calendar.compact .has-events{color:#182331;background:var(--metal-gradient,var(--accent));border-color:var(--accent)}
+[data-theme=dark] .event-calendar.compact .has-events{color:#182331;background:var(--accent-fill,var(--accent));border-color:var(--accent)}
 [data-theme=dark] .event-calendar.compact .selected-cell{color:#182331!important;outline-color:#182331}
-[data-theme=dark] .event-calendar.compact .calendar-cell:not(.has-events).selected-cell{background:#e5edf7!important}
+[data-theme=dark] .event-calendar.compact .calendar-cell:not(.has-events).selected-cell{background:#c3f4e2!important}
 [data-theme=dark] .icon-button:hover{background:#2c405a;color:var(--ink)}
 /* Invitations, recommended events, and winner rows use a muted blue tint. */
 [data-theme=dark] :is(.recommended-card,.date-filter,.staff-invite-event,.message-bubble.outgoing,.staff-message.outgoing,.student-teacher-list>button.active,.event-winner-row,.pupil-result){background:#21364a;color:var(--ink);border-color:#42627c}
@@ -52,11 +52,11 @@
 [data-theme=dark] .message-event:hover{background:#304b65;color:var(--ink)}
 [data-theme=dark] .interest-selection{border-color:#8299b4}
 [data-theme=dark] .active .interest-selection{background:#182331;color:var(--accent);border-color:#182331}
-/* Landing accents keep dark text against the silver accents. */
+/* Landing accents keep dark text against the mint accents. */
 [data-theme=dark] .landing-final-cta{background-color:#142238;border-color:var(--line);color:var(--ink)}
 [data-theme=dark] .landing-final-cta .landing-eyebrow{color:var(--muted)}
-[data-theme=dark] :is(.landing-image-caption>span:last-child,.landing-role-action span){background:var(--metal-gradient,var(--accent));color:#182331}
-[data-theme=dark] ::selection{background:var(--metal-gradient,var(--accent));color:#182331}
+[data-theme=dark] :is(.landing-image-caption>span:last-child,.landing-role-action span){background:var(--accent-fill,var(--accent));color:#182331}
+[data-theme=dark] ::selection{background:var(--accent-fill,var(--accent));color:#182331}
 @media(max-width:1150px){[data-theme=dark] .student-area .site-nav.open{background:var(--panel);border-color:var(--line)}}
 @media(max-width:900px){[data-theme=dark] .site-nav.open{background:var(--panel);border-color:var(--line)}}
 [data-theme=dark] .staff-empty{background:var(--surface);border-color:var(--line);color:var(--ink)}

@@ -65,6 +65,11 @@ export default function TelegramPanel() {
     } catch (error) { if (alive.current) setError(error instanceof Error ? error.message : 'Не удалось сохранить настройки'); }
     finally { if (alive.current) setBusy(false); }
   };
+  const retry = async () => {
+    setBusy(true);
+    try { await refresh(); }
+    finally { if (alive.current) setBusy(false); }
+  };
 
   return <section className="telegram-panel" aria-label="Уведомления в Telegram">
     <div className="telegram-heading"><div className="telegram-title"><span className="telegram-mark"><Send size={25} /></span><div><h2>Telegram</h2><p>{connection?.connected ? `Подключён${connection.account ? ` · ${connection.account}` : ''}` : 'Сообщения, события и дедлайны'}</p></div></div>
@@ -72,6 +77,6 @@ export default function TelegramPanel() {
     </div>
     {link && !connection?.connected && <p className="telegram-pending" role="status">Нажми «Запустить» в боте. Подключение появится здесь автоматически.</p>}
     {connection?.connected && <div className="telegram-preferences">{options.map(option => <label key={option.key}><input type="checkbox" checked={connection.preferences[option.key]} disabled={busy} onChange={() => void changePreference(option.key)} /><span>{option.label}</span></label>)}</div>}
-    {error ? <p className="telegram-error" role="alert">{error}</p> : connection && !connection.available && <p className="telegram-pending">Бот временно недоступен. Попробуй позже.</p>}
+    {error ? <div className="telegram-retry"><p className="telegram-error" role="alert">{error}</p><button className="button secondary" disabled={busy} onClick={() => void retry()}>Повторить</button></div> : connection && !connection.available && <p className="telegram-pending">Бот временно недоступен. Попробуй позже.</p>}
   </section>;
 }

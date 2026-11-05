@@ -1,17 +1,16 @@
-/* A quiet star field and a single silver material shared by all roles. */
+/* A quiet star field and a soft mint accent shared by all roles. */
 :root {
-  --accent: #cbd4e1;
-  --metal-ink: #172333;
-  --metal-border: #a7b4c7;
-  --metal-gradient: linear-gradient(120deg, #aab6c8 0%, #e1e7f0 20%, #fafcff 32%, #bdc8d8 48%, #edf2f9 65%, #a8b6ca 86%, #d9e2ee 100%);
-  --metal-sheen: linear-gradient(110deg, transparent 40%, #ffffff05 44%, #ffffffbf 50%, #ffffff05 56%, transparent 60%);
+  --accent: #baf3df;
+  --accent-ink: #12332e;
+  --accent-border: #98d7c1;
+  --accent-fill: linear-gradient(135deg, #cef9e9, #adebd6);
   --canvas: #080f1e;
   --space-wash: linear-gradient(120deg, #080f1ed9, #080f1ebd 55%, #080f1ed1);
   background: var(--canvas);
 }
 
 :root[data-theme=dark] {
-  --accent: #cbd4e1;
+  --accent: #baf3df;
   --canvas: #080f1e;
   --panel: #101c2ef5;
   --surface: #1a293f;
@@ -45,7 +44,7 @@ body::before {
 /* The solid panels keep photos, forms and dense lists readable over the sky. */
 .landing-event-list { background: #0d182a80; }
 
-/* Static brushed metal on small markers and selections. */
+/* Mint selections and event markers. */
 html[data-theme] :is(
   .catalog-scope button.active, .category-tabs button.active, .staff-tabs button.active,
   .role-switch-menu > button[aria-pressed=true],
@@ -56,56 +55,39 @@ html[data-theme] :is(
   .landing-role-action span, .account-button, .avatar-camera, .telegram-mark,
   .event-calendar.compact .has-events
 ) {
-  background-image: var(--metal-gradient);
-  color: var(--metal-ink);
-  border-color: var(--metal-border);
-  box-shadow: inset 0 1px 0 #ffffffb3, inset 0 -1px 0 #60728c33;
+  background-image: var(--accent-fill);
+  color: var(--accent-ink);
+  border-color: var(--accent-border);
+  box-shadow: none;
 }
 
 html[data-theme] :is(.catalog-scope button.active span, .staff-class-list button.active small, .staff-contacts > button.active small) {
-  color: #3c4c63;
+  color: #28564a;
 }
 
-/* The slow highlight crosses the material without covering labels or icons. */
+/* Primary actions use the same soft mint across every role. */
 html[data-theme] :is(.button.primary, .landing-button-dark, .landing-final-cta .landing-button-dark) {
   background-color: var(--accent);
-  background-image: var(--metal-sheen), var(--metal-gradient);
-  background-size: 240% 100%, 100% 100%;
-  background-position: 100% 0, 0 0;
-  background-repeat: no-repeat;
-  color: var(--metal-ink);
-  border-color: var(--metal-border);
-  box-shadow: inset 0 1px 0 #ffffffd9, inset 0 -1px 0 #63718b55, 0 3px 12px #07112312;
-  animation: silver-shimmer 10s ease-in-out infinite;
+  background-image: var(--accent-fill);
+  color: var(--accent-ink);
+  border-color: var(--accent-border);
+  box-shadow: 0 3px 12px #051d191a;
 }
 
 html[data-theme] :is(.button.primary, .landing-button-dark):is(:hover, :focus-visible) {
-  background-image: var(--metal-sheen), var(--metal-gradient);
-  color: var(--metal-ink);
-  border-color: #8599b5;
-  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 #63718b55, 0 0 0 3px #aabbd326;
+  background-image: var(--accent-fill);
+  color: var(--accent-ink);
+  border-color: #bdf8e3;
+  box-shadow: 0 0 0 3px #baf3df20;
 }
 
 html[data-theme] .recommended-card { border-color: #8399b7; }
-html[data-theme] .event-calendar.compact .selected-cell { background-image: var(--metal-gradient); }
+html[data-theme] .event-calendar.compact .selected-cell { background-image: var(--accent-fill); }
 
 .landing-hero-visual img { box-shadow: 0 20px 64px #0813261f; }
 [data-theme=dark] .landing-hero-visual img { box-shadow: 0 20px 64px #02071459; }
 .landing-final-cta { border-color: #536883; }
 
-@keyframes silver-shimmer {
-  0%, 65% { background-position: 100% 0, 0 0; }
-  90%, 100% { background-position: -100% 0, 0 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html[data-theme] :is(.button.primary, .landing-button-dark, .landing-final-cta .landing-button-dark) {
-    animation: none;
-    background-image: var(--metal-gradient);
-    background-size: 100% 100%;
-    background-position: 0 0;
-  }
-}
 
 @media (forced-colors: active) {
   body::before { display: none; }
