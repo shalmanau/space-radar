@@ -1,0 +1,38 @@
+export type Opportunity = {
+  id: string;
+  title: string;
+  organizer: string;
+  category: string;
+  type: string;
+  venue: string;
+  address?: string;
+  platform?: string;
+  format: string;
+  age: string;
+  deadline: string;
+  date: string;
+  time: string;
+  endDate?: string;
+  image: string;
+  description: string;
+  skills: string[];
+  details: string;
+  free: boolean;
+};
+export type Profile = {
+  name: string;
+  fullName: string;
+  initials: string;
+  grade: number;
+  school: string;
+  interests: string[];
+  joined: string[];
+  completedEventIds: string[];
+};
+export type Notice = { id: number; title: string; text: string; time: string };
+export const TODAY = '2026-11-05';
+export const dateLabel = (date: string, options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' }) => new Date(date + 'T12:00:00').toLocaleDateString('ru-RU', options);
+export const monthKey = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+export const monthLabel = (key: string) => dateLabel(key + '-01', { month: 'long', year: 'numeric' }).replace(' г.', '');
+export const happensOn = (event: Opportunity, date: string) => event.date <= date && (event.endDate || event.date) >= date;
+export const isPast = (event: Opportunity) => (event.endDate || event.date) < TODAY;
