@@ -92,10 +92,10 @@ export default function MikiHelper({ role, events, interests, joined, organizati
   };
 
   return <div className={`miki-widget${open ? ' is-open' : ''}`}>
-    {!open && <button ref={launcher} className="miki-launcher" aria-label="Позвать Мики" aria-haspopup="dialog" aria-expanded={false} onClick={() => setOpen(true)}>
-      <img src="/images/miki/welcome.webp" width="76" height="76" alt="" draggable={false} />
-      <span>Привет, Мики!</span>
-    </button>}
+    <button ref={launcher} className="miki-launcher" aria-label={open ? 'Закрыть чат с Мики' : 'Позвать Мики'} aria-haspopup="dialog" aria-expanded={open} aria-controls={open ? panelId : undefined} onClick={() => open ? close() : setOpen(true)}>
+      <span className="miki-toggle-art" aria-hidden="true">{open ? <X size={28} /> : <img src="/images/miki/welcome.webp" width="76" height="76" alt="" draggable={false} />}</span>
+      <span className="miki-launcher-label">{open ? 'Закрыть чат' : 'Привет, Мики!'}</span>
+    </button>
     {open && <section id={panelId} className="miki-dialog" role="dialog" aria-modal="false" aria-labelledby={headingId} onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); close(); } }}>
       <header className="miki-heading">
         <img src={`/images/miki/${pose}.webp`} width="78" height="78" alt="Мики — мятный инопланетянин" draggable={false} />
