@@ -2,8 +2,8 @@ import { CalendarDays, Check, MapPin, Monitor } from 'lucide-react';
 import type { Opportunity } from '../types';
 import { dateLabel, isPast } from '../types';
 
-type Props = { event: Opportunity; joined: boolean; onSelect: (event: Opportunity) => void; onToggle: (id: string) => void };
-export default function EventCard({ event, joined, onSelect, onToggle }: Props) {
+type Props = { event: Opportunity; joined: boolean; onSelect: (event: Opportunity) => void; onToggle: (id: string) => void; hideParticipation?: boolean; action?: { label: string; onClick: () => void } };
+export default function EventCard({ event, joined, onSelect, onToggle, hideParticipation = false, action }: Props) {
   const past = isPast(event);
   return <article className="opportunity-card" data-event-id={event.id}>
     <img className="card-image" src={event.image} alt="" />
@@ -15,7 +15,7 @@ export default function EventCard({ event, joined, onSelect, onToggle }: Props) 
       </div>
       <div className="card-actions">
         <button className="button secondary card-details" onClick={() => onSelect(event)} aria-label={`Подробнее: ${event.title}`}>Подробнее</button>
-        {past ? joined && <span className="participation-status"><Check size={16} />Участие</span> : <button className={`button primary participation-toggle ${joined ? 'active' : ''}`} aria-label={`${joined ? 'Отменить участие' : 'Участвовать'}: ${event.title}`} aria-pressed={joined} onClick={() => onToggle(event.id)}>{joined && <Check size={16} />}{joined ? 'Участвую' : 'Участвовать'}</button>}
+        {action ? <button className="button primary" onClick={action.onClick}>{action.label}</button> : hideParticipation ? null : past ? joined && <span className="participation-status"><Check size={16} />Участие</span> : <button className={`button primary participation-toggle ${joined ? 'active' : ''}`} aria-label={`${joined ? 'Отменить участие' : 'Участвовать'}: ${event.title}`} aria-pressed={joined} onClick={() => onToggle(event.id)}>{joined && <Check size={16} />}{joined ? 'Участвую' : 'Участвовать'}</button>}
       </div>
     </div>
   </article>;

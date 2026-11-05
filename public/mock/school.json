@@ -1,0 +1,202 @@
+{
+  "school": "Гимназия № 12",
+  "teacher": {
+    "id": "teacher-1",
+    "name": "Марина Соколова",
+    "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»"
+  },
+  "organization": {
+    "id": "org-1",
+    "name": "Образовательный центр «Старт»"
+  },
+  "classes": [
+    {
+      "id": "10a",
+      "name": "10 «А»",
+      "curatorName": "Марина Соколова",
+      "portfolioAccess": true
+    },
+    {
+      "id": "10b",
+      "name": "10 «Б»",
+      "curatorName": "Андрей Ковалёв",
+      "portfolioAccess": false
+    },
+    {
+      "id": "9a",
+      "name": "9 «А»",
+      "curatorName": "Марина Соколова",
+      "portfolioAccess": true
+    }
+  ],
+  "students": [
+    {
+      "id": "sasha",
+      "name": "Александра Иванова",
+      "classId": "10a",
+      "initials": "АИ"
+    },
+    {
+      "id": "maxim",
+      "name": "Максим Петров",
+      "classId": "10a",
+      "initials": "МП"
+    },
+    {
+      "id": "daria",
+      "name": "Дарья Козлова",
+      "classId": "10a",
+      "initials": "ДК"
+    },
+    {
+      "id": "artem",
+      "name": "Артём Новик",
+      "classId": "10b",
+      "initials": "АН"
+    },
+    {
+      "id": "anna",
+      "name": "Анна Волкова",
+      "classId": "10b",
+      "initials": "АВ"
+    },
+    {
+      "id": "nikita",
+      "name": "Никита Сидоров",
+      "classId": "9a",
+      "initials": "НС"
+    },
+    {
+      "id": "polina",
+      "name": "Полина Морозова",
+      "classId": "9a",
+      "initials": "ПМ"
+    }
+  ],
+  "enrollments": [
+    {
+      "id": "enrollment-0",
+      "studentId": "sasha",
+      "eventId": "eco",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-1",
+      "studentId": "sasha",
+      "eventId": "media",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-2",
+      "studentId": "sasha",
+      "eventId": "hackathon",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-3",
+      "studentId": "sasha",
+      "eventId": "clean-shore",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-4",
+      "studentId": "sasha",
+      "eventId": "school-hackathon",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-5",
+      "studentId": "maxim",
+      "eventId": "science",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-6",
+      "studentId": "maxim",
+      "eventId": "code",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-7",
+      "studentId": "maxim",
+      "eventId": "school-hackathon",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-8",
+      "studentId": "daria",
+      "eventId": "science",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-9",
+      "studentId": "daria",
+      "eventId": "clean-shore",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-10",
+      "studentId": "artem",
+      "eventId": "science",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-11",
+      "studentId": "artem",
+      "eventId": "code",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-12",
+      "studentId": "anna",
+      "eventId": "media",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-13",
+      "studentId": "anna",
+      "eventId": "science",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-14",
+      "studentId": "nikita",
+      "eventId": "science",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-15",
+      "studentId": "nikita",
+      "eventId": "code",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-16",
+      "studentId": "nikita",
+      "eventId": "school-hackathon",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-17",
+      "studentId": "polina",
+      "eventId": "eco",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "enrollment-18",
+      "studentId": "polina",
+      "eventId": "clean-shore",
+      "registeredAt": "2026-11-01T10:00:00"
+    }
+  ],
+  "messages": [
+    {
+      "id": "welcome-1",
+      "studentId": "sasha",
+      "sender": "teacher",
+      "text": "Саша, посмотри школьный хакатон. Если понадобится помощь с выбором команды, напиши мне.",
+      "eventId": "hackathon",
+      "createdAt": "2026-11-04T14:30:00"
+    }
+  ]
+}

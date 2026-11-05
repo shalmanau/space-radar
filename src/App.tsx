@@ -1,125 +1,91 @@
-import { useEffect, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
-import { ArrowDownToLine, ArrowRight, ArrowUpDown, Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Compass, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { FormEvent } from 'react';
+import { ArrowRight, CalendarDays, Check, MapPin, X } from 'lucide-react';
+import StudentApp from './StudentApp';
+import Landing from './components/Landing';
+import RoleSwitcher from './components/RoleSwitcher';
+import RoleWorkspace from './components/RoleWorkspace';
+import DemoModal from './components/DemoModal';
+import PublicationForm from './components/PublicationForm';
+import StudentInbox from './components/StudentInbox';
 import EventCard from './components/EventCard';
-import EventCalendar from './components/EventCalendar';
-import type { Notice, Opportunity, Profile } from './types';
-import { dateLabel, happensOn, isPast, monthKey, monthLabel, TODAY } from './types';
+import type { Opportunity } from './types';
+import { dateLabel, isPast } from './types';
+import type { DemoAccount, Enrollment, Message, Role, SchoolData } from './roleTypes';
+import { roleLabels } from './roleTypes';
+import './roles.css';
 
-type Page = 'catalog' | 'profile' | 'achievements';
-const nav = [{ id: 'catalog' as Page, label: 'Возможности', icon: Compass }, { id: 'profile' as Page, label: 'Профиль', icon: UserRound }, { id: 'achievements' as Page, label: 'Мои достижения', icon: Trophy }];
-const categories = ['Все направления', 'Технологии', 'Творчество', 'Наука', 'Экология'];
-const PARTICIPATION_KEY = 'vneklassa-participation-v2';
-function readStored(key: string): unknown { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; } }
-function validIds(value: unknown, events: Opportunity[]): string[] | null { return Array.isArray(value) && value.every(id => typeof id === 'string') ? [...new Set(value.filter(id => events.some(event => event.id === id)))] : null; }
-function dateMonth(date: string) { return new Date(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 1, 1); }
-function firstParticipationMonth(events: Opportunity[], ids: string[]) { const own = events.filter(event => ids.includes(event.id)).sort((a, b) => a.date.localeCompare(b.date)); return dateMonth(own.find(event => !isPast(event))?.date || own.at(-1)?.date || TODAY); }
-function Star() { return <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 62 32 92 15 74 44 100 50 74 59 90 89 60 73 50 100 40 73 10 89 26 59 0 50 27 40 10 12 40 29Z" /></svg>; }
-function Modal({ title, children, onClose, wide = false }: { title: string; children: ReactNode; onClose: () => void; wide?: boolean }) {
-  const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => { ref.current!.showModal(); const old = document.body.style.overflow; document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = old; }; }, []);
-  return <dialog ref={ref} className={`modal ${wide ? 'wide' : ''}`} onCancel={onClose} onClick={e => { if (e.target === ref.current) onClose(); }} aria-label={title}><div className="modal-head"><h2>{title}</h2><button className="icon-button" aria-label="Закрыть" onClick={onClose}><X size={21} /></button></div>{children}</dialog>;
-}
+const KEYS = { events: 'vneklassa-published-events-v1', enrollments: 'vneklassa-enrollments-v1', messages: 'vneklassa-messages-v1' };
+function storedArray<T>(key: string): T[] | null { try { const value: unknown = JSON.parse(localStorage.getItem(key) || 'null'); return Array.isArray(value) ? value : null; } catch { return null; } }
+function storedAccounts(): Partial<Record<Exclude<Role, 'guest'>, DemoAccount>> { try { const value = JSON.parse(localStorage.getItem('vneklassa-demo-accounts-v1') || '{}'); const result: Partial<Record<Exclude<Role, 'guest'>, DemoAccount>> = {}; for (const role of ['student', 'teacher', 'organization'] as const) { if (value?.[role] && typeof value[role].name === 'string' && typeof value[role].email === 'string') result[role] = { name: value[role].name, email: value[role].email, role }; } return result; } catch { return {}; } }
+function persist(key: string, value: unknown) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Browser-local demo remains usable without persistence. */ } }
+function Logo({ onClick }: { onClick: () => void }) { return <button className="brand" onClick={onClick} aria-label="ВнеКласса — на главную"><span className="brand-mark"><svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 62 32 92 15 74 44 100 50 74 59 90 89 60 73 50 100 40 73 10 89 26 59 0 50 27 40 10 12 40 29Z" /></svg></span>ВнеКласса</button>; }
 
 export default function App() {
-  const [data, setData] = useState<Opportunity[]>([]);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [notices, setNotices] = useState<Notice[]>([]);
-  const [error, setError] = useState(false);
-  const [page, setPage] = useState<Page>('catalog');
-  const [category, setCategory] = useState(categories[0]);
-  const [query, setQuery] = useState('');
-  const [format, setFormat] = useState('Любой формат');
-  const [venue, setVenue] = useState('Все площадки');
-  const [period, setPeriod] = useState('upcoming');
-  const [direction, setDirection] = useState('asc');
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [role, setRole] = useState<Role>('guest');
+  const [guestPage, setGuestPage] = useState<'landing' | 'catalog'>('landing');
+  const [school, setSchool] = useState<SchoolData | null>(null);
+  const [baseEvents, setBaseEvents] = useState<Opportunity[]>([]);
+  const [published, setPublished] = useState<Opportunity[]>(() => storedArray<Opportunity>(KEYS.events) || []);
+  const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [accounts, setAccounts] = useState<Partial<Record<Exclude<Role, 'guest'>, DemoAccount>>>(storedAccounts);
+  const [registration, setRegistration] = useState<Exclude<Role, 'guest'> | null>(null);
+  const [registrationError, setRegistrationError] = useState('');
+  const [pendingEventId, setPendingEventId] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState(false);
   const [selected, setSelected] = useState<Opportunity | null>(null);
-  const [joined, setJoined] = useState<string[]>([]);
-  const [interests, setInterests] = useState<string[]>([]);
-  const [editingInterests, setEditingInterests] = useState(false);
-  const [help, setHelp] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [readNotices, setReadNotices] = useState(() => readStored('vneklassa-notices') === true);
-  const [mobileNav, setMobileNav] = useState(false);
+  const [error, setError] = useState(false);
   const [toast, setToast] = useState('');
-  const [catalogMonth, setCatalogMonth] = useState(dateMonth(TODAY));
-  const [profileMonth, setProfileMonth] = useState(dateMonth(TODAY));
-  const [catalogDate, setCatalogDate] = useState<string | null>(null);
-  const [profileDate, setProfileDate] = useState<string | null>(null);
-  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [guestQuery, setGuestQuery] = useState('');
 
   useEffect(() => {
     async function load() {
-      const fetchJson = async <T,>(url: string): Promise<T> => { const response = await fetch(url); if (!response.ok) throw new Error('Не удалось загрузить данные'); return response.json(); };
+      const fetchJson = async <T,>(url: string): Promise<T> => { const response = await fetch(url); if (!response.ok) throw new Error('Ошибка загрузки'); return response.json(); };
       try {
-        const [events, user, messages] = await Promise.all([fetchJson<Opportunity[]>('/mock/opportunities.json'), fetchJson<Profile>('/mock/profile.json'), fetchJson<Notice[]>('/mock/notifications.json')]);
-        const current = validIds(readStored(PARTICIPATION_KEY), events);
-        const legacy = validIds(readStored('vneklassa-joined'), events);
-        // Preserve existing participation, including an intentionally empty list. Old saved items never imply participation.
-        const ids = current ?? [...new Set([...(legacy ?? user.joined), ...user.completedEventIds])];
-        setData(events); setProfile(user); setNotices(messages); setJoined(ids); setProfileMonth(firstParticipationMonth(events, ids));
-        const storedInterests = readStored('vneklassa-interests');
-        setInterests(Array.isArray(storedInterests) ? storedInterests.filter((value): value is string => typeof value === 'string').map(value => value === 'Волонтёрство' ? 'Экология' : value).filter(value => categories.includes(value)) : user.interests);
-        try { localStorage.setItem(PARTICIPATION_KEY, JSON.stringify(ids)); } catch { /* The demo also works without persistent storage. */ }
+        const [events, directory] = await Promise.all([fetchJson<Opportunity[]>('/mock/opportunities.json'), fetchJson<SchoolData>('/mock/school.json')]);
+        setBaseEvents(events.map(event => ({ ...event, ownerId: event.ownerId || (['code', 'code-january'].includes(event.id) ? directory.organization.id : ['school-hackathon'].includes(event.id) ? directory.teacher.id : 'org-other') })));
+        const initialEnrollments = storedArray<Enrollment>(KEYS.enrollments) ?? directory.enrollments;
+        const priorParticipation = storedArray<string>('vneklassa-participation-v2');
+        const initialIds = priorParticipation?.filter(id => typeof id === 'string' && [...events, ...published].some(activity => activity.id === id));
+        setEnrollments(initialIds ? [...initialEnrollments.filter(item => item.studentId !== 'sasha'), ...initialIds.map(eventId => initialEnrollments.find(item => item.studentId === 'sasha' && item.eventId === eventId) || { id: crypto.randomUUID(), studentId: 'sasha', eventId, registeredAt: new Date().toISOString() })] : initialEnrollments); setMessages(storedArray<Message>(KEYS.messages) ?? directory.messages); setSchool(directory);
       } catch { setError(true); }
     }
     void load();
   }, []);
-  useEffect(() => { if (!toast) return; const timeout = window.setTimeout(() => setToast(''), 3200); return () => clearTimeout(timeout); }, [toast]);
-  useEffect(() => { const listener = (e: KeyboardEvent) => { if (e.key === 'Escape') { setNotificationsOpen(false); setMobileNav(false); } }; window.addEventListener('keydown', listener); return () => window.removeEventListener('keydown', listener); }, []);
-  const store = (key: string, value: unknown) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { setToast('Изменения доступны до закрытия вкладки'); } };
-  const navigate = (next: Page) => { setPage(next); setMobileNav(false); setNotificationsOpen(false); if (next === 'profile') { setProfileDate(null); setProfileMonth(firstParticipationMonth(data, joined)); } window.scrollTo({ top: 0, behavior: 'smooth' }); };
-  const toggleJoined = (id: string) => { const next = joined.includes(id) ? joined.filter(value => value !== id) : [...joined, id]; setJoined(next); store(PARTICIPATION_KEY, next); setToast(next.includes(id) ? 'Событие добавлено в календарь профиля' : 'Участие отменено'); };
-  const toggleInterest = (value: string) => { const next = interests.includes(value) ? interests.filter(item => item !== value) : [...interests, value]; setInterests(next); store('vneklassa-interests', next); };
-  const resetFilters = () => { setQuery(''); setCategory(categories[0]); setFormat('Любой формат'); setVenue('Все площадки'); setPeriod('upcoming'); setCatalogDate(null); setCatalogMonth(dateMonth(TODAY)); };
-  const catalogue = data.filter(event => (category === categories[0] || event.category === category) && (format === 'Любой формат' || event.format === format) && (venue === 'Все площадки' || event.venue === venue) && (period === 'all' || (period === 'past' ? isPast(event) : !isPast(event))) && `${event.title} ${event.organizer} ${event.venue} ${event.category}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`) * (direction === 'asc' ? 1 : -1));
-  const firstCatalogDate = catalogue[0]?.date;
-  useEffect(() => { if (firstCatalogDate) setCatalogMonth(dateMonth(firstCatalogDate)); }, [firstCatalogDate]);
-  const filtered = catalogue.filter(event => !catalogDate || happensOn(event, catalogDate));
-  const groups = [...new Set(filtered.map(event => event.date.slice(0, 7)))];
-  const participation = data.filter(event => joined.includes(event.id)).sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
-  const profileEvents = participation.filter(event => profileDate ? happensOn(event, profileDate) : event.date <= `${monthKey(profileMonth)}-31` && (event.endDate || event.date) >= `${monthKey(profileMonth)}-01`);
-  const achievements = participation.filter(isPast).sort((a, b) => b.date.localeCompare(a.date));
-  const exportPortfolio = () => { const content = `${profile?.fullName}\n${profile?.school}, ${profile?.grade} класс\n\nУЧАСТИЕ В СОБЫТИЯХ\n\n${achievements.map(event => `${event.title}\n${dateLabel(event.date)} · ${event.venue}\nОрганизатор: ${event.organizer}`).join('\n\n')}`; const url = URL.createObjectURL(new Blob([content], { type: 'text/plain;charset=utf-8' })); const link = document.createElement('a'); link.href = url; link.download = 'Мои достижения — ВнеКласса.txt'; link.click(); URL.revokeObjectURL(url); };
-  const renderCard = (event: Opportunity) => <EventCard key={event.id} event={event} joined={joined.includes(event.id)} onSelect={setSelected} onToggle={toggleJoined} />;
+  useEffect(() => { if (school) persist(KEYS.enrollments, enrollments); }, [school, enrollments]);
+  useEffect(() => { if (school) persist(KEYS.messages, messages); }, [school, messages]);
+  useEffect(() => { persist('vneklassa-demo-accounts-v1', accounts); }, [accounts]);
+  useEffect(() => { if (!toast) return; const timer = window.setTimeout(() => setToast(''), 3500); return () => clearTimeout(timer); }, [toast]);
+  const events = useMemo(() => [...baseEvents, ...published].sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`)), [baseEvents, published]);
+  const schoolView = useMemo(() => school ? { ...school, teacher: { ...school.teacher, name: accounts.teacher?.name || school.teacher.name }, organization: { ...school.organization, name: accounts.organization?.name || school.organization.name }, classes: school.classes.map(group => group.portfolioAccess && accounts.teacher ? { ...group, curatorName: accounts.teacher.name } : group), students: school.students.map(student => student.id === 'sasha' && accounts.student ? { ...student, name: accounts.student.name, initials: accounts.student.name.split(' ').slice(0, 2).map(part => part[0]).join('').toUpperCase() } : student) } : null, [school, accounts]);
+  const changeRole = (next: Role) => { setRole(next); setRegistration(null); setPendingEventId(null); setPublishing(false); setSelected(null); setToast(''); if (next === 'guest') setGuestPage('landing'); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const beginRegistration = (next: Exclude<Role, 'guest'> = 'student', eventId?: string) => { setPendingEventId(eventId || null); setRegistration(next); setRegistrationError(''); };
+  const register = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); const data = new FormData(event.currentTarget); const name = String(data.get('name') || '').trim(); const email = String(data.get('email') || '').trim(); if (name.length < 2 || !registration) { setRegistrationError('Укажи имя или название организации.'); return; } const account: DemoAccount = { name, email, role: registration }; setAccounts(previous => ({ ...previous, [registration]: account })); const next = registration; setRegistration(null); setRole(next); if (next === 'student' && pendingEventId && !studentParticipation.includes(pendingEventId)) syncStudentParticipation([...studentParticipation, pendingEventId]); setPendingEventId(null); setToast('Демо-профиль создан'); window.scrollTo(0, 0); };
+  const publish = (activity: Opportunity) => { const next = [...published, activity]; setPublished(next); persist(KEYS.events, next); setPublishing(false); setToast('Активность опубликована в общей ленте'); };
+  const syncStudentParticipation = useCallback((ids: string[]) => {
+    persist('vneklassa-participation-v2', ids);
+    setEnrollments(previous => {
+      const own = previous.filter(enrollment => enrollment.studentId === 'sasha');
+      if (own.length === ids.length && own.every(enrollment => ids.includes(enrollment.eventId))) return previous;
+      return [...previous.filter(enrollment => enrollment.studentId !== 'sasha'), ...ids.map(eventId => own.find(enrollment => enrollment.eventId === eventId) || { id: crypto.randomUUID(), studentId: 'sasha', eventId, registeredAt: new Date().toISOString() })];
+    });
+  }, []);
+  const sendMessage = (studentId: string, text: string, sender: 'teacher' | 'student', eventId?: string) => { if (!text.trim()) return; setMessages(previous => [...previous, { id: crypto.randomUUID(), studentId, sender, text: text.trim(), eventId, createdAt: new Date().toISOString() }]); };
+  const studentParticipation = useMemo(() => enrollments.filter(item => item.studentId === 'sasha').map(item => item.eventId), [enrollments]);
+  const publicEvents = events.filter(event => !isPast(event) && `${event.title} ${event.venue}`.toLowerCase().includes(guestQuery.toLowerCase()));
 
-  if (error) return <div className="loading-screen"><Star /><h1>Не получилось загрузить события</h1><button className="button primary" onClick={() => location.reload()}>Попробовать снова</button></div>;
-  if (!profile) return <div className="loading-screen" role="status"><Star /><p>Загрузка…</p></div>;
-  return <div className="app-shell">
-    {mobileNav && <button className="nav-backdrop" onClick={() => setMobileNav(false)} aria-label="Закрыть меню" />}
-    <header className="site-header">
-      <button className="brand" onClick={() => navigate('catalog')} aria-label="ВнеКласса — на главную"><span className="brand-mark"><Star /></span>ВнеКласса</button>
-      <nav className={`site-nav ${mobileNav ? 'open' : ''}`} aria-label="Основная навигация">{nav.map(({ id, label }) => <button className={`nav-item ${page === id ? 'active' : ''}`} key={id} onClick={() => navigate(id)} aria-current={page === id ? 'page' : undefined}>{label}</button>)}<div className="nav-utilities"><button className="nav-item" onClick={() => { setMobileNav(false); setHelp(true); }}>Справка</button><button className="nav-item nav-notifications" onClick={() => { setMobileNav(false); setNotificationsOpen(true); }}>Уведомления</button></div></nav>
-      <div className="header-actions"><div className="notification-wrap"><button className="notification-button icon-button" aria-label="Уведомления" aria-expanded={notificationsOpen} onClick={() => setNotificationsOpen(!notificationsOpen)}><Bell size={24} />{!readNotices && <span className="notification-dot" />}</button>{notificationsOpen && <><button className="popover-backdrop" onClick={() => setNotificationsOpen(false)} aria-label="Закрыть уведомления" /><section className="notification-popover"><div className="popover-title"><h3>Уведомления</h3><button className="icon-button" aria-label="Закрыть панель уведомлений" onClick={() => setNotificationsOpen(false)}><X size={23} /></button></div>{notices.map(notice => <div className="notice" key={notice.id}><span className={`notice-dot ${readNotices ? 'read' : ''}`} /><div><strong>{notice.title}</strong><p>{notice.text}</p><small>{notice.time}</small></div></div>)}<button className="text-button full-width notice-read" aria-label="Отметить все прочитанными" onClick={() => { setReadNotices(true); store('vneklassa-notices', true); }}><CheckCheck size={22} />Прочитать всё</button></section></>}</div><button className="icon-button header-help" onClick={() => setHelp(true)} aria-label="Справка"><CircleHelp size={24} /></button><button className="account-button" onClick={() => navigate('profile')} aria-label="Открыть профиль">{profile.initials}</button><button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label="Открыть меню" aria-expanded={mobileNav}><Menu size={25} /></button></div>
-    </header>
-    <div className="workspace">
-    <main>
-      {page === 'catalog' && <>
-        <div className="page-intro"><h1><span>Возможности</span></h1><button className="button secondary mobile-calendar-toggle" onClick={() => setCalendarOpen(!calendarOpen)} aria-expanded={calendarOpen}><CalendarDays size={22} />Календарь</button></div>
-        <div className="catalog-toolbar"><div className="search-field"><Search size={24} /><input placeholder="Поиск событий" aria-label="Поиск возможностей" value={query} onChange={e => { setQuery(e.target.value); setCatalogDate(null); }} />{query && <button className="icon-button mini" aria-label="Очистить поиск" onClick={() => setQuery('')}><X size={16} /></button>}</div><button className={`button secondary ${filtersOpen ? 'selected' : ''}`} aria-expanded={filtersOpen} onClick={() => setFiltersOpen(!filtersOpen)}><SlidersHorizontal size={22} />Фильтры</button><label className="sort-select"><ArrowUpDown size={21} /><select aria-label="Порядок событий" value={direction} onChange={e => setDirection(e.target.value)}><option value="asc">Сначала ближайшие</option><option value="desc">Сначала поздние</option></select></label></div>
-        {filtersOpen && <div className="filter-panel"><label>Формат<select aria-label="Формат" value={format} onChange={e => { setFormat(e.target.value); setCatalogDate(null); }}><option>Любой формат</option><option>Онлайн</option><option>Очно</option></select></label><label>Площадка<select aria-label="Площадка" value={venue} onChange={e => { setVenue(e.target.value); setCatalogDate(null); }}><option>Все площадки</option>{[...new Set(data.map(event => event.venue))].sort().map(value => <option key={value}>{value}</option>)}</select></label><label>Период<select aria-label="Период" value={period} onChange={e => { setPeriod(e.target.value); setCatalogDate(null); }}><option value="upcoming">Предстоящие</option><option value="past">Прошедшие</option><option value="all">Все события</option></select></label><button className="text-button" onClick={resetFilters}>Сбросить</button></div>}
-        <div className="category-tabs" aria-label="Направления">{categories.map(value => <button key={value} onClick={() => { setCategory(value); setCatalogDate(null); }} className={category === value ? 'active' : ''} aria-pressed={category === value}>{value}</button>)}</div>
-        <div className="catalog-layout"><section className="month-groups" aria-label="События по месяцам">{catalogDate && <div className="date-filter"><span>{dateLabel(catalogDate)}</span><button className="text-button" onClick={() => setCatalogDate(null)}>Все даты<X size={13} /></button></div>}{groups.map(key => <section key={key} className="month-section" aria-label={monthLabel(key)}><div className="month-heading"><h2>{monthLabel(key)}</h2></div><div className="catalog-grid">{filtered.filter(event => event.date.startsWith(key)).map(renderCard)}</div></section>)}{!filtered.length && <div className="empty-state"><h3>Событий не найдено</h3><p>{catalogDate ? 'На выбранную дату событий нет.' : 'Измени запрос или фильтры.'}</p><button className="button secondary" onClick={resetFilters}>Сбросить фильтры</button></div>}</section>
-          <aside className={`catalog-calendar ${calendarOpen ? 'open' : ''}`}><EventCalendar label="Календарь возможностей" events={catalogue} month={catalogMonth} onMonthChange={setCatalogMonth} selectedDate={catalogDate} onSelectDate={setCatalogDate} compact /></aside>
-        </div>
-      </>}
-      {page === 'profile' && <>
-        <div className="page-intro"><h1><span>Профиль</span></h1><button className="text-button muted-button" onClick={() => setEditingInterests(true)}><SlidersHorizontal size={22} />Интересы</button></div>
-        <section className="portfolio-profile"><span className="large-avatar">{profile.initials}</span><div><h2>{profile.fullName}</h2><p>{profile.school} · {profile.grade} класс</p></div></section>
-        <div className="section-title"><h2>Календарь участия</h2><button className="text-button" onClick={() => navigate('catalog')}>Найти событие<ArrowRight size={15} /></button></div>
-        <EventCalendar label="Календарь участия" events={participation} month={profileMonth} onMonthChange={setProfileMonth} selectedDate={profileDate} onSelectDate={setProfileDate} />
-        <div className="section-title profile-events-heading"><h2>{profileDate ? dateLabel(profileDate) : 'События месяца'}</h2>{profileDate && <button className="text-button" onClick={() => setProfileDate(null)}>Все даты<X size={13} /></button>}</div>
-        {profileEvents.length ? <div className="profile-events-grid">{profileEvents.map(renderCard)}</div> : <div className="empty-state"><p>{participation.length ? 'В выбранном периоде нет событий с твоим участием.' : 'Ты пока не участвуешь в событиях.'}</p><button className="button secondary" onClick={() => navigate('catalog')}>Перейти к возможностям</button></div>}
-      </>}
-      {page === 'achievements' && <>
-        <div className="page-intro"><h1><span>Мои достижения</span></h1><button className="button secondary" disabled={!achievements.length} onClick={exportPortfolio}><ArrowDownToLine size={17} />Скачать</button></div>
-        {achievements.length ? <div className="profile-events-grid">{achievements.map(renderCard)}</div> : <div className="empty-state"><p>Здесь появятся события после их завершения.</p></div>}
-      </>}
-    </main></div>
-    {selected && <Modal title="О событии" wide onClose={() => setSelected(null)}><div className="detail-cover"><img src={selected.image} alt="" /><span className="image-badge">{selected.type}</span></div><div className="detail-content"><div className="detail-overline">{selected.organizer}<span>{selected.free ? 'Бесплатно' : 'Платно'}</span></div><h2>{selected.title}</h2><div className="detail-meta"><span><CalendarDays size={16} />{dateLabel(selected.date)}{selected.endDate && ` — ${dateLabel(selected.endDate)}`} · {selected.time}</span><span><Users size={16} />{selected.age}</span></div><div className="detail-venue">{selected.format === 'Онлайн' ? <Monitor size={18} /> : <MapPin size={18} />}<div><strong>{selected.venue}</strong><p>{selected.format === 'Онлайн' ? `Онлайн · ${selected.platform}` : selected.address}</p></div></div><p>{selected.description}</p><h3>Программа</h3><p>{selected.details}</p><h3>Навыки</h3><div className="detail-skills">{selected.skills.map(skill => <span key={skill}>{skill}</span>)}</div><div className="detail-deadline"><Clock3 size={18} /><strong>{isPast(selected) ? 'Событие завершено' : `Заявки до ${dateLabel(selected.deadline)}`}</strong></div><div className="detail-actions">{isPast(selected) ? <span className="participation-status">{joined.includes(selected.id) ? <><Check size={16} />Участие</> : 'Приём заявок закрыт'}</span> : <button className={`button ${joined.includes(selected.id) ? 'joined-button' : 'primary'}`} aria-pressed={joined.includes(selected.id)} onClick={() => toggleJoined(selected.id)}>{joined.includes(selected.id) ? <><Check size={17} />Участвую · отменить</> : 'Участвовать'}</button>}</div><p className="demo-caption">Демонстрационное событие. Отметка участия сохраняется в браузере.</p></div></Modal>}
-    {editingInterests && <Modal title="Интересы" onClose={() => setEditingInterests(false)}><div className="interest-options">{categories.slice(1).map(value => <button key={value} className={interests.includes(value) ? 'active' : ''} onClick={() => toggleInterest(value)} aria-pressed={interests.includes(value)}><strong>{value}</strong><span className="option-check">{interests.includes(value) && <Check size={14} />}</span></button>)}</div><button className="button primary full-width" onClick={() => { setEditingInterests(false); setToast('Интересы сохранены'); }}>Готово</button></Modal>}
-    {help && <Modal title="Справка" onClose={() => setHelp(false)}><div className="help-step"><h3>Возможности</h3><p>События сгруппированы по месяцам и отсортированы по дате и времени. Общий календарь показывает события каталога независимо от участия.</p></div><div className="help-step"><h3>Профиль</h3><p>Отметь «Участвую» в карточке. Событие появится в отдельном календаре профиля.</p></div><div className="help-step"><h3>Мои достижения</h3><p>Прошедшие события с твоим участием отображаются здесь теми же карточками, что и в каталоге.</p></div><p className="demo-caption">Все события и площадки — демонстрационные данные. Изменения сохраняются в текущем браузере.</p></Modal>}
-    {toast && <div className="toast" role="status"><span><Check size={16} /></span>{toast}<button aria-label="Закрыть сообщение" onClick={() => setToast('')}><X size={15} /></button></div>}
+  if (error) return <div className="loading-screen"><h1>Не удалось загрузить макет</h1><button className="button primary" onClick={() => location.reload()}>Повторить</button></div>;
+  if (!schoolView) return <div className="loading-screen" role="status"><p>Загрузка…</p></div>;
+  return <div className="role-app">
+    {role === 'student' ? <div className="student-area"><StudentApp sharedEvents={events} participationIds={studentParticipation} onParticipationChange={syncStudentParticipation} accountName={accounts.student?.name} messagesView={<StudentInbox messages={messages} events={events} teacherName={schoolView.teacher.name} onSend={text => sendMessage('sasha', text, 'student')} onOpenEvent={setSelected} />} /></div> : <>
+      <header className="site-header role-header"><Logo onClick={() => { if (role === 'guest') { setGuestPage('landing'); window.scrollTo(0, 0); } else changeRole('guest'); }} />{role === 'guest' ? <><nav className="guest-nav" aria-label="Навигация гостя"><button onClick={() => { setGuestPage('landing'); window.scrollTo(0, 0); }}>О платформе</button><button onClick={() => { setGuestPage('catalog'); window.scrollTo(0, 0); }}>Активности</button></nav><button className="button primary guest-register" onClick={() => beginRegistration()}>Регистрация<ArrowRight size={20} /></button></> : <><span className="workspace-role-label">{role === 'teacher' ? 'Кабинет учителя' : 'Кабинет организации'}</span><button className="account-button staff-account" aria-label={roleLabels[role]}>{role === 'teacher' ? schoolView.teacher.name.split(' ').slice(0, 2).map(part => part[0]).join('') : 'ОЦ'}</button></>}</header>
+      {role === 'guest' ? guestPage === 'landing' ? <Landing onRegister={() => beginRegistration()} onExplore={() => { setGuestPage('catalog'); window.scrollTo(0, 0); }} onChooseRole={beginRegistration} /> : <main className="guest-catalog"><div className="page-intro"><h1><span>Активности</span></h1></div><div className="search-field guest-search"><input aria-label="Поиск активностей" placeholder="Название или площадка" value={guestQuery} onChange={event => setGuestQuery(event.target.value)} /></div><p className="guest-catalog-intro">Посмотри события. Для участия создай демо-профиль.</p><div className="profile-events-grid">{publicEvents.map(event => <EventCard key={event.id} event={event} joined={false} onToggle={() => beginRegistration('student', event.id)} onSelect={setSelected} action={{ label: 'Участвовать', onClick: () => beginRegistration('student', event.id) }} />)}</div>{!publicEvents.length && <div className="empty-state"><p>События не найдены.</p></div>}</main> : <RoleWorkspace key={role} role={role} events={events} school={schoolView} enrollments={enrollments} messages={messages} onPublish={() => setPublishing(true)} onSendMessage={(studentId, text, eventId) => sendMessage(studentId, text, 'teacher', eventId)} onOpenEvent={setSelected} />}
+    </>}
+    <RoleSwitcher role={role} onChange={changeRole} />
+    {registration && <DemoModal title="Создать демо-профиль" onClose={() => setRegistration(null)}><form className="demo-form" onSubmit={register}><label>Роль<select aria-label="Роль при регистрации" value={registration} onChange={event => setRegistration(event.target.value as Exclude<Role, 'guest'>)}><option value="student">Школьник</option><option value="teacher">Учитель</option><option value="organization">Организация</option></select></label><label>{registration === 'organization' ? 'Название организации' : 'Имя и фамилия'}<input name="name" autoComplete="name" placeholder={registration === 'organization' ? 'Образовательный центр' : 'Александра Иванова'} required maxLength={120} /></label><label>Электронная почта<input name="email" type="email" autoComplete="email" placeholder="name@example.by" required /></label>{registrationError && <p className="form-error" role="alert">{registrationError}</p>}<button className="button primary full-width" type="submit">Создать профиль<ArrowRight size={20} /></button><p className="demo-caption">Это демо-регистрация: пароль не нужен, письма не отправляются.</p></form></DemoModal>}
+    {publishing && role !== 'guest' && role !== 'student' && <DemoModal title="Объявить активность" wide onClose={() => setPublishing(false)}><PublicationForm organizer={role === 'teacher' ? schoolView.school : schoolView.organization.name} ownerId={role === 'teacher' ? schoolView.teacher.id : schoolView.organization.id} authorRole={role} onPublish={publish} /></DemoModal>}
+    {selected && <DemoModal title="Об активности" wide onClose={() => setSelected(null)}><img className="public-detail-image" src={selected.image} alt="" /><div className="public-detail"><p>{selected.organizer}</p><h2>{selected.title}</h2><div className="public-event-meta"><span><CalendarDays size={21} />{dateLabel(selected.date)} · {selected.time}</span><span><MapPin size={21} />{selected.venue}</span></div><p>{selected.description}</p><h3>Программа</h3><p>{selected.details}</p>{role === 'student' && !isPast(selected) && <button className={`button full-width ${studentParticipation.includes(selected.id) ? 'joined-button' : 'primary'}`} aria-pressed={studentParticipation.includes(selected.id)} onClick={() => syncStudentParticipation(studentParticipation.includes(selected.id) ? studentParticipation.filter(id => id !== selected.id) : [...studentParticipation, selected.id])}>{studentParticipation.includes(selected.id) ? 'Участвую · отменить' : 'Участвовать'}</button>}{role === 'guest' && !isPast(selected) && <button className="button primary full-width" onClick={() => { setSelected(null); beginRegistration('student', selected.id); }}>Создать профиль и участвовать</button>}</div></DemoModal>}
+    {toast && <div className="toast" role="status"><span><Check size={17} /></span>{toast}<button aria-label="Закрыть сообщение" onClick={() => setToast('')}><X size={20} /></button></div>}
   </div>;
 }
