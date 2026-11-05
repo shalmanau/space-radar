@@ -1,3 +1,4 @@
+import OrbitMark from './components/OrbitMark';
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Code2, Compass, FlaskConical, Leaf, Palette, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
@@ -16,7 +17,6 @@ const categories = ['Все направления', 'Технологии', 'Т
 const interestIcons = [Code2, Palette, FlaskConical, Leaf];
 function dateMonth(date: string) { return new Date(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 1, 1); }
 function firstParticipationMonth(events: Opportunity[], ids: string[]) { const own = events.filter(event => ids.includes(event.id)).sort((a, b) => a.date.localeCompare(b.date)); return dateMonth(own.find(event => !isPast(event))?.date || own.at(-1)?.date || TODAY); }
-function Star() { return <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 62 32 92 15 74 44 100 50 74 59 90 89 60 73 50 100 40 73 10 89 26 59 0 50 27 40 10 12 40 29Z" /></svg>; }
 function Modal({ title, children, onClose, wide = false }: { title: string; children: ReactNode; onClose: () => void; wide?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => { ref.current!.showModal(); const old = document.body.style.overflow; document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = old; }; }, []);
@@ -83,7 +83,7 @@ export default function StudentApp({ onApply, school, enrollments, sharedEvents,
   return <div className="app-shell">
     {mobileNav && <button className="nav-backdrop" onClick={() => setMobileNav(false)} aria-label="Закрыть меню" />}
     <header className="site-header">
-      <button className="brand" onClick={() => navigate('catalog')} aria-label="ВнеКласса — на главную"><span className="brand-mark"><Star /></span>ВнеКласса</button>
+      <button className="brand" onClick={() => navigate('catalog')} aria-label="ВнеКласса — на главную"><span className="brand-mark"><OrbitMark /></span>ВнеКласса</button>
       <nav className={`site-nav ${mobileNav ? 'open' : ''}`} aria-label="Основная навигация">{nav.map(({ id, label }) => <button className={`nav-item ${page === id ? 'active' : ''}`} key={id} onClick={() => navigate(id)} aria-current={page === id ? 'page' : undefined}>{label}</button>)}<div className="nav-utilities"><button className="nav-item" onClick={() => { setMobileNav(false); setHelp(true); }}>Справка</button><button className="nav-item nav-notifications" onClick={() => { setMobileNav(false); setNotificationsOpen(true); }}>Уведомления</button></div></nav>
       <div className="header-actions"><div className="notification-wrap"><button className="notification-button icon-button" aria-label="Уведомления" aria-expanded={notificationsOpen} onClick={() => setNotificationsOpen(!notificationsOpen)}><Bell size={24} />{!noticesRead && <span className="notification-dot" />}</button>{notificationsOpen && <><button className="popover-backdrop" onClick={() => setNotificationsOpen(false)} aria-label="Закрыть уведомления" /><section className="notification-popover"><div className="popover-title"><h3>Уведомления</h3><button className="icon-button" aria-label="Закрыть панель уведомлений" onClick={() => setNotificationsOpen(false)}><X size={23} /></button></div>{notices.map(notice => <div className="notice" key={notice.id}><span className={`notice-dot ${noticesRead ? 'read' : ''}`} /><div><strong>{notice.title}</strong><p>{notice.text}</p><small>{notice.time}</small></div></div>)}<button className="text-button full-width notice-read" aria-label="Отметить все прочитанными" onClick={() => void onReadNotices()}><CheckCheck size={22} />Прочитать всё</button></section></>}</div><button className="icon-button header-help" onClick={() => setHelp(true)} aria-label="Справка"><CircleHelp size={24} /></button><button className="account-button" onClick={() => navigate('profile')} aria-label="Открыть профиль"><Avatar photo={profile.photo} initials={profile.initials} className="header-avatar" /></button><button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label="Открыть меню" aria-expanded={mobileNav}><Menu size={25} /></button></div>
     </header>

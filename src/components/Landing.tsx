@@ -24,7 +24,7 @@ export default function Landing({ events, onRegister, onExplore, onChooseRole }:
           </div>
         </div>
         <div className="landing-hero-visual">
-          <img src="/images/hackathon.jpg" alt="Участники работают над проектом на хакатоне" />
+          <img src="/images/orbit-world.svg" alt="Планета с орбитами и звёздами" width="640" height="520" fetchPriority="high" />
         </div>
       </section>
 

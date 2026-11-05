@@ -1,37 +1,42 @@
-.landing-page{max-width:1480px;margin:0 auto;padding:64px 48px 90px;color:#171817}
+.landing-page{max-width:1480px;margin:0 auto;padding:64px 48px 90px;color:#182331}
 .landing-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(420px,.94fr);align-items:center;gap:64px;margin-bottom:104px}
 .landing-hero-copy{max-width:680px}
 .landing-hero h1{max-width:720px;margin:0 0 22px;font-size:clamp(48px,5vw,68px);line-height:1.02;letter-spacing:-2.8px;font-weight:700}
 .landing-hero h1 span{background-image:url('/images/marker-stroke.svg');background-repeat:no-repeat;background-position:left bottom;background-size:100% .32em;padding:0 .035em .02em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-.landing-lead{max-width:570px;font-size:20px;line-height:1.55;color:#50534b}
+.landing-lead{max-width:570px;font-size:20px;line-height:1.55;color:#596676}
 .landing-hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .landing-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:14px 23px;border:2px solid transparent;border-radius:999px;font:inherit;font-size:17px;font-weight:600;line-height:1.3;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
-.landing-button-dark{background:#171817;color:#fff}
-.landing-button-dark:hover{background:#383b32}
-.landing-button-outline{background:#fff;color:#171817;border-color:#a5a79d}
-.landing-button-outline:hover{background:#f4f6ed;border-color:#171817}
+.landing-button-dark{background:#182331;color:#fff}
+.landing-button-dark:hover{background:#344459}
+.landing-button-outline{background:#fff;color:#182331;border-color:#a5afbc}
+.landing-button-outline:hover{background:#f2f5f8;border-color:#182331}
 .landing-page button:focus-visible{outline:3px solid #8da72f;outline-offset:4px}
 .landing-hero-visual{position:relative;min-width:0}
-.landing-hero-visual img{display:block;width:100%;height:500px;object-fit:cover;border-radius:28px;background:#f4f5ef}
+.landing-hero-visual img{display:block;width:100%;height:auto;aspect-ratio:640/520;object-fit:cover;border-radius:28px;background:#101c30}
 .landing-upcoming{margin-bottom:108px}
 .landing-section-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:27px}
 .landing-section-heading h2,.landing-final-cta h2{margin-top:0;font-size:42px;line-height:1.12;letter-spacing:-1.4px;font-weight:700}
-.landing-link-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:10px 17px;border:2px solid #a5a79d;border-radius:999px;background:#fff;font-size:16px;font-weight:500;white-space:nowrap;cursor:pointer}
+.landing-link-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:10px 17px;border:2px solid #a5afbc;border-radius:999px;background:#fff;font-size:16px;font-weight:500;white-space:nowrap;cursor:pointer}
 .landing-link-button:hover{background:#d2f76a;border-color:#d2f76a}
-.landing-event-list{border-top:2px solid #d7d9cf}
-.landing-event{display:grid;grid-template-columns:180px minmax(0,1fr) 42px;align-items:center;gap:24px;padding:23px 4px;border-bottom:2px solid #d7d9cf}
+.landing-event-list{border-top:2px solid #dce1e8}
+.landing-event{display:grid;grid-template-columns:180px minmax(0,1fr) 42px;align-items:center;gap:24px;padding:23px 4px;border-bottom:2px solid #dce1e8}
 .landing-event-date{font-size:17px;font-weight:600;white-space:nowrap}
 .landing-event h3{margin-top:0;font-size:21px;line-height:1.35;font-weight:600;letter-spacing:-.3px}
-.landing-event-arrow{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#f1f3e9;font-size:20px}
+.landing-event-arrow{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#f0f3f7;font-size:20px}
 .landing-role-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.landing-role-card{display:flex;flex-direction:column;align-items:flex-start;min-height:250px;padding:26px 27px;border:2px solid #d7d9cf;border-radius:22px;background:#fff}
+.landing-role-card{display:flex;flex-direction:column;align-items:flex-start;min-height:250px;padding:26px 27px;border:2px solid #dce1e8;border-radius:22px;background:#fff}
 .landing-role-card h3{margin-top:0;font-size:27px;line-height:1.2;font-weight:600;letter-spacing:-.7px}
-.landing-role-card p{margin-top:12px;font-size:18px;line-height:1.55;color:#50534b}
+.landing-role-card p{margin-top:12px;font-size:18px;line-height:1.55;color:#596676}
 .landing-role-action{display:inline-flex;align-items:center;gap:9px;margin-top:auto;padding:22px 0 0;background:transparent;border:0;font-size:16px;font-weight:600;text-align:left;cursor:pointer}
 .landing-role-action span{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#d2f76a;font-size:18px;transition:transform .15s}
 .landing-role-action:hover span{transform:translate(2px,-2px)}
-.landing-final-cta{display:flex;align-items:center;justify-content:space-between;gap:26px;margin-top:108px;padding:38px 42px;border-radius:26px;background:#d2f76a}
+.landing-final-cta{display:flex;align-items:center;justify-content:space-between;gap:26px;margin-top:108px;padding:38px 42px;border:2px solid transparent;border-radius:26px;background:#101c30 url('/images/orbit-lines.svg') no-repeat 55% center / 500px 300px;color:#eef3fa}
 .landing-final-cta .landing-button{flex:none}
-@media(max-width:1000px){.landing-page{padding:48px 32px 72px}.landing-hero{grid-template-columns:minmax(0,1fr) minmax(330px,.85fr);gap:36px;margin-bottom:82px}.landing-hero h1{font-size:clamp(46px,6vw,60px)}.landing-hero-visual img{height:430px}.landing-role-card{padding:24px;min-height:270px}.landing-section-heading h2,.landing-final-cta h2{font-size:37px}}
-@media(max-width:700px){.landing-page{padding:36px 20px 56px}.landing-hero{grid-template-columns:1fr;gap:30px;margin-bottom:72px}.landing-hero-copy{max-width:none}.landing-hero h1{max-width:560px;margin:0 0 16px;font-size:clamp(40px,10vw,52px);line-height:1.04;letter-spacing:-1.8px}.landing-lead{font-size:18px;line-height:1.55}.landing-hero-actions{gap:10px;margin-top:25px}.landing-button{min-height:52px;padding:13px 18px;font-size:16px}.landing-hero-visual img{height:320px;border-radius:22px}.landing-upcoming{margin-bottom:76px}.landing-section-heading{align-items:flex-start;flex-direction:column;gap:17px;margin-bottom:20px}.landing-section-heading h2,.landing-final-cta h2{font-size:34px;letter-spacing:-1px}.landing-link-button{min-height:46px;font-size:16px}.landing-event{grid-template-columns:1fr 34px;gap:6px 12px;padding:19px 0}.landing-event-date{grid-column:1;font-size:16px}.landing-event>div{grid-column:1;grid-row:2}.landing-event h3{font-size:19px;line-height:1.35}.landing-event-arrow{grid-column:2;grid-row:1 / span 2;width:34px;height:34px;font-size:18px}.landing-role-grid{grid-template-columns:1fr;gap:13px}.landing-role-card{min-height:0;padding:23px;border-radius:19px}.landing-role-card h3{margin-top:0;font-size:25px}.landing-role-card p{font-size:18px}.landing-role-action{padding-top:18px;min-height:48px}.landing-final-cta{align-items:flex-start;flex-direction:column;margin-top:76px;padding:27px 23px;border-radius:22px;gap:22px}.landing-final-cta h2{font-size:32px}}
+@media(max-width:1000px){.landing-page{padding:48px 32px 72px}.landing-hero{grid-template-columns:minmax(0,1fr) minmax(330px,.85fr);gap:36px;margin-bottom:82px}.landing-hero h1{font-size:clamp(46px,6vw,60px)}.landing-hero-visual img{height:auto;min-height:360px}.landing-role-card{padding:24px;min-height:270px}.landing-section-heading h2,.landing-final-cta h2{font-size:37px}}
+@media(max-width:700px){.landing-page{padding:36px 20px 56px}.landing-hero{grid-template-columns:1fr;gap:30px;margin-bottom:72px}.landing-hero-copy{max-width:none}.landing-hero h1{max-width:560px;margin:0 0 16px;font-size:clamp(40px,10vw,52px);line-height:1.04;letter-spacing:-1.8px}.landing-lead{font-size:18px;line-height:1.55}.landing-hero-actions{gap:10px;margin-top:25px}.landing-button{min-height:52px;padding:13px 18px;font-size:16px}.landing-hero-visual img{height:auto;min-height:0;border-radius:22px}.landing-upcoming{margin-bottom:76px}.landing-section-heading{align-items:flex-start;flex-direction:column;gap:17px;margin-bottom:20px}.landing-section-heading h2,.landing-final-cta h2{font-size:34px;letter-spacing:-1px}.landing-link-button{min-height:46px;font-size:16px}.landing-event{grid-template-columns:1fr 34px;gap:6px 12px;padding:19px 0}.landing-event-date{grid-column:1;font-size:16px}.landing-event>div{grid-column:1;grid-row:2}.landing-event h3{font-size:19px;line-height:1.35}.landing-event-arrow{grid-column:2;grid-row:1 / span 2;width:34px;height:34px;font-size:18px}.landing-role-grid{grid-template-columns:1fr;gap:13px}.landing-role-card{min-height:0;padding:23px;border-radius:19px}.landing-role-card h3{margin-top:0;font-size:25px}.landing-role-card p{font-size:18px}.landing-role-action{padding-top:18px;min-height:48px}.landing-final-cta{align-items:flex-start;flex-direction:column;margin-top:76px;padding:27px 23px;border-radius:22px;gap:22px}.landing-final-cta h2{font-size:32px}}
 @media(prefers-reduced-motion:reduce){.landing-page *{transition:none!important}}
+
+.landing-final-cta .landing-button-dark{background:#d2f76a;color:#182331;border-color:#d2f76a}
+.landing-final-cta .landing-button-dark:hover{background:#bfe452;border-color:#bfe452}
+.landing-final-cta h2{position:relative}
+@media(max-width:700px){.landing-final-cta{background-position:120% center;background-size:400px 240px}}

@@ -1,3 +1,4 @@
+import OrbitMark from './components/OrbitMark';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowRight, CalendarDays, Check, MapPin, X } from 'lucide-react';
@@ -23,7 +24,7 @@ import { cacheData, loadData, save, savedMessage, withAccount } from './api';
 import type { AppData } from './api';
 import './roles.css';
 
-function Logo({ onClick }: { onClick: () => void }) { return <button className="brand" onClick={onClick} aria-label="ВнеКласса — на главную"><span className="brand-mark"><svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 62 32 92 15 74 44 100 50 74 59 90 89 60 73 50 100 40 73 10 89 26 59 0 50 27 40 10 12 40 29Z" /></svg></span>ВнеКласса</button>; }
+function Logo({ onClick }: { onClick: () => void }) { return <button className="brand" onClick={onClick} aria-label="ВнеКласса — на главную"><span className="brand-mark"><OrbitMark /></span>ВнеКласса</button>; }
 
 type PhotoTarget = { role: Exclude<Role, 'guest'>; id: string; name: string; initials: string; photo?: string | null };
 

@@ -1,7 +1,7 @@
 :root{color-scheme:light}
-.theme-toggle{position:fixed;right:24px;bottom:24px;z-index:129;display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:13px 18px;border:2px solid #c5cbb9;border-radius:999px;background:#fff;color:#171817;font-size:16px;box-shadow:0 6px 28px #0002}
-.theme-toggle:hover{background:#f1f6e5}
-:root[data-theme=dark]{color-scheme:dark;--ink:#f1f4e9;--accent:#d2f76a;--line:#394131;--muted:#b2bcaa;--surface:#22271f;--panel:#191d17;--canvas:#101310;background:var(--canvas);color:var(--ink)}
+.theme-toggle{position:fixed;right:24px;bottom:24px;z-index:129;display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:13px 18px;border:2px solid #c4cdd9;border-radius:999px;background:#fff;color:#182331;font-size:16px;box-shadow:0 6px 28px #0002}
+.theme-toggle:hover{background:#f0f4f8}
+:root[data-theme=dark]{color-scheme:dark;--ink:#eef3fa;--accent:#d2f76a;--line:#334359;--muted:#b0bdd0;--surface:#1b2a40;--panel:#142238;--canvas:#0b1525;background:var(--canvas);color:var(--ink)}
 [data-theme=dark] body{background:var(--canvas);color:var(--ink)}
 [data-theme=dark] .staff-workspace{--staff-ink:var(--ink);--staff-line:var(--line);--staff-muted:var(--muted)}
 /* Surfaces shared by the student, teacher and organization workspaces. */
@@ -9,32 +9,32 @@
 [data-theme=dark] :is(.search-field,.sort-select,.filter-panel,.category-tabs button,.staff-tabs button,.staff-role-pill,.staff-count,.staff-participant-count,.staff-contacts,.staff-class-list button,.staff-access-note,.staff-portfolio-summary,.staff-filters,.student-interests,.message-history,.staff-message-list,.achievement-table thead,.event-people-table thead,.landing-event-arrow,.detail-skills>span,.detail-overline>span,.achievement-status,.staff-status,.staff-status.complete){background:var(--surface);color:var(--ink);border-color:var(--line)}
 [data-theme=dark] :is(.portfolio-profile,.inbox-contact,.message-composer,.staff-composer,.staff-thread-head,.staff-identity,.staff-student-info,.nav-utilities,.pupil-profile-identity,.pupil-olympiads li+li,.achievement-list,.achievement-table tbody th,.achievement-table td,.event-people-table-wrap,.event-people-table tbody tr+tr,.landing-event,.landing-event-list,.staff-table-wrap,.staff-table th,.staff-table td,.detail-venue,.detail-deadline){border-color:var(--line)}
 [data-theme=dark] :is(.landing-page,.landing-button-outline,.landing-link-button,.form-organizer strong,.event-people-table,.teacher-account-select,.mobile-teacher-choice){color:var(--ink)}
-[data-theme=dark] :is(.button.secondary,.text-button,.landing-button-outline,.landing-link-button){background:var(--panel);color:var(--ink);border-color:#6a765d}
-[data-theme=dark] :is(.button.secondary:hover,.text-button:hover,.landing-button-outline:hover,.landing-link-button:hover,.nav-item:hover,.role-switch-menu>button:hover,.staff-class-list button:hover,.staff-contacts>button:hover,.staff-table tbody tr:hover){background:#303a25;color:var(--ink);border-color:#859b62}
-[data-theme=dark] :is(.button.primary,.landing-button-dark){background:var(--accent);color:#171817;border-color:var(--accent)}
-[data-theme=dark] :is(.button.primary:hover,.landing-button-dark:hover){background:#bfe452;color:#171817;border-color:#bfe452}
-[data-theme=dark] :is(.category-tabs button.active,.staff-tabs button.active,.role-switch-menu>button[aria-pressed=true],.account-button,.button.joined-button,.participation-toggle.active,.participation-status,.image-badge,.interest-match,.interest-chips button.active,.staff-class-list button.active,.staff-contacts>button.active,.achievement-status.diploma){background:var(--accent);color:#171817;border-color:var(--accent)}
-[data-theme=dark] :is(.interest-chips button.active:hover,.participation-toggle.active:hover,.account-button:hover){background:#bfe452;color:#171817}
-[data-theme=dark] :is(.staff-class-list button.active small,.staff-contacts>button.active small){color:#3e501c}
-[data-theme=dark] .nav-item.active{background:#e9efde;color:#171817}
-[data-theme=dark] :is(.brand-mark,.large-avatar,.chat-avatar,.staff-avatar){background:#2d3820;color:var(--accent)}
-[data-theme=dark] :is(.role-switch-button,.toast){background:#20271b;color:var(--ink);border:2px solid #596847}
-[data-theme=dark] .role-demo-label,[data-theme=dark] .toast>span{background:var(--accent);color:#171817}
-[data-theme=dark] .theme-toggle{background:var(--panel);color:var(--ink);border-color:#596847}
-[data-theme=dark] .theme-toggle:hover{background:#303a25}
+[data-theme=dark] :is(.button.secondary,.text-button,.landing-button-outline,.landing-link-button){background:var(--panel);color:var(--ink);border-color:#667991}
+[data-theme=dark] :is(.button.secondary:hover,.text-button:hover,.landing-button-outline:hover,.landing-link-button:hover,.nav-item:hover,.role-switch-menu>button:hover,.staff-class-list button:hover,.staff-contacts>button:hover,.staff-table tbody tr:hover){background:#23364e;color:var(--ink);border-color:#8ba0ba}
+[data-theme=dark] :is(.button.primary,.landing-button-dark){background:var(--accent);color:#182331;border-color:var(--accent)}
+[data-theme=dark] :is(.button.primary:hover,.landing-button-dark:hover){background:#bfe452;color:#182331;border-color:#bfe452}
+[data-theme=dark] :is(.category-tabs button.active,.staff-tabs button.active,.role-switch-menu>button[aria-pressed=true],.account-button,.button.joined-button,.participation-toggle.active,.participation-status,.image-badge,.interest-match,.interest-chips button.active,.staff-class-list button.active,.staff-contacts>button.active,.achievement-status.diploma){background:var(--accent);color:#182331;border-color:var(--accent)}
+[data-theme=dark] :is(.interest-chips button.active:hover,.participation-toggle.active:hover,.account-button:hover){background:#bfe452;color:#182331}
+[data-theme=dark] :is(.staff-class-list button.active small,.staff-contacts>button.active small){color:#3f541f}
+[data-theme=dark] .nav-item.active{background:#e5edf7;color:#182331}
+[data-theme=dark] :is(.brand-mark,.large-avatar,.chat-avatar,.staff-avatar){background:#24374b;color:var(--accent)}
+[data-theme=dark] :is(.role-switch-button,.toast){background:#182a40;color:var(--ink);border:2px solid #536b86}
+[data-theme=dark] .role-demo-label,[data-theme=dark] .toast>span{background:var(--accent);color:#182331}
+[data-theme=dark] .theme-toggle{background:var(--panel);color:var(--ink);border-color:#536b86}
+[data-theme=dark] .theme-toggle:hover{background:#23364e}
 [data-theme=dark] .notification-dot{border-color:var(--panel);background:var(--accent)}
 [data-theme=dark] .page-intro h1>span:after{background:#506822}
-/* Secondary copy stays readable on the charcoal surfaces. */
+/* Secondary copy stays readable on the navy surfaces. */
 [data-theme=dark] :is(.card-meta,.card-meta svg,.portfolio-profile p,.empty-state p,.notice p,.notice small,.detail-overline,.detail-venue p,.detail-content>p,.detail-meta svg,.demo-caption,.detail-content>.demo-caption,.help-step p,.workspace-role-label,.guest-catalog-intro,.form-organizer,.public-detail>p,.inbox-contact p,.message-time,.event-people-heading h3>span,.event-people-empty,.event-registry-summary,.achievement-venue,.achievement-table thead th,.student-teacher-list button>span:last-child>span,.pupil-profile-identity p,.pupil-olympiads p,.staff-eyebrow,.staff-event-type,.staff-message>div,.staff-dialog-actions>span,.landing-eyebrow,.landing-lead,.landing-event-type,.landing-role-number,.landing-role-card p){color:var(--muted)}
 [data-theme=dark] :is(.detail-overline>span,.detail-skills>span){color:var(--muted)}
-[data-theme=dark] :is(.staff-link-button,.pupil-name-link){color:var(--ink);text-decoration-color:#859b62}
+[data-theme=dark] :is(.staff-link-button,.pupil-name-link){color:var(--ink);text-decoration-color:#8ba0ba}
 /* Native fields and menus also follow the active theme. */
-[data-theme=dark] :is(input,select,textarea){color:var(--ink);background:var(--panel);border-color:#6a765d;caret-color:var(--accent)}
+[data-theme=dark] :is(input,select,textarea){color:var(--ink);background:var(--panel);border-color:#667991;caret-color:var(--accent)}
 [data-theme=dark] :is(.search-field input,.sort-select select,.staff-search input,.event-people-search input){background:transparent;color:var(--ink)}
-[data-theme=dark] :is(.demo-form input,.demo-form select,.demo-form textarea,.filter-panel select,.staff-filters select,.staff-form-fields select,.staff-form-fields textarea,.staff-dialog-event-select select,.staff-composer textarea,.message-composer textarea,.teacher-account-select select,.mobile-teacher-choice select){background:var(--panel);color:var(--ink);border-color:#6a765d}
-[data-theme=dark] :is(input,textarea)::placeholder{color:#9eaa93}
+[data-theme=dark] :is(.demo-form input,.demo-form select,.demo-form textarea,.filter-panel select,.staff-filters select,.staff-form-fields select,.staff-form-fields textarea,.staff-dialog-event-select select,.staff-composer textarea,.message-composer textarea,.teacher-account-select select,.mobile-teacher-choice select){background:var(--panel);color:var(--ink);border-color:#667991}
+[data-theme=dark] :is(input,textarea)::placeholder{color:#9eafc5}
 [data-theme=dark] option{background:var(--panel);color:var(--ink)}
-[data-theme=dark] :is(.event-people-search,.staff-search){background:var(--panel);border-color:#6a765d;color:var(--muted)}
+[data-theme=dark] :is(.event-people-search,.staff-search){background:var(--panel);border-color:#667991;color:var(--muted)}
 [data-theme=dark] .form-error{background:#3d261d;color:#ffbf9e;border-color:#86513c}
 /* Calendars preserve lime event days and the square selection. */
 [data-theme=dark] .event-calendar.compact{background:var(--panel);border:2px solid var(--line);color:var(--ink)}
@@ -42,27 +42,27 @@
 [data-theme=dark] .compact .calendar-days{color:var(--muted)}
 [data-theme=dark] .compact .month-controls .icon-button{color:var(--ink)}
 [data-theme=dark] .event-calendar.compact .calendar-cell:not(.has-events):not(.selected-cell){color:var(--ink);background:transparent}
-[data-theme=dark] .event-calendar.compact .has-events{color:#171817;background:var(--accent);border-color:var(--accent)}
-[data-theme=dark] .event-calendar.compact .selected-cell{color:#171817!important;outline-color:#171817}
-[data-theme=dark] .event-calendar.compact .calendar-cell:not(.has-events).selected-cell{background:#e9efde!important}
-[data-theme=dark] .icon-button:hover{background:#384727;color:var(--ink)}
-/* Invitations, recommended events, and winner rows use a muted green tint. */
-[data-theme=dark] :is(.recommended-card,.date-filter,.staff-invite-event,.message-bubble.outgoing,.staff-message.outgoing,.student-teacher-list>button.active,.event-winner-row,.pupil-result){background:#29391e;color:var(--ink);border-color:#536c39}
-[data-theme=dark] .recommended-card{border-color:#718c3b}
+[data-theme=dark] .event-calendar.compact .has-events{color:#182331;background:var(--accent);border-color:var(--accent)}
+[data-theme=dark] .event-calendar.compact .selected-cell{color:#182331!important;outline-color:#182331}
+[data-theme=dark] .event-calendar.compact .calendar-cell:not(.has-events).selected-cell{background:#e5edf7!important}
+[data-theme=dark] .icon-button:hover{background:#2c405a;color:var(--ink)}
+/* Invitations, recommended events, and winner rows use a muted blue tint. */
+[data-theme=dark] :is(.recommended-card,.date-filter,.staff-invite-event,.message-bubble.outgoing,.staff-message.outgoing,.student-teacher-list>button.active,.event-winner-row,.pupil-result){background:#21364a;color:var(--ink);border-color:#42627c}
+[data-theme=dark] .recommended-card{border-color:#77955b}
 [data-theme=dark] .event-award{color:var(--accent)}
 [data-theme=dark] .message-bubble{background:var(--surface);border-color:var(--line);color:var(--ink)}
-[data-theme=dark] .message-bubble.outgoing{background:#29391e;border-color:#536c39}
+[data-theme=dark] .message-bubble.outgoing{background:#21364a;border-color:#42627c}
 [data-theme=dark] .staff-message.incoming{background:var(--surface)}
-[data-theme=dark] .message-event{background:#28331f;color:var(--ink);border-color:#607947}
-[data-theme=dark] .message-event:hover{background:#3c5028;color:var(--ink)}
-[data-theme=dark] .interest-selection{border-color:#82916f}
-[data-theme=dark] .active .interest-selection{background:#171817;color:var(--accent);border-color:#171817}
+[data-theme=dark] .message-event{background:#243a50;color:var(--ink);border-color:#536e8a}
+[data-theme=dark] .message-event:hover{background:#304b65;color:var(--ink)}
+[data-theme=dark] .interest-selection{border-color:#8299b4}
+[data-theme=dark] .active .interest-selection{background:#182331;color:var(--accent);border-color:#182331}
 /* Landing accents keep dark text against the original lime. */
 [data-theme=dark] .landing-hero h1 span{background-image:url('/images/marker-stroke-dark.svg')}
-[data-theme=dark] .landing-final-cta{background:#29391e;border:2px solid #536c39;color:var(--ink)}
+[data-theme=dark] .landing-final-cta{background-color:#142238;border-color:var(--line);color:var(--ink)}
 [data-theme=dark] .landing-final-cta .landing-eyebrow{color:var(--muted)}
-[data-theme=dark] :is(.landing-image-caption>span:last-child,.landing-role-action span){background:var(--accent);color:#171817}
-[data-theme=dark] ::selection{background:var(--accent);color:#171817}
+[data-theme=dark] :is(.landing-image-caption>span:last-child,.landing-role-action span){background:var(--accent);color:#182331}
+[data-theme=dark] ::selection{background:var(--accent);color:#182331}
 @media(max-width:1150px){[data-theme=dark] .student-area .site-nav.open{background:var(--panel);border-color:var(--line)}}
 @media(max-width:900px){[data-theme=dark] .site-nav.open{background:var(--panel);border-color:var(--line)}}
 @media(max-width:600px){.theme-toggle{right:16px;bottom:16px;width:52px;min-height:52px;padding:0}.theme-toggle>span{display:none}}
@@ -71,13 +71,17 @@
 
 .theme-control{position:fixed;right:24px;bottom:24px;z-index:129}
 .theme-control .theme-toggle{position:static}
-.theme-menu{position:absolute;right:0;bottom:68px;width:280px;max-width:calc(100vw - 32px);padding:16px;border:2px solid #c5cbb9;border-radius:22px;background:#fff;color:#171817;box-shadow:0 12px 45px #0003}
+.theme-menu{position:absolute;right:0;bottom:68px;width:280px;max-width:calc(100vw - 32px);padding:16px;border:2px solid #c4cdd9;border-radius:22px;background:#fff;color:#182331;box-shadow:0 12px 45px #0003}
 .theme-menu h2{font-size:20px;font-weight:600;padding:6px 10px 15px}
 .theme-menu>button{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:12px;border-radius:12px;font-size:17px;text-align:left}
 .theme-menu>button>span{flex:1}
-.theme-menu>button:hover{background:#f1f6e5}
-.theme-menu>button[aria-pressed=true]{background:#d2f76a;color:#171817}
-[data-theme=dark] .theme-menu{background:var(--panel);color:var(--ink);border-color:#596847}
-[data-theme=dark] .theme-menu>button:hover{background:#303a25}
-[data-theme=dark] .theme-menu>button[aria-pressed=true]{background:var(--accent);color:#171817}
+.theme-menu>button:hover{background:#f0f4f8}
+.theme-menu>button[aria-pressed=true]{background:#d2f76a;color:#182331}
+[data-theme=dark] .theme-menu{background:var(--panel);color:var(--ink);border-color:#536b86}
+[data-theme=dark] .theme-menu>button:hover{background:#23364e}
+[data-theme=dark] .theme-menu>button[aria-pressed=true]{background:var(--accent);color:#182331}
 @media(max-width:600px){.theme-control{right:16px;bottom:16px}.theme-menu{bottom:66px}}
+
+/* The orbital mark uses the same quiet night sky in every role. */
+.brand-mark{--brand-sky:#182331}
+[data-theme=dark] .brand-mark{--brand-sky:#24374b}

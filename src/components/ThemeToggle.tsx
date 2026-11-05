@@ -22,7 +22,7 @@ export default function ThemeToggle() {
     const theme = mode === 'system' ? (systemDark ? 'dark' : 'light') : mode;
     document.documentElement.dataset.theme = theme;
     document.documentElement.dataset.themeMode = mode;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#101310' : '#d2f76a');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0b1525' : '#ffffff');
     try { localStorage.setItem('vneklassa-theme-mode', mode); } catch { /* The current tab can still change its theme. */ }
   }, [mode, systemDark]);
   useEffect(() => {
