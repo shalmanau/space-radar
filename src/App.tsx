@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowRight, CalendarDays, Check, MapPin, X } from 'lucide-react';
 import StudentApp from './StudentApp';
+import Avatar from './components/Avatar';
+import PhotoEditor from './components/PhotoEditor';
 import ThemeToggle from './components/ThemeToggle';
 import Landing from './components/Landing';
 import RoleSwitcher from './components/RoleSwitcher';
@@ -19,10 +21,11 @@ import { dateLabel, isPast } from './types';
 import type { DemoAccount, Enrollment, Message, Role } from './roleTypes';
 import { cacheData, loadData, save, savedMessage, withAccount } from './api';
 import type { AppData } from './api';
-import { roleLabels } from './roleTypes';
 import './roles.css';
 
 function Logo({ onClick }: { onClick: () => void }) { return <button className="brand" onClick={onClick} aria-label="ВнеКласса — на главную"><span className="brand-mark"><svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 62 32 92 15 74 44 100 50 74 59 90 89 60 73 50 100 40 73 10 89 26 59 0 50 27 40 10 12 40 29Z" /></svg></span>ВнеКласса</button>; }
+
+type PhotoTarget = { role: Exclude<Role, 'guest'>; id: string; name: string; initials: string; photo?: string | null };
 
 export default function App() {
   const [role, setRole] = useState<Role>('guest');
@@ -30,6 +33,7 @@ export default function App() {
   const [activeOrganizationId, setActiveOrganizationId] = useState('org-1');
   const [guestPage, setGuestPage] = useState<'landing' | 'catalog'>('landing');
   const [dataset, setDataset] = useState<AppData | null>(null);
+  const [photoTarget, setPhotoTarget] = useState<PhotoTarget | null>(null);
   const [registration, setRegistration] = useState<Exclude<Role, 'guest'> | null>(null);
   const [registrationError, setRegistrationError] = useState('');
   const [mutationError, setMutationError] = useState('');
@@ -59,7 +63,7 @@ export default function App() {
     const organization = school.organizations.find(item => item.id === activeOrganizationId) || school.organizations[0];
     return { ...school, teacher, organization, classes: school.classes.map(group => ({ ...group, portfolioAccess: group.curatorId === teacher.id, curatorName: school.teachers.find(person => person.id === group.curatorId)?.name || group.curatorName })) };
   }, [school, activeTeacherId, activeOrganizationId]);
-  const changeRole = (next: Role) => { setRole(next); setRegistration(null); setPendingEventId(null); setPublishing(false); setSelected(null); setApplicationEventId(null); setToast(''); setMutationError(''); if (next === 'guest') setGuestPage('landing'); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const changeRole = (next: Role) => { setRole(next); setRegistration(null); setPendingEventId(null); setPublishing(false); setSelected(null); setApplicationEventId(null); setToast(''); setMutationError(''); setPhotoTarget(null); if (next === 'guest') setGuestPage('landing'); window.scrollTo({ top: 0, behavior: 'smooth' }); };
   const beginRegistration = (next: Exclude<Role, 'guest'> = 'student', eventId?: string) => { setPendingEventId(eventId || null); setRegistration(next); setRegistrationError(''); };
   const register = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); if (busy || !registration) return;
@@ -136,15 +140,33 @@ export default function App() {
       setDataset(previous => previous ? { ...previous, noticesRead: result.value.read } : previous);
     } catch (error) { setToast(error instanceof Error ? error.message : 'Не удалось обновить уведомления'); }
   };
+  const updatePhoto = async (photo: string | null) => {
+    if (!photoTarget) return;
+    const target = photoTarget;
+    const result = await save(`/photos/${target.role}/${encodeURIComponent(target.id)}`, 'PATCH', { photo }, { photo });
+    setDataset(previous => previous ? { ...previous,
+      profile: target.role === 'student' && target.id === 'sasha' ? { ...previous.profile, photo: result.value.photo } : previous.profile,
+      school: { ...previous.school,
+        students: previous.school.students.map(item => target.role === 'student' && item.id === target.id ? { ...item, photo: result.value.photo } : item),
+        teachers: previous.school.teachers.map(item => target.role === 'teacher' && item.id === target.id ? { ...item, photo: result.value.photo } : item),
+        organizations: previous.school.organizations.map(item => target.role === 'organization' && item.id === target.id ? { ...item, photo: result.value.photo } : item),
+      },
+    } : previous);
+    setToast(savedMessage(photo ? 'Фото обновлено' : 'Фото удалено', result.local));
+  };
   const publicEvents = events.filter(event => !isPast(event) && `${event.title} ${event.venue}`.toLowerCase().includes(guestQuery.toLowerCase()));
 
   if (error) return <div className="loading-screen"><h1>Не удалось загрузить макет</h1><button className="button primary" onClick={() => location.reload()}>Повторить</button></div>;
   if (!schoolView || !dataset) return <div className="loading-screen" role="status"><p>Загрузка…</p></div>;
+  const staffPhotoTarget: PhotoTarget = role === 'teacher'
+    ? { role: 'teacher', id: schoolView.teacher.id, name: schoolView.teacher.name, initials: schoolView.teacher.name.split(' ').slice(0, 2).map(part => part[0]).join(''), photo: schoolView.teacher.photo }
+    : { role: 'organization', id: schoolView.organization.id, name: schoolView.organization.name, initials: schoolView.organization.name === 'ЭФ БГУ' ? 'ЭФ' : 'НБ', photo: schoolView.organization.photo };
   return <div className="role-app">
-    {role === 'student' ? <div className="student-area"><StudentApp onApply={requestApplication} school={schoolView} enrollments={enrollments} sharedEvents={events} participationIds={studentParticipation} onParticipationChange={syncStudentParticipation} profile={dataset.profile} notices={dataset.notices} noticesRead={dataset.noticesRead} onInterestsChange={updateInterests} onReadNotices={readNotices} messagesView={<StudentInbox messages={messages} events={events} teachers={schoolView.teachers} onSend={(teacherId, text) => sendMessage('sasha', text, 'student', teacherId)} onOpenEvent={setSelected} />} /></div> : <>
-      <header className="site-header role-header"><Logo onClick={() => { if (role === 'guest') { setGuestPage('landing'); window.scrollTo(0, 0); } else changeRole('guest'); }} />{role === 'guest' ? <><nav className="guest-nav" aria-label="Навигация гостя"><button onClick={() => { setGuestPage('landing'); window.scrollTo(0, 0); }}>О платформе</button><button onClick={() => { setGuestPage('catalog'); window.scrollTo(0, 0); }}>Активности</button></nav><button className="button primary guest-register" onClick={() => beginRegistration()}>Регистрация<ArrowRight size={20} /></button></> : <><span className="workspace-role-label">{role === 'teacher' ? 'Кабинет учителя' : 'Кабинет организации'}</span><button className="account-button staff-account" aria-label={roleLabels[role]}>{role === 'teacher' ? schoolView.teacher.name.split(' ').slice(0, 2).map(part => part[0]).join('') : schoolView.organization.name === 'ЭФ БГУ' ? 'ЭФ' : 'НБ'}</button></>}</header>
-      {role === 'guest' ? guestPage === 'landing' ? <Landing events={publicEvents} onRegister={() => beginRegistration()} onExplore={() => { setGuestPage('catalog'); window.scrollTo(0, 0); }} onChooseRole={beginRegistration} /> : <main className="guest-catalog"><div className="page-intro"><h1><span>Активности</span></h1></div><div className="search-field guest-search"><input aria-label="Поиск активностей" placeholder="Название или площадка" value={guestQuery} onChange={event => setGuestQuery(event.target.value)} /></div><div className="profile-events-grid">{publicEvents.map(event => <EventCard key={event.id} event={event} joined={false} onToggle={() => beginRegistration('student', event.id)} onSelect={setSelected} action={{ label: 'Участвовать', onClick: () => beginRegistration('student', event.id) }} />)}</div>{!publicEvents.length && <div className="empty-state"><p>События не найдены.</p></div>}</main> : <RoleWorkspace key={`${role}-${role === 'teacher' ? activeTeacherId : activeOrganizationId}`} role={role} events={events} school={schoolView} enrollments={enrollments} messages={messages} onTeacherChange={setActiveTeacherId} onOrganizationChange={setActiveOrganizationId} onPublish={() => { setMutationError(''); setPublishing(true); }} onSendMessage={(studentId, text, eventId) => sendMessage(studentId, text, 'teacher', schoolView.teacher.id, eventId)} onOpenEvent={setSelected} />}
+    {role === 'student' ? <div className="student-area"><StudentApp onApply={requestApplication} school={schoolView} enrollments={enrollments} sharedEvents={events} participationIds={studentParticipation} onParticipationChange={syncStudentParticipation} profile={dataset.profile} onEditPhoto={() => setPhotoTarget({ role: 'student', id: 'sasha', name: dataset.profile.fullName, initials: dataset.profile.initials, photo: dataset.profile.photo })} notices={dataset.notices} noticesRead={dataset.noticesRead} onInterestsChange={updateInterests} onReadNotices={readNotices} messagesView={<StudentInbox messages={messages} events={events} teachers={schoolView.teachers} onSend={(teacherId, text) => sendMessage('sasha', text, 'student', teacherId)} onOpenEvent={setSelected} />} /></div> : <>
+      <header className="site-header role-header"><Logo onClick={() => { if (role === 'guest') { setGuestPage('landing'); window.scrollTo(0, 0); } else changeRole('guest'); }} />{role === 'guest' ? <><nav className="guest-nav" aria-label="Навигация гостя"><button onClick={() => { setGuestPage('landing'); window.scrollTo(0, 0); }}>О платформе</button><button onClick={() => { setGuestPage('catalog'); window.scrollTo(0, 0); }}>Активности</button></nav><button className="button primary guest-register" onClick={() => beginRegistration()}>Регистрация<ArrowRight size={20} /></button></> : <><span className="workspace-role-label">{role === 'teacher' ? 'Кабинет учителя' : 'Кабинет организации'}</span><button className="account-button staff-account" aria-label="Изменить фото профиля" onClick={() => setPhotoTarget(staffPhotoTarget)}><Avatar className="header-avatar" photo={staffPhotoTarget.photo} initials={staffPhotoTarget.initials} /></button></>}</header>
+      {role === 'guest' ? guestPage === 'landing' ? <Landing events={publicEvents} onRegister={() => beginRegistration()} onExplore={() => { setGuestPage('catalog'); window.scrollTo(0, 0); }} onChooseRole={beginRegistration} /> : <main className="guest-catalog"><div className="page-intro"><h1><span>Активности</span></h1></div><div className="search-field guest-search"><input aria-label="Поиск активностей" placeholder="Название или площадка" value={guestQuery} onChange={event => setGuestQuery(event.target.value)} /></div><div className="profile-events-grid">{publicEvents.map(event => <EventCard key={event.id} event={event} joined={false} onToggle={() => beginRegistration('student', event.id)} onSelect={setSelected} action={{ label: 'Участвовать', onClick: () => beginRegistration('student', event.id) }} />)}</div>{!publicEvents.length && <div className="empty-state"><p>События не найдены.</p></div>}</main> : <RoleWorkspace key={`${role}-${role === 'teacher' ? activeTeacherId : activeOrganizationId}`} role={role} events={events} school={schoolView} enrollments={enrollments} messages={messages} onEditPhoto={() => setPhotoTarget(staffPhotoTarget)} onTeacherChange={setActiveTeacherId} onOrganizationChange={setActiveOrganizationId} onPublish={() => { setMutationError(''); setPublishing(true); }} onSendMessage={(studentId, text, eventId) => sendMessage(studentId, text, 'teacher', schoolView.teacher.id, eventId)} onOpenEvent={setSelected} />}
     </>}
+    {photoTarget && <PhotoEditor key={`${photoTarget.role}-${photoTarget.id}`} name={photoTarget.name} photo={photoTarget.photo} initials={photoTarget.initials} onClose={() => setPhotoTarget(null)} onSave={updatePhoto} />}
     <ThemeToggle />
     <RoleSwitcher role={role} onChange={changeRole} />
     {registration && <DemoModal title="Создать демо-профиль" onClose={() => setRegistration(null)}><form className="demo-form" onSubmit={register}><label>Роль<select aria-label="Роль при регистрации" value={registration} onChange={event => setRegistration(event.target.value as Exclude<Role, 'guest'>)}><option value="student">Школьник</option><option value="teacher">Учитель</option><option value="organization">Организация</option></select></label><label>{registration === 'organization' ? 'Название организации' : 'Имя и фамилия'}<>{registration === 'organization' ? <select name="name" required>{schoolView.organizations.map(organization => <option key={organization.id}>{organization.name}</option>)}</select> : <input name="name" autoComplete="name" placeholder="Александра Иванова" required maxLength={120} />}</></label><label>Электронная почта<input name="email" type="email" autoComplete="email" placeholder="name@example.by" required /></label>{registrationError && <p className="form-error" role="alert">{registrationError}</p>}<button className="button primary full-width" disabled={busy} type="submit">{busy ? 'Сохранение…' : 'Создать профиль'}<ArrowRight size={20} /></button></form></DemoModal>}

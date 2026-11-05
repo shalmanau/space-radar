@@ -1,0 +1,27 @@
+.profile-avatar{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.profile-avatar>img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.header-avatar{width:100%;height:100%;border-radius:50%}
+.avatar-edit{display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;padding:0;background:transparent}
+.avatar-edit-image{position:relative;display:block}
+.avatar-camera{position:absolute;bottom:0;right:-4px;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:2px solid var(--panel,#fff);background:var(--accent,#d2f76a);color:#171817}
+.avatar-edit-label{font-size:16px;font-weight:500;white-space:nowrap}
+.avatar-edit:hover .avatar-edit-label{text-decoration:underline;text-underline-offset:4px}
+.avatar-edit:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:12px}
+.staff-identity-main{display:flex;align-items:center;gap:24px;min-width:0;flex:1}
+.staff-identity-main .staff-identity-copy{flex:1}
+.photo-editor{display:flex;flex-direction:column;gap:20px}
+.photo-owner{font-size:20px;font-weight:500;text-align:center;line-height:1.4}
+.photo-crop{position:relative;width:min(100%,320px);aspect-ratio:1;margin:0 auto;overflow:hidden;border:2px solid var(--line);border-radius:20px;background:var(--surface,#f1f3e9);touch-action:none;isolation:isolate}
+.photo-crop.has-picture{cursor:grab}
+.photo-crop.has-picture:active{cursor:grabbing}
+.photo-crop:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.photo-crop>img{position:absolute;max-width:none;transform:translate(-50%,-50%);user-select:none;pointer-events:none}
+.photo-current{width:100%;height:100%;font-size:80px;background:var(--ink);color:var(--accent)}
+.photo-current>img{border-radius:0}
+.photo-crop-mask{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle closest-side,transparent calc(100% - 2px),#fff9 calc(100% - 1px),#0008 100%)}
+.photo-crop-help{font-size:16px;line-height:1.5;text-align:center;color:var(--muted,#626957)}
+.photo-zoom{display:flex;align-items:center;gap:20px;font-size:18px}
+.photo-zoom input{flex:1;min-width:0;accent-color:var(--ink);height:36px}
+.photo-editor-actions{display:flex;flex-wrap:wrap;gap:12px}
+.photo-editor-actions>.button{flex:1;min-height:52px;white-space:nowrap}
+@media(max-width:700px){.staff-identity-main{gap:17px;width:100%;align-items:flex-start}.staff-identity-main h1{font-size:34px;letter-spacing:-1px}.staff-identity-main .staff-identity-copy>p{font-size:16px}.photo-editor{gap:18px}.photo-editor-actions>.button{flex-basis:100%}.avatar-edit-label{font-size:16px}}

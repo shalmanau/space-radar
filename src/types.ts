@@ -27,6 +27,7 @@ export type Opportunity = {
   free: boolean;
 };
 export type Profile = {
+  photo?: string | null;
   name: string;
   fullName: string;
   birthYear: number;

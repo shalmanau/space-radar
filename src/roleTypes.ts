@@ -1,13 +1,13 @@
 import type { ApplicationField } from './types';
 import type { ApplicationAnswers } from './application';
 export type Role = 'guest' | 'student' | 'teacher' | 'organization';
-export type SchoolStudent = { id: string; name: string; classId: string; institution: string; birthYear: number; initials: string };
+export type SchoolStudent = { photo?: string | null; id: string; name: string; classId: string; institution: string; birthYear: number; initials: string };
 export type SchoolClass = { id: string; name: string; curatorName: string; portfolioAccess: boolean; curatorId: string };
 export type Enrollment = { id: string; studentId: string; eventId: string; registeredAt: string; application?: { profile: { name: string; birthYear: number; institution: string }; fields: ApplicationField[]; answers: ApplicationAnswers } };
 export type Message = { teacherId: string; id: string; studentId: string; sender: 'teacher' | 'student'; text: string; eventId?: string; createdAt: string };
 export type EventResult = { eventId: string; studentId: string; award: string };
-export type Teacher = { id: string; name: string; subject: string; institution: string };
-export type Organization = { id: string; name: string; region: string; country: string };
+export type Teacher = { photo?: string | null; id: string; name: string; subject: string; institution: string };
+export type Organization = { photo?: string | null; id: string; name: string; region: string; country: string };
 export type SchoolData = { id: string; region: string; country: string; organizations: Organization[]; teachers: Teacher[]; eventResults: EventResult[]; school: string; teacher: Teacher; organization: Organization; classes: SchoolClass[]; students: SchoolStudent[]; enrollments: Enrollment[]; messages: Message[] };
 export type DemoAccount = { name: string; email: string; role: Exclude<Role, 'guest'> };
 export const roleLabels: Record<Role, string> = { guest: 'Гость', student: 'Школьник', teacher: 'Учитель', organization: 'Организация' };
