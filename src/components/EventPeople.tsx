@@ -5,8 +5,8 @@ import type { Opportunity } from '../types';
 import { dateLabel, isPast } from '../types';
 import './eventPeople.css';
 
-type Props = { event: Opportunity; school: SchoolData; enrollments: Enrollment[]; registry?: boolean };
-export default function EventPeople({ event, school, enrollments, registry = false }: Props) {
+type Props = { event: Opportunity; school: SchoolData; enrollments: Enrollment[]; registry?: boolean; onOpenStudent?: (student: SchoolStudent) => void };
+export default function EventPeople({ event, school, enrollments, registry = false, onOpenStudent }: Props) {
   const [query, setQuery] = useState('');
   const completed = isPast(event);
   const className = (student: SchoolStudent) => school.classes.find(group => group.id === student.classId)?.name || '—';
@@ -27,7 +27,7 @@ export default function EventPeople({ event, school, enrollments, registry = fal
     {completed && <section aria-label="Победители"><div className="event-people-heading"><h3><Trophy size={23} />Победители</h3></div>{winners.length ? <ul className="event-winners">{winners.map(({ student, award }) => <li key={student.id}><div><strong>{student.name}</strong><p>{student.institution} · {className(student)}</p></div><span>{award}</span></li>)}</ul> : <p className="event-people-empty">{event.type === 'Акция' ? 'В этом событии победители не определяются.' : 'Победители пока не объявлены.'}</p>}</section>}
     <section aria-label="Участники"><div className="event-people-heading"><h3>Участники <span>{records.length}</span></h3>{registry && <button className="button secondary" onClick={exportCsv} disabled={!filtered.length}><ArrowDownToLine size={18} />Скачать CSV</button>}</div>
       {registry && <label className="event-people-search"><Search size={21} /><input aria-label="Поиск участников мероприятия" placeholder="Имя, класс или учреждение" value={query} onChange={e => setQuery(e.target.value)} /></label>}
-      {filtered.length ? <div className="event-people-table-wrap"><table className="event-people-table"><thead><tr><th scope="col">Ученик</th><th scope="col">Класс</th><th scope="col">Учреждение</th>{registry && <th scope="col">Статус</th>}</tr></thead><tbody>{filtered.map(({ student, award }) => <tr key={student.id}><th scope="row">{student.name}</th><td>{className(student)}</td><td>{student.institution}</td>{registry && <td><span className={award ? 'event-award' : ''}>{award || (completed ? 'Участвовал(а)' : 'Зарегистрирован(а)')}</span></td>}</tr>)}</tbody></table></div> : <p className="event-people-empty">{records.length ? 'Участники не найдены.' : 'Участников пока нет.'}</p>}
+      {filtered.length ? <div className="event-people-table-wrap"><table className="event-people-table"><thead><tr><th scope="col">Ученик</th><th scope="col">Класс</th><th scope="col">Учреждение</th>{registry && <th scope="col">Статус</th>}</tr></thead><tbody>{filtered.map(({ student, award }) => <tr key={student.id}><th scope="row">{onOpenStudent ? <button className="pupil-name-link" onClick={() => onOpenStudent(student)}>{student.name}</button> : student.name}</th><td>{className(student)}</td><td>{student.institution}</td>{registry && <td><span className={award ? 'event-award' : ''}>{award || (completed ? 'Участвовал(а)' : 'Зарегистрирован(а)')}</span></td>}</tr>)}</tbody></table></div> : <p className="event-people-empty">{records.length ? 'Участники не найдены.' : 'Участников пока нет.'}</p>}
     </section>
   </div>;
 }

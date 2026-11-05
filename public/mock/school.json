@@ -3,7 +3,8 @@
   "teacher": {
     "id": "teacher-1",
     "name": "Марина Соколова",
-    "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»"
+    "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»",
+    "institution": "Гимназия № 12"
   },
   "organization": {
     "id": "org-1",
@@ -14,19 +15,22 @@
       "id": "10a",
       "name": "10 «А»",
       "curatorName": "Марина Соколова",
-      "portfolioAccess": true
+      "portfolioAccess": true,
+      "curatorId": "teacher-1"
     },
     {
       "id": "10b",
       "name": "10 «Б»",
       "curatorName": "Андрей Ковалёв",
-      "portfolioAccess": false
+      "portfolioAccess": false,
+      "curatorId": "teacher-2"
     },
     {
       "id": "9a",
       "name": "9 «А»",
       "curatorName": "Марина Соколова",
-      "portfolioAccess": true
+      "portfolioAccess": true,
+      "curatorId": "teacher-1"
     }
   ],
   "students": [
@@ -220,6 +224,36 @@
       "studentId": "egor",
       "eventId": "code",
       "registeredAt": "2026-11-03T10:00:00"
+    },
+    {
+      "id": "olympiad-future-sasha",
+      "studentId": "sasha",
+      "eventId": "science",
+      "registeredAt": "2026-11-01T10:00:00"
+    },
+    {
+      "id": "olympiad-past-sasha",
+      "studentId": "sasha",
+      "eventId": "science-october",
+      "registeredAt": "2026-10-10T10:00:00"
+    },
+    {
+      "id": "olympiad-past-artem",
+      "studentId": "artem",
+      "eventId": "science-october",
+      "registeredAt": "2026-10-10T10:00:00"
+    },
+    {
+      "id": "olympiad-past-anna",
+      "studentId": "anna",
+      "eventId": "science-october",
+      "registeredAt": "2026-10-10T10:00:00"
+    },
+    {
+      "id": "olympiad-math-maxim",
+      "studentId": "maxim",
+      "eventId": "math-december",
+      "registeredAt": "2026-11-01T10:00:00"
     }
   ],
   "messages": [
@@ -229,7 +263,26 @@
       "sender": "teacher",
       "text": "Саша, посмотри школьный хакатон. Если понадобится помощь с выбором команды, напиши мне.",
       "eventId": "hackathon",
-      "createdAt": "2026-11-04T14:30:00"
+      "createdAt": "2026-11-04T14:30:00",
+      "teacherId": "teacher-1"
+    },
+    {
+      "id": "welcome-physics",
+      "teacherId": "teacher-2",
+      "studentId": "sasha",
+      "sender": "teacher",
+      "text": "Саша, приглашаю на олимпиаду по естественным наукам. Можем обсудить подготовку.",
+      "eventId": "science",
+      "createdAt": "2026-11-04T16:00:00"
+    },
+    {
+      "id": "welcome-computing",
+      "teacherId": "teacher-3",
+      "studentId": "sasha",
+      "sender": "teacher",
+      "text": "Саша, в ноябре пройдёт хакатон. Напиши, если нужна помощь с командой.",
+      "eventId": "hackathon",
+      "createdAt": "2026-11-04T17:00:00"
     }
   ],
   "eventResults": [
@@ -242,6 +295,31 @@
       "eventId": "school-hackathon",
       "studentId": "maxim",
       "award": "Диплом II степени"
+    },
+    {
+      "eventId": "science-october",
+      "studentId": "sasha",
+      "award": "Диплом II степени"
+    }
+  ],
+  "teachers": [
+    {
+      "id": "teacher-1",
+      "name": "Марина Соколова",
+      "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»",
+      "institution": "Гимназия № 12"
+    },
+    {
+      "id": "teacher-2",
+      "name": "Андрей Ковалёв",
+      "subject": "Учитель физики",
+      "institution": "Гимназия № 12"
+    },
+    {
+      "id": "teacher-3",
+      "name": "Елена Морозова",
+      "subject": "Учитель информатики",
+      "institution": "Гимназия № 12"
     }
   ]
 }
