@@ -71,7 +71,7 @@ export default function RoleWorkspace({ role, recommendationRequest, events, sch
     const event = events.find(item => item.id === recommendationRequest.eventId);
     if (event) {
       setDialogEvent(event); setInviteEventId(event.id); setDialog('invite');
-      setDraft(`${student.name.split(' ')[0]}, предлагаю принять участие в мероприятии «${event.title}». Оно подходит под твой интерес «${student.interests?.find(interest => matchesInterests(event, [interest])) || event.category}». Посмотри подробности — буду рада твоему участию!`);
+      setDraft(`${student.name.split(' ').at(-1)}, предлагаю принять участие в мероприятии «${event.title}». Оно подходит под твой интерес «${student.interests?.find(interest => matchesInterests(event, [interest])) || event.category}». Посмотри подробности — будет здорово, если присоединишься!`);
     } else {
       setPortfolioStudent(student); setDialog('student-profile');
     }

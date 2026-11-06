@@ -2,7 +2,7 @@
   "school": "Лицей БГУ",
   "teacher": {
     "id": "teacher-1",
-    "name": "Марина Соколова",
+    "name": "Виталий Кириленко",
     "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»",
     "institution": "Лицей БГУ"
   },
@@ -16,21 +16,21 @@
     {
       "id": "10a",
       "name": "10 «А»",
-      "curatorName": "Марина Соколова",
+      "curatorName": "Виталий Кириленко",
       "portfolioAccess": true,
       "curatorId": "teacher-1"
     },
     {
       "id": "10b",
       "name": "10 «Б»",
-      "curatorName": "Андрей Ковалёв",
+      "curatorName": "Алеся Дубодел",
       "portfolioAccess": false,
       "curatorId": "teacher-2"
     },
     {
       "id": "9a",
       "name": "9 «А»",
-      "curatorName": "Марина Соколова",
+      "curatorName": "Виталий Кириленко",
       "portfolioAccess": true,
       "curatorId": "teacher-1"
     }
@@ -38,17 +38,17 @@
   "students": [
     {
       "id": "sasha",
-      "name": "Александра Иванова",
+      "name": "Шалманов Максим",
       "classId": "10a",
-      "initials": "АИ",
+      "initials": "ШМ",
       "institution": "Лицей БГУ",
       "birthYear": 2009
     },
     {
       "id": "maxim",
-      "name": "Максим Петров",
+      "name": "Юркевич Мария",
       "classId": "10a",
-      "initials": "МП",
+      "initials": "ЮМ",
       "institution": "Лицей БГУ",
       "birthYear": 2010,
       "interests": [
@@ -58,81 +58,21 @@
     },
     {
       "id": "daria",
-      "name": "Дарья Козлова",
+      "name": "Карачун Ульяна",
       "classId": "10a",
-      "initials": "ДК",
+      "initials": "КУ",
       "institution": "Лицей БГУ",
       "birthYear": 2010,
       "interests": [
         "Творчество",
         "Экология"
-      ]
-    },
-    {
-      "id": "artem",
-      "name": "Артём Новик",
-      "classId": "10b",
-      "initials": "АН",
-      "institution": "Лицей БГУ",
-      "birthYear": 2010,
-      "interests": [
-        "Наука",
-        "Технологии"
-      ]
-    },
-    {
-      "id": "anna",
-      "name": "Анна Волкова",
-      "classId": "10b",
-      "initials": "АВ",
-      "institution": "Лицей БГУ",
-      "birthYear": 2010,
-      "interests": [
-        "Творчество",
-        "Наука"
-      ]
-    },
-    {
-      "id": "nikita",
-      "name": "Никита Сидоров",
-      "classId": "9a",
-      "initials": "НС",
-      "institution": "Лицей БГУ",
-      "birthYear": 2011,
-      "interests": [
-        "Технологии",
-        "Экология"
-      ]
-    },
-    {
-      "id": "polina",
-      "name": "Полина Морозова",
-      "classId": "9a",
-      "initials": "ПМ",
-      "institution": "Лицей БГУ",
-      "birthYear": 2011,
-      "interests": [
-        "Экология",
-        "Творчество"
-      ]
-    },
-    {
-      "id": "alina",
-      "name": "Алина Орлова",
-      "classId": "10a",
-      "initials": "АО",
-      "institution": "Лицей БГУ",
-      "birthYear": 2010,
-      "interests": [
-        "Технологии",
-        "Творчество"
       ]
     },
     {
       "id": "egor",
-      "name": "Егор Климов",
+      "name": "Ларпенко Егор",
       "classId": "9a",
-      "initials": "ЕК",
+      "initials": "ЛЕ",
       "institution": "Лицей БГУ",
       "birthYear": 2011,
       "interests": [
@@ -149,7 +89,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Александра Иванова",
+          "name": "Шалманов Максим",
           "birthYear": 2009,
           "institution": "Лицей БГУ"
         },
@@ -164,7 +104,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Александра Иванова",
+          "name": "Шалманов Максим",
           "birthYear": 2009,
           "institution": "Лицей БГУ"
         },
@@ -189,7 +129,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Александра Иванова",
+          "name": "Шалманов Максим",
           "birthYear": 2009,
           "institution": "Лицей БГУ"
         },
@@ -214,7 +154,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Александра Иванова",
+          "name": "Шалманов Максим",
           "birthYear": 2009,
           "institution": "Лицей БГУ"
         },
@@ -229,7 +169,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Александра Иванова",
+          "name": "Шалманов Максим",
           "birthYear": 2009,
           "institution": "Лицей БГУ"
         },
@@ -254,7 +194,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Максим Петров",
+          "name": "Юркевич Мария",
           "birthYear": 2010,
           "institution": "Лицей БГУ"
         },
@@ -269,7 +209,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Максим Петров",
+          "name": "Юркевич Мария",
           "birthYear": 2010,
           "institution": "Лицей БГУ"
         },
@@ -294,7 +234,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Максим Петров",
+          "name": "Юркевич Мария",
           "birthYear": 2010,
           "institution": "Лицей БГУ"
         },
@@ -319,7 +259,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Дарья Козлова",
+          "name": "Карачун Ульяна",
           "birthYear": 2010,
           "institution": "Лицей БГУ"
         },
@@ -334,212 +274,12 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Дарья Козлова",
+          "name": "Карачун Ульяна",
           "birthYear": 2010,
           "institution": "Лицей БГУ"
         },
         "fields": [],
         "answers": {}
-      }
-    },
-    {
-      "id": "enrollment-10",
-      "studentId": "artem",
-      "eventId": "science",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Артём Новик",
-          "birthYear": 2010,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [],
-        "answers": {}
-      }
-    },
-    {
-      "id": "enrollment-11",
-      "studentId": "artem",
-      "eventId": "code",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Артём Новик",
-          "birthYear": 2010,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [
-          {
-            "id": "expectations",
-            "label": "Что ты хочешь узнать на мероприятии?",
-            "type": "textarea",
-            "minLength": 20,
-            "maxLength": 1000
-          }
-        ],
-        "answers": {
-          "expectations": "Хочу разобраться в теме, попробовать практические задания и применить новые знания в учебных проектах."
-        }
-      }
-    },
-    {
-      "id": "enrollment-12",
-      "studentId": "anna",
-      "eventId": "media",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Анна Волкова",
-          "birthYear": 2010,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [
-          {
-            "id": "expectations",
-            "label": "Что ты хочешь узнать на мероприятии?",
-            "type": "textarea",
-            "minLength": 20,
-            "maxLength": 1000
-          }
-        ],
-        "answers": {
-          "expectations": "Хочу разобраться в теме, попробовать практические задания и применить новые знания в учебных проектах."
-        }
-      }
-    },
-    {
-      "id": "enrollment-13",
-      "studentId": "anna",
-      "eventId": "science",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Анна Волкова",
-          "birthYear": 2010,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [],
-        "answers": {}
-      }
-    },
-    {
-      "id": "enrollment-14",
-      "studentId": "nikita",
-      "eventId": "science",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Никита Сидоров",
-          "birthYear": 2011,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [],
-        "answers": {}
-      }
-    },
-    {
-      "id": "enrollment-15",
-      "studentId": "nikita",
-      "eventId": "code",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Никита Сидоров",
-          "birthYear": 2011,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [
-          {
-            "id": "expectations",
-            "label": "Что ты хочешь узнать на мероприятии?",
-            "type": "textarea",
-            "minLength": 20,
-            "maxLength": 1000
-          }
-        ],
-        "answers": {
-          "expectations": "Хочу разобраться в теме, попробовать практические задания и применить новые знания в учебных проектах."
-        }
-      }
-    },
-    {
-      "id": "enrollment-16",
-      "studentId": "nikita",
-      "eventId": "school-hackathon",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Никита Сидоров",
-          "birthYear": 2011,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [
-          {
-            "id": "motivation",
-            "label": "Почему ты хочешь участвовать в хакатоне?",
-            "type": "textarea",
-            "minLength": 60,
-            "maxLength": 1500
-          }
-        ],
-        "answers": {
-          "motivation": "Хочу научиться работать в команде и создать полезный цифровой сервис для лицеистов. Готов заниматься разработкой и презентацией проекта."
-        }
-      }
-    },
-    {
-      "id": "enrollment-17",
-      "studentId": "polina",
-      "eventId": "eco",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Полина Морозова",
-          "birthYear": 2011,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [],
-        "answers": {}
-      }
-    },
-    {
-      "id": "enrollment-18",
-      "studentId": "polina",
-      "eventId": "clean-shore",
-      "registeredAt": "2026-11-01T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Полина Морозова",
-          "birthYear": 2011,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [],
-        "answers": {}
-      }
-    },
-    {
-      "id": "external-code-1",
-      "studentId": "alina",
-      "eventId": "code",
-      "registeredAt": "2026-11-02T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Алина Орлова",
-          "birthYear": 2010,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [
-          {
-            "id": "expectations",
-            "label": "Что ты хочешь узнать на мероприятии?",
-            "type": "textarea",
-            "minLength": 20,
-            "maxLength": 1000
-          }
-        ],
-        "answers": {
-          "expectations": "Хочу разобраться в теме, попробовать практические задания и применить новые знания в учебных проектах."
-        }
       }
     },
     {
@@ -549,7 +289,7 @@
       "registeredAt": "2026-11-03T10:00:00",
       "application": {
         "profile": {
-          "name": "Егор Климов",
+          "name": "Ларпенко Егор",
           "birthYear": 2011,
           "institution": "Лицей БГУ"
         },
@@ -574,7 +314,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Александра Иванова",
+          "name": "Шалманов Максим",
           "birthYear": 2009,
           "institution": "Лицей БГУ"
         },
@@ -589,38 +329,8 @@
       "registeredAt": "2026-10-10T10:00:00",
       "application": {
         "profile": {
-          "name": "Александра Иванова",
+          "name": "Шалманов Максим",
           "birthYear": 2009,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [],
-        "answers": {}
-      }
-    },
-    {
-      "id": "olympiad-past-artem",
-      "studentId": "artem",
-      "eventId": "science-october",
-      "registeredAt": "2026-10-10T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Артём Новик",
-          "birthYear": 2010,
-          "institution": "Лицей БГУ"
-        },
-        "fields": [],
-        "answers": {}
-      }
-    },
-    {
-      "id": "olympiad-past-anna",
-      "studentId": "anna",
-      "eventId": "science-october",
-      "registeredAt": "2026-10-10T10:00:00",
-      "application": {
-        "profile": {
-          "name": "Анна Волкова",
-          "birthYear": 2010,
           "institution": "Лицей БГУ"
         },
         "fields": [],
@@ -634,7 +344,7 @@
       "registeredAt": "2026-11-01T10:00:00",
       "application": {
         "profile": {
-          "name": "Максим Петров",
+          "name": "Юркевич Мария",
           "birthYear": 2010,
           "institution": "Лицей БГУ"
         },
@@ -643,35 +353,7 @@
       }
     }
   ],
-  "messages": [
-    {
-      "id": "welcome-1",
-      "studentId": "sasha",
-      "sender": "teacher",
-      "text": "Саша, посмотри школьный хакатон. Если понадобится помощь с выбором команды, напиши мне.",
-      "eventId": "hackathon",
-      "createdAt": "2026-11-04T14:30:00",
-      "teacherId": "teacher-1"
-    },
-    {
-      "id": "welcome-physics",
-      "teacherId": "teacher-2",
-      "studentId": "sasha",
-      "sender": "teacher",
-      "text": "Саша, приглашаю на олимпиаду по экономике. Можем обсудить подготовку.",
-      "eventId": "science",
-      "createdAt": "2026-11-04T16:00:00"
-    },
-    {
-      "id": "welcome-computing",
-      "teacherId": "teacher-3",
-      "studentId": "sasha",
-      "sender": "teacher",
-      "text": "Саша, в ноябре пройдёт хакатон. Напиши, если нужна помощь с командой.",
-      "eventId": "hackathon",
-      "createdAt": "2026-11-04T17:00:00"
-    }
-  ],
+  "messages": [],
   "eventResults": [
     {
       "eventId": "school-hackathon",
@@ -692,19 +374,19 @@
   "teachers": [
     {
       "id": "teacher-1",
-      "name": "Марина Соколова",
+      "name": "Виталий Кириленко",
       "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»",
       "institution": "Лицей БГУ"
     },
     {
       "id": "teacher-2",
-      "name": "Андрей Ковалёв",
+      "name": "Алеся Дубодел",
       "subject": "Учитель физики",
       "institution": "Лицей БГУ"
     },
     {
       "id": "teacher-3",
-      "name": "Елена Морозова",
+      "name": "Макар Хартон",
       "subject": "Учитель информатики",
       "institution": "Лицей БГУ"
     }

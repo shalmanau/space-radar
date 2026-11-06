@@ -1,9 +1,11 @@
+import { directoryRevision, migrateDirectory } from './directory';
 import { interestValues } from './interests';
 import type { Notice, Opportunity, Profile } from './types';
-import type { DemoAccount, Enrollment, Message, Role, SchoolData } from './roleTypes';
+import type { DemoAccount, Enrollment, Role, SchoolData } from './roleTypes';
 import { hostedApiBaseUrl } from './deployment';
 
 export type AppData = {
+  directoryRevision?: number;
   events: Opportunity[];
   school: SchoolData;
   profile: Profile;
@@ -72,6 +74,7 @@ export async function requestBackend<T>(path: string, method = 'GET', body?: unk
 }
 
 async function mockData(): Promise<AppData> {
+  try { localStorage.removeItem('vneklassa-messages-v1'); } catch { /* Storage may be disabled. */ }
   const cached = stored<unknown>(CACHE_KEY);
   if (isAppData(cached)) {
     // Fill only fields missing from older browser caches, preserving saved choices.
@@ -84,7 +87,7 @@ async function mockData(): Promise<AppData> {
         }
       } catch { /* Cached work remains available without a network. */ }
     }
-    return cached;
+    return migrateDirectory(cached);
   }
   const read = async <T,>(name: string): Promise<T> => {
     const response = await fetch(`/mock/${name}.json`);
@@ -99,13 +102,11 @@ async function mockData(): Promise<AppData> {
   if (Array.isArray(published)) events.push(...published.filter(event => event && typeof event.id === 'string' && !events.some(item => item.id === event.id)));
   const enrollments = stored<Enrollment[]>('vneklassa-enrollments-v1');
   if (Array.isArray(enrollments)) school.enrollments = enrollments.filter(item => item && events.some(event => event.id === item.eventId)).map(record => ({ ...record, application: record.application ?? school.enrollments.find(seed => seed.studentId === record.studentId && seed.eventId === record.eventId)?.application }));
-  const messages = stored<Message[]>('vneklassa-messages-v1');
-  if (Array.isArray(messages)) school.messages = messages.filter(item => item && typeof item.text === 'string').map(item => ({ ...item, teacherId: item.teacherId || school.teacher.id }));
   const interests = stored<string[]>('vneklassa-interests');
   if (Array.isArray(interests)) profile.interests = interests.filter(value => (interestValues as readonly string[]).includes(value));
-  let result: AppData = { events, school, profile, notices, noticesRead: stored('vneklassa-notices') === true, accounts: {} };
+  let result: AppData = { directoryRevision, events, school, profile, notices, noticesRead: stored('vneklassa-notices') === true, accounts: {} };
   const accounts = stored<AppData['accounts']>('vneklassa-demo-accounts-v1');
-  for (const role of ['student', 'teacher', 'organization'] as const) {
+  for (const role of ['organization'] as const) {
     const account = accounts?.[role];
     if (account && typeof account.name === 'string' && typeof account.email === 'string') result = withAccount(result, { ...account, role });
   }
@@ -118,7 +119,8 @@ export function loadData(): Promise<AppData> {
       const data = await request<AppData>('/bootstrap');
       if (!isAppData(data)) throw new Error('Несовместимый ответ API');
       source = 'api';
-      return data;
+      try { localStorage.removeItem('vneklassa-messages-v1'); } catch { /* Storage may be disabled. */ }
+      return { ...data, directoryRevision };
     } catch {
       source = 'mock';
       return mockData();
@@ -142,7 +144,7 @@ export async function save<T>(path: string, method: string, body: unknown, fallb
 export function withAccount(data: AppData, account: DemoAccount): AppData {
   const initials = account.name.split(' ').slice(0, 2).map(part => part[0]).join('').toUpperCase();
   return { ...data, accounts: { ...data.accounts, [account.role]: account },
-    profile: account.role === 'student' ? { ...data.profile, name: account.name.split(' ')[0], fullName: account.name, initials } : data.profile,
+    profile: account.role === 'student' ? { ...data.profile, name: account.name === 'Шалманов Максим' ? 'Максим' : account.name.split(' ')[0], fullName: account.name, initials } : data.profile,
     school: { ...data.school,
       students: data.school.students.map(student => account.role === 'student' && student.id === 'sasha' ? { ...student, name: account.name, initials } : student),
       teachers: data.school.teachers.map(teacher => account.role === 'teacher' && teacher.id === 'teacher-1' ? { ...teacher, name: account.name } : teacher),
