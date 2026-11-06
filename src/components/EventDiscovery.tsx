@@ -88,12 +88,12 @@ export default function EventDiscovery({ events, interests, joined, onOpenEvent,
             <div className="discovery-meta">
               <span><CalendarDays size={21} /><span>{dateLabel(event.date)}{event.endDate && ` — ${dateLabel(event.endDate)}`} · {event.time}</span></span>
               <span>{event.format === 'Онлайн' ? <Monitor size={21} /> : <MapPin size={21} />}<span>{event.format === 'Онлайн' ? `Онлайн${event.platform ? ` · ${event.platform}` : ''}` : event.venue}</span></span>
-              <span><Users size={21} /><span>{event.age}</span></span>
-              <span><Clock3 size={21} /><span>{isPast(event) ? 'Событие завершено' : `Заявки до ${dateLabel(event.deadline)}`}</span></span>
+              <span className="discovery-age"><Users size={21} /><span>{event.age}</span></span>
+              <span className="discovery-deadline"><Clock3 size={21} /><span>{isPast(event) ? 'Событие завершено' : `Заявки до ${dateLabel(event.deadline)}`}</span></span>
             </div>
             <div className="discovery-actions">
               <button type="button" className="discovery-details" onClick={() => onOpenEvent(event)}>Подробнее</button>
-              {isPast(event) ? joined.includes(event.id) && <span className="discovery-joined"><Check size={18} />Участие</span> : <button type="button" className="discovery-participate" aria-pressed={joined.includes(event.id)} onClick={() => onToggle(event.id)}>{joined.includes(event.id) ? <><Check size={19} />Участвую · отменить</> : 'Участвовать'}</button>}
+              {isPast(event) ? joined.includes(event.id) && <span className="discovery-joined"><Check size={18} />Участие</span> : <button type="button" className="discovery-participate" title={joined.includes(event.id) ? 'Отменить участие' : 'Участвовать'} aria-label={joined.includes(event.id) ? 'Отменить участие' : 'Участвовать'} aria-pressed={joined.includes(event.id)} onClick={() => onToggle(event.id)}>{joined.includes(event.id) ? <><Check size={19} />Участвую<span className="discovery-cancel-label"> · отменить</span></> : 'Участвовать'}</button>}
             </div>
           </article>
         </> : <div className="discovery-empty"><Sparkles size={34} /><p>Событий по выбранным фильтрам нет.</p></div>}
