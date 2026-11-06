@@ -85,6 +85,7 @@ export default function EventDiscovery({ events, interests, joined, onOpenEvent,
               <div className="discovery-tags"><span>{event.category}</span>{interests.length > 0 && matchesInterests(event, interests) && <span className="discovery-interest">По твоим интересам</span>}</div>
             </div>
             <h2>{event.title}</h2>
+            <p className="discovery-wide-summary">{event.description.split(/(?<=[.!?])\s/)[0]}</p>
             <div className="discovery-meta">
               <span><CalendarDays size={21} /><span>{dateLabel(event.date)}{event.endDate && ` — ${dateLabel(event.endDate)}`} · {event.time}</span></span>
               <span>{event.format === 'Онлайн' ? <Monitor size={21} /> : <MapPin size={21} />}<span>{event.format === 'Онлайн' ? `Онлайн${event.platform ? ` · ${event.platform}` : ''}` : event.venue}</span></span>

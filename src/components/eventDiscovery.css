@@ -298,3 +298,16 @@
   .event-finder .event-discovery .discovery-meta>.discovery-deadline,
   .discovery-cancel-label{display:none}
 }
+
+.discovery-wide-summary{display:none;margin:0;color:var(--muted);font-size:18px;line-height:1.5}
+@media(min-width:1280px){.event-finder .event-discovery .discovery-layout{height:min(460px,var(--discovery-height,460px))}}
+@container discovery-card (min-width:600px) and (min-height:420px){
+  .event-finder .event-discovery .discovery-card{padding:20px;gap:10px}
+  .discovery-wide-summary{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden;flex:0 1 27px}
+  .event-finder .event-discovery .discovery-card h2{font-size:32px}
+  .event-finder .event-discovery .discovery-card-top{flex-basis:50px;min-height:50px}
+  .event-finder .event-discovery .discovery-symbol{width:50px;height:50px}
+  .event-finder .event-discovery .discovery-meta{gap:10px}
+  .event-finder .event-discovery .discovery-meta>span{padding:9px 12px;min-height:40px}
+  .event-finder .event-discovery .discovery-actions{margin-top:auto}
+}

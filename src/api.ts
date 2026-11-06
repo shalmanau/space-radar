@@ -1,3 +1,4 @@
+import { normalizeSchoolName } from './school';
 import { directoryRevision, migrateDirectory } from './directory';
 import { interestValues } from './interests';
 import type { Notice, Opportunity, Profile } from './types';
@@ -87,7 +88,7 @@ async function mockData(): Promise<AppData> {
         }
       } catch { /* Cached work remains available without a network. */ }
     }
-    return migrateDirectory(cached);
+    return normalizeSchoolName(migrateDirectory(cached));
   }
   const read = async <T,>(name: string): Promise<T> => {
     const response = await fetch(`/mock/${name}.json`);
@@ -110,7 +111,7 @@ async function mockData(): Promise<AppData> {
     const account = accounts?.[role];
     if (account && typeof account.name === 'string' && typeof account.email === 'string') result = withAccount(result, { ...account, role });
   }
-  return result;
+  return normalizeSchoolName(result);
 }
 
 export function loadData(): Promise<AppData> {
@@ -120,7 +121,7 @@ export function loadData(): Promise<AppData> {
       if (!isAppData(data)) throw new Error('Несовместимый ответ API');
       source = 'api';
       try { localStorage.removeItem('vneklassa-messages-v1'); } catch { /* Storage may be disabled. */ }
-      return { ...data, directoryRevision };
+      return normalizeSchoolName({ ...data, directoryRevision });
     } catch {
       source = 'mock';
       return mockData();

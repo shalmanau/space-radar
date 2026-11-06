@@ -1,10 +1,10 @@
 {
-  "school": "Лицей БГУ",
+  "school": "Лицей им. Ф.Э.Дзержинского БГУ",
   "teacher": {
     "id": "teacher-1",
     "name": "Виталий Кириленко",
     "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»",
-    "institution": "Лицей БГУ"
+    "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
   },
   "organization": {
     "id": "org-1",
@@ -41,7 +41,7 @@
       "name": "Шалманов Максим",
       "classId": "10a",
       "initials": "ШМ",
-      "institution": "Лицей БГУ",
+      "institution": "Лицей им. Ф.Э.Дзержинского БГУ",
       "birthYear": 2009
     },
     {
@@ -49,7 +49,7 @@
       "name": "Юркевич Мария",
       "classId": "10a",
       "initials": "ЮМ",
-      "institution": "Лицей БГУ",
+      "institution": "Лицей им. Ф.Э.Дзержинского БГУ",
       "birthYear": 2010,
       "interests": [
         "Технологии",
@@ -61,7 +61,7 @@
       "name": "Карачун Ульяна",
       "classId": "10a",
       "initials": "КУ",
-      "institution": "Лицей БГУ",
+      "institution": "Лицей им. Ф.Э.Дзержинского БГУ",
       "birthYear": 2010,
       "interests": [
         "Творчество",
@@ -73,7 +73,7 @@
       "name": "Ларпенко Егор",
       "classId": "9a",
       "initials": "ЛЕ",
-      "institution": "Лицей БГУ",
+      "institution": "Лицей им. Ф.Э.Дзержинского БГУ",
       "birthYear": 2011,
       "interests": [
         "Наука",
@@ -91,7 +91,7 @@
         "profile": {
           "name": "Шалманов Максим",
           "birthYear": 2009,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [],
         "answers": {}
@@ -106,7 +106,7 @@
         "profile": {
           "name": "Шалманов Максим",
           "birthYear": 2009,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [
           {
@@ -131,7 +131,7 @@
         "profile": {
           "name": "Шалманов Максим",
           "birthYear": 2009,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [
           {
@@ -156,7 +156,7 @@
         "profile": {
           "name": "Шалманов Максим",
           "birthYear": 2009,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [],
         "answers": {}
@@ -171,7 +171,7 @@
         "profile": {
           "name": "Шалманов Максим",
           "birthYear": 2009,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [
           {
@@ -196,7 +196,7 @@
         "profile": {
           "name": "Юркевич Мария",
           "birthYear": 2010,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [],
         "answers": {}
@@ -211,7 +211,7 @@
         "profile": {
           "name": "Юркевич Мария",
           "birthYear": 2010,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [
           {
@@ -236,7 +236,7 @@
         "profile": {
           "name": "Юркевич Мария",
           "birthYear": 2010,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [
           {
@@ -261,7 +261,7 @@
         "profile": {
           "name": "Карачун Ульяна",
           "birthYear": 2010,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [],
         "answers": {}
@@ -276,7 +276,7 @@
         "profile": {
           "name": "Карачун Ульяна",
           "birthYear": 2010,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [],
         "answers": {}
@@ -291,7 +291,7 @@
         "profile": {
           "name": "Ларпенко Егор",
           "birthYear": 2011,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [
           {
@@ -316,7 +316,7 @@
         "profile": {
           "name": "Шалманов Максим",
           "birthYear": 2009,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [],
         "answers": {}
@@ -331,7 +331,7 @@
         "profile": {
           "name": "Шалманов Максим",
           "birthYear": 2009,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [],
         "answers": {}
@@ -346,7 +346,7 @@
         "profile": {
           "name": "Юркевич Мария",
           "birthYear": 2010,
-          "institution": "Лицей БГУ"
+          "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
         },
         "fields": [],
         "answers": {}
@@ -376,19 +376,19 @@
       "id": "teacher-1",
       "name": "Виталий Кириленко",
       "subject": "Учитель математики · классный руководитель 10 «А» и 9 «А»",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
     },
     {
       "id": "teacher-2",
       "name": "Алеся Дубодел",
       "subject": "Учитель физики",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
     },
     {
       "id": "teacher-3",
       "name": "Макар Хартон",
       "subject": "Учитель информатики",
-      "institution": "Лицей БГУ"
+      "institution": "Лицей им. Ф.Э.Дзержинского БГУ"
     }
   ],
   "id": "lyceum-bsu",
