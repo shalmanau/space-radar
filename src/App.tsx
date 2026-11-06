@@ -2,7 +2,7 @@ import ThemeSelector from './components/ThemeSelector';
 import MikiHelper from './components/MikiHelper';
 import type { StudentDestination } from './components/MikiHelper';
 import Logo from './components/Brand';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowRight, CalendarDays, Check, MapPin, X } from 'lucide-react';
 import StudentApp from './StudentApp';
@@ -22,13 +22,14 @@ import type { ApplicationAnswers } from './application';
 import type { Opportunity } from './types';
 import { dateLabel, isPast } from './types';
 import type { DemoAccount, Enrollment, Message, Role, TeacherRecommendationRequest } from './roleTypes';
-import { cacheData, loadData, save, savedMessage, withAccount } from './api';
+import { cacheData, loadData, save, sendChatMessage, savedMessage, withAccount } from './api';
 import type { AppData } from './api';
 import './roles.css';
 
 type PhotoTarget = { role: Exclude<Role, 'guest'>; id: string; name: string; initials: string; photo?: string | null };
 
 export default function App() {
+  const pendingChatMessages = useRef(new Map<string, Message>());
   const [role, setRole] = useState<Role>('guest');
   const [studentNavigation, setStudentNavigation] = useState<{ page: StudentDestination; id: number }>();
   const [teacherRecommendation, setTeacherRecommendation] = useState<TeacherRecommendationRequest>();
@@ -107,12 +108,15 @@ export default function App() {
   }, [enrollments]);
   const sendMessage = async (studentId: string, text: string, sender: 'teacher' | 'student', teacherId: string, eventId?: string) => {
     if (!text.trim()) return;
-    const message: Message = { id: crypto.randomUUID(), studentId, teacherId, sender, text: text.trim(), eventId, createdAt: new Date().toISOString() };
+    const key = `${studentId}:${teacherId}:${sender}`;
+    const pending = pendingChatMessages.current.get(key);
+    const message: Message = pending?.text === text.trim() && pending.eventId === eventId ? pending : { id: crypto.randomUUID(), studentId, teacherId, sender, text: text.trim(), eventId, createdAt: new Date().toISOString() };
+    pendingChatMessages.current.set(key, message);
     try {
       const { createdAt: _createdAt, ...body } = message;
-      const result = await save('/messages', 'POST', body, message);
-      setDataset(previous => previous ? { ...previous, school: { ...previous.school, messages: [...previous.school.messages.filter(item => item.id !== result.value.id), result.value] } } : previous);
-      if (result.local) setToast(savedMessage('Сообщение отправлено', true));
+      const delivered = await sendChatMessage(body);
+      setDataset(previous => previous ? { ...previous, school: { ...previous.school, messages: [...previous.school.messages.filter(item => item.id !== delivered.id), delivered] } } : previous);
+      pendingChatMessages.current.delete(key);
     } catch (error) { setToast(error instanceof Error ? error.message : 'Не удалось отправить сообщение'); throw error; }
   };
   const studentParticipation = useMemo(() => enrollments.filter(item => item.studentId === 'sasha').map(item => item.eventId), [enrollments]);

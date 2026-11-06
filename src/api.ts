@@ -2,7 +2,7 @@ import { normalizeSchoolName } from './school';
 import { directoryRevision, migrateDirectory } from './directory';
 import { interestValues } from './interests';
 import type { Notice, Opportunity, Profile } from './types';
-import type { DemoAccount, Enrollment, Role, SchoolData } from './roleTypes';
+import type { DemoAccount, Enrollment, Message, Role, SchoolData } from './roleTypes';
 import { hostedApiBaseUrl } from './deployment';
 
 export type AppData = {
@@ -16,7 +16,8 @@ export type AppData = {
 };
 export type Saved<T> = { value: T; local: boolean };
 const CACHE_KEY = 'vneklassa-data-v1';
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? hostedApiBaseUrl : '/api')).replace(/\/$/, '');
+const localApiOrigin = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname) || /\.(?:ngrok-free\.(?:app|dev)|ngrok\.(?:app|dev|io))$/i.test(window.location.hostname);
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD && !localApiOrigin ? hostedApiBaseUrl : '/api')).replace(/\/$/, '');
 const ngrokApi = /^https:\/\/[^/]+\.(?:ngrok-free\.(?:app|dev)|ngrok\.(?:app|dev|io))(?:\/|$)/i.test(API_BASE);
 let source: 'api' | 'mock' = 'mock';
 let loading: Promise<AppData> | undefined;
@@ -128,6 +129,15 @@ export function loadData(): Promise<AppData> {
     }
   })();
   return loading;
+}
+
+/** Chat delivery must reach SQLite even when bootstrap used the offline catalogue. */
+export async function sendChatMessage(message: Omit<Message, 'createdAt'>): Promise<Message> {
+  try { return await request<Message>('/messages', 'POST', message); }
+  catch (error) {
+    if (error instanceof ApiError) throw error;
+    throw new Error('Сервер недоступен. Сообщение не отправлено — повтори попытку.');
+  }
 }
 
 /** A network/5xx failure switches this session to local data. 4xx errors stay errors. */
