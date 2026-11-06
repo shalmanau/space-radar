@@ -1,0 +1,6 @@
+.theme-trigger.icon-button{width:48px;height:48px;border:2px solid var(--line);background:var(--panel);color:var(--ink);flex-shrink:0}
+.theme-trigger.icon-button:hover{background:var(--surface);border-color:var(--muted);color:var(--ink)}
+.role-header-actions{display:flex;align-items:center;gap:16px;margin-left:auto}
+.role-header-actions .staff-account{margin-left:0}
+@media(max-width:600px){.theme-trigger.icon-button{width:42px;height:42px}.role-header-actions{gap:9px}.role-header .guest-register{margin-left:0;padding:11px 13px}.role-header{gap:12px}.role-header .staff-account{display:flex}.role-header .workspace-role-label{order:3;flex-basis:100%;text-align:left}.header-actions .theme-trigger{order:3}.header-actions .mobile-menu{order:0}.header-actions .account-button{order:2}}
+@media(max-width:380px){.role-header .brand{font-size:21px;gap:6px}.role-header .brand-mark{width:31px;height:31px}.role-header .guest-register{font-size:15px;padding:10px}.role-header-actions{gap:6px}.role-header{padding-inline:16px}.header-actions .mobile-menu{width:34px}}

@@ -1,0 +1,68 @@
+/* Pearl clouds, cool ink and the same mint metal as the night theme. */
+:root[data-theme=light]{
+  color-scheme:light;
+  --ink:#1c2c39;
+  --muted:#516372;
+  --canvas:#edf1f3;
+  --panel:#fffffff5;
+  --surface:#edf2f3;
+  --line:#c4cfd3;
+  --accent-border:#91b7a6;
+  color:var(--ink);
+  background:var(--canvas);
+}
+[data-theme=light] body{color:var(--ink);background:var(--canvas)}
+[data-theme=light] body::before{background:linear-gradient(120deg,#f4f7f94d,#f5f8fa70 55%,#edf2f64d),url('/images/ethereal-nebula.png') center/cover no-repeat}
+[data-theme=light] .staff-workspace{--staff-ink:var(--ink);--staff-muted:var(--muted);--staff-line:var(--line)}
+[data-theme=light] .site-header{background:#fbfdfdf0;border-color:var(--line)}
+[data-theme=light] .landing-page{color:var(--ink)}
+[data-theme=light] :is(.landing-lead,.landing-role-card p,.card-meta,.card-meta svg){color:var(--muted)}
+[data-theme=light] .landing-hero-visual::before{filter:brightness(.58);opacity:.65}
+[data-theme=light] .landing-event-list{background:#ffffff6b;border-color:var(--line)}
+[data-theme=light] .landing-event{border-color:var(--line)}
+[data-theme=light] :is(.opportunity-card,.modal,.staff-dialog,.notification-popover,.role-switch-menu,.student-inbox,.staff-thread,.staff-student-card,.staff-class-detail,.staff-owned-event,.staff-table,.landing-role-card,.pupil-olympiads,.student-teacher-list,.telegram-panel){background:var(--panel);color:var(--ink);border-color:var(--line)}
+[data-theme=light] :is(.opportunity-card,.landing-role-card,.telegram-panel){box-shadow:0 8px 26px #253d4a08}
+[data-theme=light] :is(.button.secondary,.text-button,.landing-button-outline,.landing-link-button){background:var(--panel);color:var(--ink);border-color:#91a5af}
+[data-theme=light] :is(.button.secondary,.text-button,.landing-button-outline,.landing-link-button):hover{background:#e5eeeb;border-color:#6a8e7e}
+[data-theme=light] :is(.search-field,.event-people-search,.staff-search,.event-calendar.compact,.catalog-scope button:not(.active)){background:var(--panel);border-color:var(--line);color:var(--ink)}
+[data-theme=light] :is(.filter-panel,.staff-filters,.staff-contacts,.staff-access-note,.staff-portfolio-summary,.staff-role-pill,.staff-count,.staff-participant-count,.date-filter,.application-question,.application-response,.message-history,.staff-message-list,.achievement-table thead,.event-people-table thead){background:var(--surface);border-color:var(--line);color:var(--ink)}
+[data-theme=light] .recommended-card{background:#f5fbf8;border-color:#83a898}
+[data-theme=light] :is(.student-teacher-list>button.active,.event-winner-row,.pupil-result,.staff-invite-event){background:#e3f0e9;border-color:#97b6a7;color:var(--ink)}
+[data-theme=light] :is(.event-award,.journey-status){color:#35644f}
+[data-theme=light] :is(.landing-event-arrow,.brand-mark,.large-avatar,.staff-avatar,.chat-avatar){background:#e2ebe8;color:#2e5547}
+[data-theme=light] .brand-mark{--brand-sky:#e2ebe8}
+[data-theme=light] .landing-final-cta{background-color:#f7fbf9;border-color:#a7c2b5;color:var(--ink)}
+[data-theme=light] .role-switch-button{background:#fafffc;color:var(--ink);border:2px solid #a8bdb4;box-shadow:0 6px 25px #304e3e1a}
+[data-theme=light] .role-switch-button:hover{background:#e3efe9}
+[data-theme=light] .toast{background:#fafffc;color:var(--ink);border:2px solid #a8bdb4;box-shadow:0 6px 25px #304e3e1a}
+[data-theme=light] :is(input,select,textarea){color:var(--ink);caret-color:#35644f}
+[data-theme=light] :is(input,textarea)::placeholder{color:#647681}
+[data-theme=light] .event-application-form input[readonly]{background:#edf2f3;color:var(--muted)}
+[data-theme=light] :is(.event-calendar.compact .calendar-cell:not(.has-events):not(.selected-cell)){background:transparent;color:var(--ink)}
+[data-theme=light] .event-calendar.compact .selected-cell{color:var(--accent-ink)!important;outline-color:#446f5d}
+[data-theme=light] .event-calendar.compact .calendar-cell:not(.has-events).selected-cell{background:var(--accent-fill)!important}
+[data-theme=light] :is(.compact .calendar-days,.message-time,.notice p,.notice small){color:var(--muted)}
+[data-theme=light] :is(.compact .calendar-toolbar h3,.compact .month-controls .icon-button){color:var(--ink)}
+[data-theme=light] :is(.message-bubble,.staff-message.incoming){background:#fff;color:var(--ink);border-color:var(--line)}
+[data-theme=light] :is(.message-bubble.outgoing,.staff-message.outgoing){background:#e1efe7;color:var(--ink);border-color:#abc7b8}
+[data-theme=light] .message-event{background:#f4faf6;border-color:#a3bdae;color:var(--ink)}
+[data-theme=light] .message-event:hover{background:#d8eadd}
+[data-theme=light] .journey-connector path{stroke:#99acb2}
+[data-theme=light] .journey-connector.is-complete path{stroke:#6a9983;stroke-opacity:.75}
+[data-theme=light] .journey-step.is-upcoming:not(.is-next) .journey-node{background:#f5faf8;color:#527664;border-color:#adc5b9;box-shadow:0 6px 0 #bbcfc5,inset 0 1px 0 #fff}
+[data-theme=light] .journey-stop:hover :is(.journey-copy>strong,.journey-arrow){color:#35644f}
+[data-theme=light] .journey-stop:focus-visible{outline-color:#527d68}
+/* Miki stays close to the page, with solid bubbles and a quiet mint reply. */
+[data-theme=light] :is(.miki-launcher,.miki-dialog){background:#fbfdfc;color:var(--ink);border-color:#b1c3bc;box-shadow:0 12px 44px #294c3e24}
+[data-theme=light] .miki-launcher:is(:hover,[aria-expanded=true]){background:#e4f0ea;border-color:#7d9f8e}
+[data-theme=light] .miki-launcher[aria-expanded=true] .miki-toggle-art{color:#35644f}
+[data-theme=light] .miki-message{background:#edf2f3;border-color:#d0dce0}
+[data-theme=light] .miki-message.from-user{background:#dceee3;border-color:#adc8b9}
+[data-theme=light] .miki-message.from-user p{color:#244e3c}
+[data-theme=light] .miki-event{border-color:#b9ccc2}
+[data-theme=light] .miki-topics{background:#f4f8f6}
+[data-theme=light] .miki-topics>button{background:#fff;border-color:#b0c3b9;color:var(--ink)}
+[data-theme=light] .miki-topics>button:hover{background:#e2eee7;border-color:#769e86}
+[data-theme=light] .miki-widget button:focus-visible{outline-color:#527d68}
+[data-theme=light] ::selection{background:#bbd9c9;color:#193729}
+@media(max-width:1150px){[data-theme=light] .student-area .site-nav.open{background:var(--panel);border-color:var(--line)}}
