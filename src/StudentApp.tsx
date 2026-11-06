@@ -5,7 +5,7 @@ import StudentProfileOverview from './components/StudentProfileOverview';
 import EventDiscovery from './components/EventDiscovery';
 import ThemeSelector from './components/ThemeSelector';
 import StudentPath from './components/StudentPath';
-import OrbitMark from './components/OrbitMark';
+import Brand from './components/Brand';
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Compass, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
@@ -87,7 +87,7 @@ export default function StudentApp({ navigationRequest, onApply, school, enrollm
   return <div className="app-shell">
     {mobileNav && <button className="nav-backdrop" onClick={() => setMobileNav(false)} aria-label="Закрыть меню" />}
     <header className="site-header">
-      <button className="brand" onClick={() => navigate('catalog')} aria-label="ВнеКласса — на главную"><span className="brand-mark"><OrbitMark /></span>ВнеКласса</button>
+      <Brand onClick={() => navigate('catalog')} />
       <nav className={`site-nav ${mobileNav ? 'open' : ''}`} aria-label="Основная навигация">{nav.map(({ id, label }) => <button className={`nav-item ${page === id ? 'active' : ''}`} key={id} onClick={() => navigate(id)} aria-current={page === id ? 'page' : undefined}>{label}</button>)}<div className="nav-utilities"><button className="nav-item" onClick={() => { setMobileNav(false); setHelp(true); }}>Справка</button><button className="nav-item nav-notifications" onClick={() => { setMobileNav(false); setNotificationsOpen(true); }}>Уведомления</button></div></nav>
       <div className="header-actions"><div className="notification-wrap"><button className="notification-button icon-button" aria-label="Уведомления" aria-expanded={notificationsOpen} onClick={() => setNotificationsOpen(!notificationsOpen)}><Bell size={24} />{!noticesRead && <span className="notification-dot" />}</button>{notificationsOpen && <><button className="popover-backdrop" onClick={() => setNotificationsOpen(false)} aria-label="Закрыть уведомления" /><section className="notification-popover"><div className="popover-title"><h3>Уведомления</h3><button className="icon-button" aria-label="Закрыть панель уведомлений" onClick={() => setNotificationsOpen(false)}><X size={23} /></button></div>{notices.map(notice => <div className="notice" key={notice.id}><span className={`notice-dot ${noticesRead ? 'read' : ''}`} /><div><strong>{notice.title}</strong><p>{notice.text}</p><small>{notice.time}</small></div></div>)}<button className="text-button full-width notice-read" aria-label="Отметить все прочитанными" onClick={() => void onReadNotices()}><CheckCheck size={22} />Прочитать всё</button></section></>}</div><button className="icon-button header-help" onClick={() => setHelp(true)} aria-label="Справка"><CircleHelp size={24} /></button><button className="account-button" onClick={() => navigate('profile')} aria-label="Открыть профиль"><Avatar photo={profile.photo} initials={profile.initials} className="header-avatar" /></button><ThemeSelector /><button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label="Открыть меню" aria-expanded={mobileNav}><Menu size={25} /></button></div>
     </header>

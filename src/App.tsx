@@ -1,7 +1,7 @@
 import ThemeSelector from './components/ThemeSelector';
 import MikiHelper from './components/MikiHelper';
 import type { StudentDestination } from './components/MikiHelper';
-import OrbitMark from './components/OrbitMark';
+import Logo from './components/Brand';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowRight, CalendarDays, Check, MapPin, X } from 'lucide-react';
@@ -25,8 +25,6 @@ import type { DemoAccount, Enrollment, Message, Role, TeacherRecommendationReque
 import { cacheData, loadData, save, savedMessage, withAccount } from './api';
 import type { AppData } from './api';
 import './roles.css';
-
-function Logo({ onClick }: { onClick: () => void }) { return <button className="brand" onClick={onClick} aria-label="ВнеКласса — на главную"><span className="brand-mark"><OrbitMark /></span>ВнеКласса</button>; }
 
 type PhotoTarget = { role: Exclude<Role, 'guest'>; id: string; name: string; initials: string; photo?: string | null };
 

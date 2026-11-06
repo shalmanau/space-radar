@@ -8,3 +8,5 @@
 - science.jpg: https://images.unsplash.com/photo-1451187580459-43490279c0fa
 
 Светлый космический фон `ethereal-nebula.png` — предоставленный пользователем файл «Эфирная_бело_серебряная_туманность_звездных_облаков.png», скопирован без изменений.
+
+Знак `brand/star.png` и надписи `brand/wordmark-mint.png`, `brand/wordmark-dark.png` предоставлены пользователем для radar Space. Исходные PNG скопированы без изменений.
