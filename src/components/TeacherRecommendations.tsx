@@ -1,3 +1,4 @@
+import { matchesInterests } from '../interests';
 import { useMemo, useState } from 'react';
 import type { Enrollment, SchoolData, SchoolStudent } from '../roleTypes';
 import type { Opportunity } from '../types';
@@ -44,7 +45,7 @@ function classLabel(school: SchoolData, student: SchoolStudent) {
 }
 
 function matchingInterest(student: StudentWithInterests, event: Opportunity) {
-  return student.interests?.find(interest => interest === event.category) ?? null;
+  return student.interests?.find(interest => matchesInterests(event, [interest])) ?? null;
 }
 
 export default function TeacherRecommendations({ events, school, enrollments, onInvite, onOpenStudent, onOpenEvent }: Props) {

@@ -41,6 +41,5 @@ export default function EventRadar({ events, onSelect, activeId }: Props) {
         </g>;
       })}
     </svg>
-    <p>{events.length ? 'Нажми на сигнал, чтобы открыть событие.' : 'Нет событий по выбранным фильтрам.'}</p>
   </section>;
 }

@@ -1,3 +1,4 @@
+import { matchesInterests } from '../interests';
 import { useLayoutEffect, useRef, useState } from 'react';
 import type { KeyboardEvent, TouchEvent } from 'react';
 import { ArrowLeft, ArrowRight, CalendarDays, Check, Clock3, Code2, FlaskConical, Leaf, MapPin, Monitor, Palette, Sparkles, Trophy, Users } from 'lucide-react';
@@ -26,7 +27,7 @@ function eventSymbol(event: Opportunity) {
 export default function EventDiscovery({ events, interests, joined, onOpenEvent, onToggle }: Props) {
   const layout = useRef<HTMLElement>(null);
   useLayoutEffect(() => {
-    const update = () => { if (layout.current) layout.current.style.setProperty('--discovery-height', `${Math.max(240, window.innerHeight - (layout.current.getBoundingClientRect().top + window.scrollY) - 24)}px`); };
+    const update = () => { if (layout.current) layout.current.style.setProperty('--discovery-height', `${Math.max(240, window.innerHeight - (layout.current.getBoundingClientRect().top + window.scrollY) - 104)}px`); };
     update();
     const observer = new ResizeObserver(update);
     document.querySelectorAll('.event-finder,.discovery-filters,.site-header').forEach(element => observer.observe(element));
@@ -81,7 +82,7 @@ export default function EventDiscovery({ events, interests, joined, onOpenEvent,
 
             <div className="discovery-card-top">
               <span className="discovery-symbol" aria-hidden="true">{(() => { const Symbol = eventSymbol(event); return <Symbol size={43} strokeWidth={1.6} />; })()}</span>
-              <div className="discovery-tags"><span>{event.category}</span>{interests.includes(event.category) && <span className="discovery-interest">По твоим интересам</span>}</div>
+              <div className="discovery-tags"><span>{event.category}</span>{interests.length > 0 && matchesInterests(event, interests) && <span className="discovery-interest">По твоим интересам</span>}</div>
             </div>
             <h2>{event.title}</h2>
             <div className="discovery-meta">

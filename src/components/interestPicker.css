@@ -1,0 +1,41 @@
+.interest-picker{color:var(--ink)}
+.interest-picker-profile{width:100%}
+.interest-picker-profile-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.interest-picker-group h3{margin:0 0 12px;font-size:18px;font-weight:700}
+.interest-picker-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.interest-picker-card{position:relative;display:flex;min-height:138px;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:14px;padding:18px;border:1.5px solid var(--line);border-radius:18px;background:var(--panel);color:var(--ink);text-align:left;cursor:pointer;transition:transform .16s ease,border-color .16s ease,background-color .16s ease,box-shadow .16s ease}
+.interest-picker-card:hover{transform:translateY(-2px);border-color:var(--muted);background:var(--surface)}
+.interest-picker-card:focus-visible,.interest-picker-filter-trigger:focus-visible,.interest-picker-popover button:focus-visible,.interest-picker-option:focus-within{outline:3px solid color-mix(in srgb,var(--accent) 65%,transparent);outline-offset:2px}
+.interest-picker-card.is-selected{border-color:var(--accent);background:var(--surface);box-shadow:inset 0 0 0 1px var(--accent)}
+.interest-picker-icon{display:grid;width:52px;height:52px;place-items:center;border-radius:15px;background:color-mix(in srgb,var(--accent-fill,var(--accent)) 20%,var(--surface));color:var(--ink)}
+.interest-picker-card.is-selected .interest-picker-icon{background:var(--accent-fill,var(--accent));color:#182331}
+.interest-picker-name{font-size:17px;font-weight:650;line-height:1.25}
+.interest-picker-check{position:absolute;top:17px;right:17px;display:grid;width:25px;height:25px;place-items:center;border-radius:50%;color:var(--ink)}
+.interest-picker-card.is-selected .interest-picker-check{background:var(--accent-fill,var(--accent));color:#182331}
+.interest-picker-filter{position:relative;display:inline-flex;max-width:100%}
+.interest-picker-filter-trigger{display:inline-flex;min-height:48px;align-items:center;gap:10px;padding:0 13px;border:1.5px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);font:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background-color .16s ease,border-color .16s ease}
+.interest-picker-filter-trigger:hover,.interest-picker-filter-trigger[aria-expanded=true]{background:var(--surface);border-color:var(--accent)}
+.interest-picker-count{display:inline-flex;min-width:28px;height:26px;align-items:center;justify-content:center;padding:0 8px;border-radius:999px;background:var(--surface);color:var(--muted);font-size:14px;font-weight:700;white-space:nowrap}
+.interest-picker-count.has-selection{background:var(--accent-fill,var(--accent));color:#182331}
+.interest-picker-popover{position:absolute;z-index:55;top:calc(100% + 8px);left:0;width:min(370px,calc(100vw - 32px));max-height:min(72vh,560px);overflow-y:auto;padding:14px;border:1px solid var(--line);border-radius:17px;background:var(--panel);color:var(--ink);box-shadow:0 18px 40px rgb(13 24 39 / 24%);animation:interest-picker-in .15s ease-out}
+.interest-picker-popover-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:2px 2px 12px;border-bottom:1px solid var(--line)}
+.interest-picker-popover-heading strong{font-size:17px}
+.interest-picker-popover-heading>span{color:var(--muted);font-size:14px}
+.interest-picker-options{display:grid;gap:4px;padding:9px 0}
+.interest-picker-option-group h3{margin:3px 0 5px;padding:0 9px;color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.interest-picker-option-group+.interest-picker-option-group{padding-top:8px;border-top:1px solid var(--line)}
+.interest-picker-option{display:flex;min-height:44px;align-items:center;gap:11px;padding:7px 9px;border-radius:10px;color:var(--ink);font-size:16px;cursor:pointer}
+.interest-picker-option:hover,.interest-picker-option:focus-within{background:var(--surface)}
+.interest-picker-option>svg{flex:none;color:var(--muted)}
+.interest-picker-option:has(input:checked)>svg{color:var(--ink)}
+.interest-picker-option input{width:18px;height:18px;flex:none;margin:0;accent-color:var(--accent);cursor:pointer}
+.interest-picker-option span{flex:1}
+.interest-picker-popover-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px;border-top:1px solid var(--line)}
+.interest-picker-popover-footer button{min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.interest-picker-clear{background:transparent;color:var(--ink)}
+.interest-picker-clear:hover{background:var(--surface)}
+.interest-picker-done{background:var(--accent-fill,var(--accent));border-color:var(--accent)!important;color:#182331}
+.interest-picker-done:hover{filter:brightness(1.04)}
+@keyframes interest-picker-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:720px){.interest-picker-profile-groups{grid-template-columns:1fr;gap:20px}.interest-picker-grid{gap:11px}.interest-picker-card{min-height:120px;padding:15px}}
+@media(prefers-reduced-motion:reduce){.interest-picker-card,.interest-picker-filter-trigger{transition:none}.interest-picker-popover{animation:none}}

@@ -1,3 +1,4 @@
+import { interestValues } from './interests';
 import type { Notice, Opportunity, Profile } from './types';
 import type { DemoAccount, Enrollment, Message, Role, SchoolData } from './roleTypes';
 import { hostedApiBaseUrl } from './deployment';
@@ -101,7 +102,7 @@ async function mockData(): Promise<AppData> {
   const messages = stored<Message[]>('vneklassa-messages-v1');
   if (Array.isArray(messages)) school.messages = messages.filter(item => item && typeof item.text === 'string').map(item => ({ ...item, teacherId: item.teacherId || school.teacher.id }));
   const interests = stored<string[]>('vneklassa-interests');
-  if (Array.isArray(interests)) profile.interests = interests.filter(value => ['Технологии', 'Творчество', 'Наука', 'Экология'].includes(value));
+  if (Array.isArray(interests)) profile.interests = interests.filter(value => (interestValues as readonly string[]).includes(value));
   let result: AppData = { events, school, profile, notices, noticesRead: stored('vneklassa-notices') === true, accounts: {} };
   const accounts = stored<AppData['accounts']>('vneklassa-demo-accounts-v1');
   for (const role of ['student', 'teacher', 'organization'] as const) {

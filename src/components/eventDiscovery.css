@@ -43,7 +43,7 @@
 .discovery-tags>span.discovery-interest { border-color: var(--discovery-accent-border); background: var(--discovery-accent-fill); color: var(--discovery-accent-ink); }
 .discovery-card h2 { margin: 0; color: var(--discovery-ink); font-size: clamp(32px, 2.5vw, 40px); font-weight: 700; letter-spacing: -.8px; line-height: 1.15; overflow-wrap: anywhere; }
 .discovery-description { display: -webkit-box; overflow: hidden; margin: 0; color: var(--discovery-muted); font-size: 18px; line-height: 1.58; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
-.discovery-meta { display: grid; gap: 12px; margin-top: auto; padding: 0; border: 0; }
+.discovery-meta { display: grid; gap: 12px; margin: 0; padding: 0; border: 0; }
 .discovery-meta>span { display: flex; align-items: flex-start; gap: 11px; color: var(--discovery-ink); font-size: 16px; line-height: 1.5; }
 .discovery-meta>span>svg { flex: 0 0 auto; margin-top: 2px; color: var(--discovery-accent-border); }
 .discovery-meta>span>span { min-width: 0; overflow-wrap: anywhere; }
@@ -127,17 +127,17 @@
   .discovery-tags{flex-wrap:nowrap;align-items:center}
   .discovery-tags>span{min-height:34px;padding:6px 9px;white-space:nowrap}
   .discovery-card h2{flex:0 1 auto;max-height:2.35em;overflow:hidden;font-size:clamp(26px,2.1vw,32px);line-height:1.16}
-  .discovery-meta{display:flex;flex:0 1 auto;flex-wrap:wrap;align-content:start;gap:7px;margin-top:auto;padding:0;border:0}
+  .discovery-meta{display:flex;flex:0 1 auto;flex-wrap:wrap;align-content:start;gap:7px;margin:0;padding:0;border:0}
   .discovery-meta>span{align-items:center;min-height:36px;padding:6px 9px;border:1px solid var(--discovery-line);border-radius:11px;background:var(--discovery-surface);font-size:16px;line-height:1.3}
   .discovery-meta>span>svg{margin:0}
-  .discovery-actions{position:static;flex:0 0 auto;grid-template-columns:1fr 1.2fr;gap:9px;margin-top:auto;padding:0;background:transparent}
+  .discovery-actions{position:static;flex:0 0 auto;grid-template-columns:1fr 1.2fr;gap:9px;margin:0;padding:0;background:transparent}
   .discovery-actions button{min-height:44px;padding:9px 12px;font-size:16px}
   .discovery-joined{min-height:44px}
   .discovery-empty{height:100%;min-height:0}
 }
 [data-theme=light] .event-discovery .radar-marker-dot,[data-theme=light] .event-discovery .radar-origin{fill:#39745c}
 
-.discovery-meta{display:flex;flex-wrap:wrap;align-content:start;gap:10px;padding:14px 0}.discovery-meta>span{align-items:center;border:1px solid var(--line);border-radius:11px;background:var(--surface);padding:9px 11px;font-size:16px;line-height:1.35}.discovery-meta>span>svg{margin:0}.discovery-tags{flex-wrap:nowrap;align-items:center}.discovery-tags>span{white-space:nowrap;padding:7px 10px}.discovery-card-top{align-items:center}.discovery-card .discovery-actions{margin-top:auto}
+.discovery-meta{display:flex;flex-wrap:wrap;align-content:start;gap:10px;padding:14px 0}.discovery-meta>span{align-items:center;border:1px solid var(--line);border-radius:11px;background:var(--surface);padding:9px 11px;font-size:16px;line-height:1.35}.discovery-meta>span>svg{margin:0}.discovery-tags{flex-wrap:nowrap;align-items:center}.discovery-tags>span{white-space:nowrap;padding:7px 10px}.discovery-card-top{align-items:center}.discovery-card .discovery-actions{margin:0}
 @media(max-width:600px){.discovery-tags{flex-wrap:wrap}.discovery-meta>span{padding:8px 10px}.discovery-card-top{gap:10px}}
 
 /* On short desktop viewports, keep every control visible by tightening spacing rather than scrolling the card. */
@@ -169,3 +169,105 @@
 @media(min-width:701px){.discovery-meta{border:0;padding:0}.discovery-tags>span{font-size:16px}.discovery-card h2{max-height:none;overflow:visible}.discovery-actions{position:static}}
 
 .role-app .student-area:has(.event-finder) main{padding-top:20px;padding-bottom:12px;min-height:0}.event-finder .discovery-filters{padding:16px;gap:14px}.event-finder .discovery-interest-row>div{flex:none}.event-finder .discovery-interest-row{justify-content:flex-end}.event-finder .discovery-interest-row>div:first-child{margin-right:auto}
+
+@media(min-width:701px){.event-finder .event-discovery .event-radar svg{max-width:100%;max-height:calc(100% - 80px);width:100%;flex:1;min-height:0;margin:6px auto}.discovery-card{gap:14px}.event-discovery .discovery-meta{margin-top:0;padding:0}.discovery-card .discovery-actions{margin:0}.role-app .student-area:has(.event-finder) main{padding-bottom:92px}}
+@media(max-width:700px){.role-app .student-area:has(.event-finder) main{padding-bottom:108px}}
+
+/* Keep the two desktop panels inside the measured viewport slot; min-content SVG sizes must not enlarge the grid row. */
+@media (min-width: 701px) {
+  .event-finder .event-discovery .discovery-layout {
+    grid-template-rows: minmax(0, 1fr);
+    height: min(420px, var(--discovery-height, 420px));
+    max-height: var(--discovery-height, 420px);
+    min-height: 0;
+    align-items: stretch;
+    overflow: hidden;
+  }
+  .event-finder .event-discovery .discovery-radar-column,
+  .event-finder .event-discovery .discovery-carousel {
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .event-finder .event-discovery .event-radar {
+    display: flex;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .event-finder .event-discovery .event-radar svg {
+    display: block;
+    flex: 1 1 0;
+    flex-basis: 0;
+    width: 100%;
+    height: 0;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .event-finder .event-discovery .discovery-card {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+  .event-finder .event-discovery .discovery-card > * { min-height: 0; }
+  .event-finder .event-discovery .discovery-carousel-controls {
+    flex: 0 0 40px;
+    min-height: 40px;
+    margin: 0;
+  }
+  .event-finder .event-discovery .discovery-carousel-controls button { width: 40px; height: 40px; }
+  .event-finder .event-discovery .discovery-card-top {
+    flex: 0 0 44px;
+    min-height: 44px;
+    margin: 0;
+  }
+  .event-finder .event-discovery .discovery-symbol { width: 44px; height: 44px; border-radius: 13px; }
+  .event-finder .event-discovery .discovery-symbol svg { width: 27px; height: 27px; }
+  .event-finder .event-discovery .discovery-card h2 {
+    flex: 0 0 auto;
+    max-height: 2.25em;
+    margin: 0;
+    overflow: hidden;
+    font-size: clamp(26px, 2.1vw, 32px);
+    line-height: 1.12;
+  }
+  .event-finder .event-discovery .discovery-meta {
+    display: grid;
+    flex: 0 0 auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .event-finder .event-discovery .discovery-meta > span {
+    min-width: 0;
+    min-height: 34px;
+    padding: 5px 8px;
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  .event-finder .event-discovery .discovery-actions {
+    flex: 0 0 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 0;
+  }
+  .event-finder .event-discovery .discovery-actions button { min-height: 44px; padding: 8px 11px; font-size: 16px; }
+}
+
+@media(min-width:701px){.event-finder .event-discovery .discovery-layout{height:min(350px,var(--discovery-height,350px))}.event-finder .event-discovery .discovery-radar-column,.event-finder .event-discovery .discovery-carousel,.event-finder .event-discovery .discovery-card,.event-finder .event-discovery .event-radar{height:100%;min-height:0;max-height:100%}}

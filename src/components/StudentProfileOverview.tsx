@@ -1,3 +1,4 @@
+import { matchesInterests } from '../interests';
 import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Award, Bell, CalendarDays, CheckCircle2, Circle, Clock3, Leaf, Medal, Plus, Trash2, Trophy } from 'lucide-react';
@@ -58,7 +59,7 @@ export default function StudentProfileOverview({ events, participation, school, 
   ];
   const selectedEvents = selectedDate ? upcoming.filter(event => happensOn(event, selectedDate)) : upcoming.slice(0, 3);
   const joinedIds = new Set([...profile.joined, ...profile.completedEventIds, ...participation.map(event => event.id)]);
-  const matchingDeadlines = events.filter(event => event.date >= TODAY && event.deadline >= TODAY && !joinedIds.has(event.id) && profile.interests.includes(event.category))
+  const matchingDeadlines = events.filter(event => event.date >= TODAY && event.deadline >= TODAY && !joinedIds.has(event.id) && matchesInterests(event, profile.interests))
     .sort((a, b) => a.deadline.localeCompare(b.deadline) || eventOrder(a, b));
   const selectedDeadlines = selectedDate ? matchingDeadlines.filter(event => event.deadline === selectedDate) : matchingDeadlines.slice(0, 4);
   const selectedReminders = selectedDate ? reminders.filter(item => item.date === selectedDate) : [];

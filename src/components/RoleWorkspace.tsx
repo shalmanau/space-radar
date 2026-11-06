@@ -1,3 +1,4 @@
+import { matchesInterests } from '../interests';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, MessageCircle, Plus, Search, Send, Users, X } from 'lucide-react';
@@ -70,7 +71,7 @@ export default function RoleWorkspace({ role, recommendationRequest, events, sch
     const event = events.find(item => item.id === recommendationRequest.eventId);
     if (event) {
       setDialogEvent(event); setInviteEventId(event.id); setDialog('invite');
-      setDraft(`${student.name.split(' ')[0]}, предлагаю принять участие в мероприятии «${event.title}». Оно подходит под твой интерес «${event.category}». Посмотри подробности — буду рада твоему участию!`);
+      setDraft(`${student.name.split(' ')[0]}, предлагаю принять участие в мероприятии «${event.title}». Оно подходит под твой интерес «${student.interests?.find(interest => matchesInterests(event, [interest])) || event.category}». Посмотри подробности — буду рада твоему участию!`);
     } else {
       setPortfolioStudent(student); setDialog('student-profile');
     }

@@ -1,3 +1,5 @@
+import InterestPicker from './components/InterestPicker';
+import { matchesInterests } from './interests';
 import FilterSelect from './components/FilterSelect';
 import StudentProfileOverview from './components/StudentProfileOverview';
 import EventDiscovery from './components/EventDiscovery';
@@ -6,7 +8,7 @@ import StudentPath from './components/StudentPath';
 import OrbitMark from './components/OrbitMark';
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Code2, Compass, FlaskConical, Leaf, Palette, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
+import { Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Compass, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
 import Avatar, { EditAvatar } from './components/Avatar';
 import TelegramPanel from './components/TelegramPanel';
 import EventPeople from './components/EventPeople';
@@ -18,8 +20,6 @@ import { dateLabel, happensOn, isPast, TODAY } from './types';
 
 type Page = 'catalog' | 'profile' | 'achievements' | 'messages';
 const nav = [{ id: 'catalog' as Page, label: 'Найти события', icon: Compass }, { id: 'profile' as Page, label: 'Профиль', icon: UserRound }, { id: 'achievements' as Page, label: 'Мой путь', icon: Trophy }, { id: 'messages' as Page, label: 'Сообщения', icon: UserRound }];
-const categories = ['Все направления', 'Технологии', 'Творчество', 'Наука', 'Экология'];
-const interestIcons = [Code2, Palette, FlaskConical, Leaf];
 function dateMonth(date: string) { return new Date(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 1, 1); }
 function Modal({ title, children, onClose, wide = false }: { title: string; children: ReactNode; onClose: () => void; wide?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -34,7 +34,8 @@ export default function StudentApp({ navigationRequest, onApply, school, enrollm
   const [savingInterests, setSavingInterests] = useState(false);
   const [page, setPage] = useState<Page>('catalog');
   const [scope, setScope] = useState<'organization' | 'region' | 'country'>('organization');
-  const [finderInterests, setFinderInterests] = useState<string[]>([]);
+  const [finderInterests, setFinderInterests] = useState<string[]>([...profile.interests]);
+  useEffect(() => setFinderInterests([...profile.interests]), [profile.interests]);
   const [query, setQuery] = useState('');
   const [format, setFormat] = useState('Любой формат');
   const [venue, setVenue] = useState('Все площадки');
@@ -66,22 +67,22 @@ export default function StudentApp({ navigationRequest, onApply, school, enrollm
     if (joined.includes(id)) { onParticipationChange(joined.filter(value => value !== id)); }
     else { const event = data.find(item => item.id === id); if (event) { setSelected(null); onApply(event); } }
   };
-  const toggleInterest = async (value: string) => {
+  const changeInterests = async (values: string[]) => {
     if (savingInterests) return;
     setSavingInterests(true);
-    try { await onInterestsChange(interests.includes(value) ? interests.filter(item => item !== value) : [...interests, value]); }
+    try { await onInterestsChange(values); }
     catch (error) { setToast(error instanceof Error ? error.message : 'Не удалось обновить интересы'); }
-    finally { setSavingInterests(false); }
+    finally {setSavingInterests(false);}
   };
-  const resetFilters = () => { setQuery(''); setScope('organization'); setFinderInterests([]); setFormat('Любой формат'); setVenue('Все площадки'); setPeriod('upcoming'); setCatalogDate(null); setCatalogMonth(dateMonth(TODAY)); };
+  const resetFilters = () => { setQuery(''); setScope('organization'); setFinderInterests([...profile.interests]); setFormat('Любой формат'); setVenue('Все площадки'); setPeriod('upcoming'); setCatalogDate(null); setCatalogMonth(dateMonth(TODAY)); };
   const scopedEvents = data.filter(event => scope === 'organization' ? event.organizationId === school.id : scope === 'region' ? event.region === school.region : event.country === school.country);
-  const catalogue = scopedEvents.filter(event => (!finderInterests.length || finderInterests.includes(event.category)) && (format === 'Любой формат' || event.format === format) && (venue === 'Все площадки' || event.venue === venue) && (period === 'all' || (period === 'past' ? isPast(event) : !isPast(event))) && `${event.title} ${event.organizer} ${event.venue} ${event.category}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
+  const catalogue = scopedEvents.filter(event => matchesInterests(event, finderInterests) && (format === 'Любой формат' || event.format === format) && (venue === 'Все площадки' || event.venue === venue) && (period === 'all' || (period === 'past' ? isPast(event) : !isPast(event))) && `${event.title} ${event.organizer} ${event.venue} ${event.category}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
   const firstCatalogDate = catalogue[0]?.date;
   useEffect(() => { if (firstCatalogDate) setCatalogMonth(dateMonth(firstCatalogDate)); }, [firstCatalogDate]);
   const filtered = catalogue.filter(event => !catalogDate || happensOn(event, catalogDate));
   const participation = data.filter(event => joined.includes(event.id)).sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
 
-  const interestSelector = <section className="student-interests" aria-label="Мои интересы"><h2>Мои интересы</h2><div className="interest-chips">{categories.slice(1).map((value, index) => { const Icon = interestIcons[index]; const active = interests.includes(value); return <button key={value} className={active ? 'active' : ''} disabled={savingInterests} onClick={() => void toggleInterest(value)} aria-pressed={active}><Icon size={24} aria-hidden="true" /><span>{value}</span><span className="interest-selection" aria-hidden="true">{active && <Check size={17} />}</span></button>; })}</div></section>;
+  const interestSelector = <InterestPicker mode="profile" selected={interests} onChange={values => void changeInterests(values)} />;
 
   return <div className="app-shell">
     {mobileNav && <button className="nav-backdrop" onClick={() => setMobileNav(false)} aria-label="Закрыть меню" />}
@@ -104,7 +105,7 @@ export default function StudentApp({ navigationRequest, onApply, school, enrollm
               <FilterSelect label="Период" ariaLabel="Период событий" value={period} options={[{value:'upcoming',label:'Предстоящие'},{value:'past',label:'Прошедшие'},{value:'all',label:'Все события'}]} onChange={value => {setPeriod(value);setCatalogDate(null);}}/>
 
             </div>
-            <div className="discovery-interest-row"><div role="group" aria-label="Фильтр по интересам">{categories.slice(1).map(value => <button aria-pressed={finderInterests.includes(value)} key={value} onClick={() => {setFinderInterests(previous => previous.includes(value) ? previous.filter(item => item !== value) : [...previous,value]);setCatalogDate(null);}}>{value}</button>)}</div><button className="text-button" onClick={resetFilters}>Сбросить</button><div className="discovery-calendar-anchor" ref={calendarAnchor}><button className="text-button" aria-expanded={calendarOpen} onClick={() => setCalendarOpen(!calendarOpen)}><CalendarDays size={20}/>{catalogDate ? dateLabel(catalogDate) : 'Календарь'}</button>{calendarOpen && <div className="discovery-calendar" role="dialog" aria-label="Выбор даты"><EventCalendar label="Календарь событий" events={catalogue} month={catalogMonth} onMonthChange={setCatalogMonth} selectedDate={catalogDate} onSelectDate={value => {setCatalogDate(value);setCalendarOpen(false);}} compact />{catalogDate && <button className="text-button full-width" onClick={() => {setCatalogDate(null);setCalendarOpen(false);}}>Все даты</button>}</div>}</div></div>
+            <div className="discovery-interest-row"><InterestPicker mode="filter" selected={finderInterests} onChange={values => {setFinderInterests(values);setCatalogDate(null);}} /><button className="text-button" onClick={resetFilters}>Сбросить</button><div className="discovery-calendar-anchor" ref={calendarAnchor}><button className="text-button" aria-expanded={calendarOpen} onClick={() => setCalendarOpen(!calendarOpen)}><CalendarDays size={20}/>{catalogDate ? dateLabel(catalogDate) : 'Календарь'}</button>{calendarOpen && <div className="discovery-calendar" role="dialog" aria-label="Выбор даты"><EventCalendar label="Календарь событий" events={catalogue} month={catalogMonth} onMonthChange={setCatalogMonth} selectedDate={catalogDate} onSelectDate={value => {setCatalogDate(value);setCalendarOpen(false);}} compact />{catalogDate && <button className="text-button full-width" onClick={() => {setCatalogDate(null);setCalendarOpen(false);}}>Все даты</button>}</div>}</div></div>
           </div>
           <EventDiscovery events={filtered} interests={interests} joined={joined} onOpenEvent={setSelected} onToggle={toggleJoined}/>
 

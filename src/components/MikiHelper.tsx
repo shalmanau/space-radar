@@ -1,3 +1,4 @@
+import { matchesInterests } from '../interests';
 import { useEffect, useId, useRef, useState } from 'react';
 import { ArrowUpRight, X } from 'lucide-react';
 import TeacherRecommendations from './TeacherRecommendations';
@@ -72,9 +73,9 @@ export default function MikiHelper({ role, school, enrollments, onInvite, onOpen
     } else if (topic === 'event') {
       const candidates = events.filter(event => !isPast(event) && event.deadline >= TODAY &&
         (role !== 'student' || !joined.includes(event.id)) && (role !== 'organization' || event.organizationId === organizationId))
-        .sort((a, b) => Number(role === 'student' && interests.includes(b.category)) - Number(role === 'student' && interests.includes(a.category)) || `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
+        .sort((a, b) => Number(role === 'student' && matchesInterests(b, interests)) - Number(role === 'student' && matchesInterests(a, interests)) || `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
       const event = candidates[recommendationIndex.current++ % Math.max(1, candidates.length)];
-      response = event ? { text: role === 'student' && interests.includes(event.category) ? 'Есть контакт! Это событие подходит под твои интересы.' : 'Есть контакт! Вот ближайшая возможность на радаре.', event }
+      response = event ? { text: role === 'student' && interests.length > 0 && matchesInterests(event, interests) ? 'Есть контакт! Это событие подходит под твои интересы.' : 'Есть контакт! Вот ближайшая возможность на радаре.', event }
         : role === 'organization' ? { text: 'Пока нет предстоящих событий. Давай объявим новое?', action: 'publish', label: 'Создать активность' }
           : role === 'teacher' ? { text: 'Пока нет новых событий с открытой регистрацией. Новые активности появятся в ленте.' }
             : { text: 'Пока нет новых событий с открытой регистрацией. Можно посмотреть весь каталог.', action: 'catalog', label: 'Найти события' };
