@@ -1,12 +1,14 @@
-import { CalendarDays, Check, MapPin, Monitor } from 'lucide-react';
+import { CalendarDays, Check, MapPin, Monitor, Trophy, Code2, Leaf, Palette, FlaskConical, Sparkles } from 'lucide-react';
+import './eventCard.css';
 import type { Opportunity } from '../types';
 import { dateLabel, isPast } from '../types';
 
 type Props = { event: Opportunity; joined: boolean; onSelect: (event: Opportunity) => void; onToggle: (id: string) => void; recommended?: boolean; hideParticipation?: boolean; action?: { label: string; onClick: () => void } };
 export default function EventCard({ event, joined, onSelect, onToggle, hideParticipation = false, action, recommended = false }: Props) {
   const past = isPast(event);
-  return <article className={`opportunity-card${recommended ? ' recommended-card' : ''}`} data-event-id={event.id}>
-    <img className="card-image" src={event.image} alt="" />
+  const Symbol = event.type === 'Олимпиада' ? Trophy : event.category === 'Технологии' ? Code2 : event.category === 'Экология' ? Leaf : event.category === 'Творчество' ? Palette : event.category === 'Наука' ? FlaskConical : Sparkles;
+  return <article className={`opportunity-card icon-event-card${recommended ? ' recommended-card' : ''}`} data-event-id={event.id}>
+    <span className="card-symbol" aria-hidden="true"><Symbol size={31} strokeWidth={1.65} /></span>
     <div className="card-content">
       {recommended && <span className="interest-match">По интересам</span>}
       <h3 className="card-title">{event.title}</h3>

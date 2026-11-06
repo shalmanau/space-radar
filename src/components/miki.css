@@ -29,3 +29,7 @@
 .miki-widget button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 @media(max-width:600px){.miki-widget{right:16px;bottom:16px}.miki-launcher{padding:0;width:62px;height:62px;justify-content:center}.miki-toggle-art{width:58px;height:58px}.miki-launcher-label{display:none}.miki-dialog{bottom:78px;width:calc(100vw - 32px);height:min(620px,calc(100dvh - 112px));border-radius:22px}.miki-heading{padding:12px 15px;gap:12px}.miki-heading>img{width:65px;height:65px}.miki-heading h2{font-size:26px}.miki-history{padding:18px 15px;gap:14px}.miki-message{padding:15px}.miki-topics{padding:15px;gap:8px}.miki-topics>button{font-size:16px;min-height:45px;padding:10px 12px}}
 @media(prefers-reduced-motion:reduce){.miki-launcher img{transition:none}.miki-launcher:hover img{transform:none}}
+
+@media(min-width:601px){.miki-widget.is-teacher .miki-launcher{width:264px}}
+
+.miki-dialog[hidden]{display:none}

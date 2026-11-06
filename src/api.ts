@@ -72,7 +72,19 @@ export async function requestBackend<T>(path: string, method = 'GET', body?: unk
 
 async function mockData(): Promise<AppData> {
   const cached = stored<unknown>(CACHE_KEY);
-  if (isAppData(cached)) return cached;
+  if (isAppData(cached)) {
+    // Fill only fields missing from older browser caches, preserving saved choices.
+    if (cached.school.students.some(student => !Array.isArray(student.interests))) {
+      try {
+        const response = await fetch('/mock/school.json');
+        if (response.ok) {
+          const seed = await response.json() as SchoolData;
+          cached.school.students = cached.school.students.map(student => ({ ...student, interests: student.id === 'sasha' ? cached.profile.interests : student.interests ?? seed.students.find(item => item.id === student.id)?.interests ?? [] }));
+        }
+      } catch { /* Cached work remains available without a network. */ }
+    }
+    return cached;
+  }
   const read = async <T,>(name: string): Promise<T> => {
     const response = await fetch(`/mock/${name}.json`);
     if (!response.ok) throw new Error('Не удалось загрузить резервные данные');

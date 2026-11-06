@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { ArrowUpRight, X } from 'lucide-react';
-import type { Role } from '../roleTypes';
+import TeacherRecommendations from './TeacherRecommendations';
+import type { Enrollment, SchoolData, SchoolStudent, Role } from '../roleTypes';
 import type { Opportunity } from '../types';
 import { dateLabel, isPast, TODAY } from '../types';
 import './miki.css';
@@ -11,6 +12,10 @@ type Reply = { id: number; text: string; from: 'miki' | 'user'; event?: Opportun
 type Topic = 'greeting' | 'event' | 'participation' | 'achievements' | 'invite' | 'publish' | 'applications';
 type Props = {
   role: Role;
+  school: SchoolData;
+  enrollments: Enrollment[];
+  onInvite: (student: SchoolStudent, event: Opportunity) => void;
+  onOpenStudent: (student: SchoolStudent) => void;
   events: Opportunity[];
   interests: string[];
   joined: string[];
@@ -30,13 +35,13 @@ const greetings = [
 const topics: Record<Role, { id: Topic; label: string }[]> = {
   guest: [{ id: 'event', label: 'Найти событие' }, { id: 'participation', label: 'Как участвовать?' }],
   student: [{ id: 'event', label: 'Подобрать событие' }, { id: 'participation', label: 'Как участвовать?' }, { id: 'achievements', label: 'Мой путь' }],
-  teacher: [{ id: 'event', label: 'Найти активность' }, { id: 'invite', label: 'Пригласить ученика' }, { id: 'publish', label: 'Объявить активность' }],
+  teacher: [ { id: 'publish', label: 'Объявить активность' }],
   organization: [{ id: 'publish', label: 'Создать активность' }, { id: 'applications', label: 'Посмотреть анкеты' }, { id: 'event', label: 'Ближайшее событие' }],
 };
 
-export default function MikiHelper({ role, events, interests, joined, organizationId, onOpenEvent, onAction }: Props) {
+export default function MikiHelper({ role, school, enrollments, onInvite, onOpenStudent, events, interests, joined, organizationId, onOpenEvent, onAction }: Props) {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Reply[]>([{ id: 0, from: 'miki', text: 'Привет, я Мики! Готова искать для тебя новые звёзды.' }]);
+  const [messages, setMessages] = useState<Reply[]>([{ id: 0, from: 'miki', text: 'Привет, я Микки! Готова искать для тебя новые звёзды.' }]);
   const [pose, setPose] = useState<'welcome' | 'peace' | 'guide'>('welcome');
   const greetingIndex = useRef(0);
   const recommendationIndex = useRef(0);
@@ -51,8 +56,8 @@ export default function MikiHelper({ role, events, interests, joined, organizati
     if (open) closeButton.current?.focus();
   }, [open]);
   useEffect(() => {
-    if (open && history.current) history.current.scrollTop = history.current.scrollHeight;
-  }, [open, messages]);
+    if (open && role !== 'teacher' && history.current) history.current.scrollTop = history.current.scrollHeight;
+  }, [open, messages, role]);
 
   const close = () => {
     setOpen(false);
@@ -91,28 +96,28 @@ export default function MikiHelper({ role, events, interests, joined, organizati
     setMessages(previous => [...previous, user, reply].slice(-24));
   };
 
-  return <div className={`miki-widget${open ? ' is-open' : ''}`}>
-    <button ref={launcher} className="miki-launcher" aria-label={open ? 'Закрыть чат с Мики' : 'Позвать Мики'} aria-haspopup="dialog" aria-expanded={open} aria-controls={open ? panelId : undefined} onClick={() => open ? close() : setOpen(true)}>
+  return <div className={`miki-widget${role === 'teacher' ? ' is-teacher' : ''}${open ? ' is-open' : ''}`}>
+    <button ref={launcher} className="miki-launcher" aria-label={open ? 'Закрыть чат с Микки' : 'Позвать Микки'} aria-haspopup="dialog" aria-expanded={open} aria-controls={open ? panelId : undefined} onClick={() => open ? close() : setOpen(true)}>
       <span className="miki-toggle-art" aria-hidden="true">{open ? <X size={28} /> : <img src="/images/miki/welcome.webp" width="76" height="76" alt="" draggable={false} />}</span>
-      <span className="miki-launcher-label">{open ? 'Закрыть чат' : 'Привет, Мики!'}</span>
+      <span className="miki-launcher-label">{open ? 'Закрыть чат' : role === 'teacher' ? 'Помощник Микки' : 'Привет, Микки!'}</span>
     </button>
-    {open && <section id={panelId} className="miki-dialog" role="dialog" aria-modal="false" aria-labelledby={headingId} onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); close(); } }}>
+    <section hidden={!open} id={panelId} className="miki-dialog" role="dialog" aria-modal="false" aria-labelledby={headingId} onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); close(); } }}>
       <header className="miki-heading">
-        <img src={`/images/miki/${pose}.webp`} width="78" height="78" alt="Мики — мятный инопланетянин" draggable={false} />
-        <h2 id={headingId}>Мики</h2>
-        <button ref={closeButton} className="icon-button" onClick={close} aria-label="Скрыть Мики"><X size={24} /></button>
+        <img src={`/images/miki/${pose}.webp`} width="78" height="78" alt="Микки — мятный инопланетянин" draggable={false} />
+        <h2 id={headingId}>Микки</h2>
+        <button ref={closeButton} className="icon-button" onClick={close} aria-label="Скрыть Микки"><X size={24} /></button>
       </header>
-      <div ref={history} className="miki-history" role="log" aria-label="Переписка с Мики" aria-live="polite" aria-relevant="additions text">
-        {messages.map(message => <div key={message.id} className={`miki-message ${message.from === 'user' ? 'from-user' : 'from-miki'}`}>
+      <div ref={history} className="miki-history" role={role === 'teacher' ? undefined : 'log'} aria-label={role === 'teacher' ? 'Подбор рекомендаций ученикам' : 'Переписка с Микки'} aria-live={role === 'teacher' ? undefined : 'polite'} aria-relevant="additions text">
+        {role === 'teacher' ? <TeacherRecommendations events={events} school={school} enrollments={enrollments} onInvite={(student, event) => { setOpen(false); onInvite(student, event); }} onOpenStudent={student => { setOpen(false); onOpenStudent(student); }} onOpenEvent={event => { setOpen(false); onOpenEvent(event); }} /> : messages.map(message => <div key={message.id} className={`miki-message ${message.from === 'user' ? 'from-user' : 'from-miki'}`}>
           <p>{message.text}</p>
           {message.event && <div className="miki-event"><h3>{message.event.title}</h3><p>{dateLabel(message.event.date)} · {message.event.venue}</p><button className="button primary" onClick={() => { setOpen(false); onOpenEvent(message.event!); }}>Подробнее<ArrowUpRight size={19} /></button></div>}
           {message.action && <button className="button primary miki-reply-action" onClick={() => run(message.action!)}>{message.label}<ArrowUpRight size={19} /></button>}
         </div>)}
       </div>
-      <div className="miki-topics" aria-label="Вопросы Мики">
-        {topics[role].map(topic => <button key={topic.id} onClick={() => choose(topic.id, topic.label)}>{topic.label}</button>)}
-        <button onClick={() => choose('greeting', 'Привет, Мики!')}>Привет, Мики!</button>
+      <div className="miki-topics" aria-label="Вопросы Микки">
+        {topics[role].map(topic => <button key={topic.id} onClick={() => role === 'teacher' && topic.id === 'publish' ? run('publish') : choose(topic.id, topic.label)}>{topic.label}</button>)}
+        {role !== 'teacher' && <button onClick={() => choose('greeting', 'Привет, Микки!')}>Привет, Микки!</button>}
       </div>
-    </section>}
+    </section>
   </div>;
 }

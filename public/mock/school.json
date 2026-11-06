@@ -50,7 +50,11 @@
       "classId": "10a",
       "initials": "МП",
       "institution": "Лицей БГУ",
-      "birthYear": 2010
+      "birthYear": 2010,
+      "interests": [
+        "Технологии",
+        "Наука"
+      ]
     },
     {
       "id": "daria",
@@ -58,7 +62,11 @@
       "classId": "10a",
       "initials": "ДК",
       "institution": "Лицей БГУ",
-      "birthYear": 2010
+      "birthYear": 2010,
+      "interests": [
+        "Творчество",
+        "Экология"
+      ]
     },
     {
       "id": "artem",
@@ -66,7 +74,11 @@
       "classId": "10b",
       "initials": "АН",
       "institution": "Лицей БГУ",
-      "birthYear": 2010
+      "birthYear": 2010,
+      "interests": [
+        "Наука",
+        "Технологии"
+      ]
     },
     {
       "id": "anna",
@@ -74,7 +86,11 @@
       "classId": "10b",
       "initials": "АВ",
       "institution": "Лицей БГУ",
-      "birthYear": 2010
+      "birthYear": 2010,
+      "interests": [
+        "Творчество",
+        "Наука"
+      ]
     },
     {
       "id": "nikita",
@@ -82,7 +98,11 @@
       "classId": "9a",
       "initials": "НС",
       "institution": "Лицей БГУ",
-      "birthYear": 2011
+      "birthYear": 2011,
+      "interests": [
+        "Технологии",
+        "Экология"
+      ]
     },
     {
       "id": "polina",
@@ -90,7 +110,11 @@
       "classId": "9a",
       "initials": "ПМ",
       "institution": "Лицей БГУ",
-      "birthYear": 2011
+      "birthYear": 2011,
+      "interests": [
+        "Экология",
+        "Творчество"
+      ]
     },
     {
       "id": "alina",
@@ -98,7 +122,11 @@
       "classId": "10a",
       "initials": "АО",
       "institution": "Лицей БГУ",
-      "birthYear": 2010
+      "birthYear": 2010,
+      "interests": [
+        "Технологии",
+        "Творчество"
+      ]
     },
     {
       "id": "egor",
@@ -106,7 +134,11 @@
       "classId": "9a",
       "initials": "ЕК",
       "institution": "Лицей БГУ",
-      "birthYear": 2011
+      "birthYear": 2011,
+      "interests": [
+        "Наука",
+        "Экология"
+      ]
     }
   ],
   "enrollments": [

@@ -25,7 +25,7 @@ export default function Landing({ events, onRegister, onExplore, onOpenEvent, on
           </div>
         </div>
         <div className="landing-hero-visual">
-          <img src="/images/miki/peace.webp" alt="Мики — мятный инопланетянин с жестом мира" width="1280" height="1280" fetchPriority="high" />
+          <img src="/images/miki/peace.webp" alt="Микки — мятный инопланетянин с жестом мира" width="1280" height="1280" fetchPriority="high" />
         </div>
       </section>
 

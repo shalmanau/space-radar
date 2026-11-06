@@ -5,13 +5,14 @@ import EventCard from './EventCard';
 import Avatar, { EditAvatar } from './Avatar';
 import EventPeople from './EventPeople';
 import StudentOlympiads from './StudentOlympiads';
-import type { Enrollment, Message, SchoolData, SchoolStudent } from '../roleTypes';
+import type { Enrollment, Message, SchoolData, SchoolStudent, TeacherRecommendationRequest } from '../roleTypes';
 import type { Opportunity } from '../types';
 import { dateLabel, isPast } from '../types';
 import '../staff.css';
 
 type Props = {
   role: 'teacher' | 'organization';
+  recommendationRequest?: TeacherRecommendationRequest;
   events: Opportunity[];
   school: SchoolData;
   enrollments: Enrollment[];
@@ -44,7 +45,7 @@ function WorkspaceDialog({ title, onClose, children, wide = false }: { title: st
   </dialog>;
 }
 
-export default function RoleWorkspace({ role, events, school: directory, enrollments, messages, onTeacherChange, onOrganizationChange, onPublish, onEditPhoto, onSendMessage, onOpenEvent }: Props) {
+export default function RoleWorkspace({ role, recommendationRequest, events, school: directory, enrollments, messages, onTeacherChange, onOrganizationChange, onPublish, onEditPhoto, onSendMessage, onOpenEvent }: Props) {
   const school = role === 'teacher' ? { ...directory, students: directory.students.filter(student => student.institution === directory.school) } : directory;
   const [participantEvent, setParticipantEvent] = useState<Opportunity | null>(null);
   const [tab, setTab] = useState<string>(role === 'teacher' ? teacherTabs[0] : organizationTabs[0]);
@@ -60,6 +61,20 @@ export default function RoleWorkspace({ role, events, school: directory, enrollm
   const [dialogClass, setDialogClass] = useState(school.classes[0]?.id ?? '');
   const [dialogStudent, setDialogStudent] = useState(school.students[0]?.id ?? '');
   const [conversationStudent, setConversationStudent] = useState(school.students[0]?.id ?? '');
+
+  useEffect(() => {
+    if (role !== 'teacher' || !recommendationRequest) return;
+    const student = directory.students.find(item => item.id === recommendationRequest.studentId && item.institution === directory.school);
+    if (!student) return;
+    setRecipientMode('student'); setDialogStudent(student.id); setDialogClass(student.classId);
+    const event = events.find(item => item.id === recommendationRequest.eventId);
+    if (event) {
+      setDialogEvent(event); setInviteEventId(event.id); setDialog('invite');
+      setDraft(`${student.name.split(' ')[0]}, предлагаю принять участие в мероприятии «${event.title}». Оно подходит под твой интерес «${event.category}». Посмотри подробности — буду рада твоему участию!`);
+    } else {
+      setPortfolioStudent(student); setDialog('student-profile');
+    }
+  }, [recommendationRequest]);
 
   const teacherEvents = useMemo(() => events.filter(event => !isPast(event)).sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`)), [events]);
   const classesStudents = school.students.filter(student => student.classId === selectedClass);
