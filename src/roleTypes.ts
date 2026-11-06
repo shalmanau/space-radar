@@ -1,6 +1,7 @@
 import type { ApplicationField } from './types';
 import type { ApplicationAnswers } from './application';
 export type Role = 'guest' | 'student' | 'teacher' | 'organization';
+export type TeacherPage = 'feed' | 'classes' | 'messages' | 'olympiads' | 'profile';
 export type TeacherRecommendationRequest = { id: number; studentId: string; eventId?: string };
 export type SchoolStudent = { interests?: string[]; photo?: string | null; id: string; name: string; classId: string; institution: string; birthYear: number; initials: string };
 export type SchoolClass = { id: string; name: string; curatorName: string; portfolioAccess: boolean; curatorId: string };

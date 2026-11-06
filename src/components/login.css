@@ -1,0 +1,10 @@
+.login-accounts{display:flex;flex-direction:column;gap:14px}
+.login-account{display:flex;align-items:center;gap:18px;width:100%;min-width:0;padding:20px;text-align:left;border:2px solid var(--line);border-radius:20px;background:var(--panel,#fff)}
+.login-account:hover{background:var(--surface);border-color:var(--muted)}
+.login-avatar{display:flex;align-items:center;justify-content:center;width:54px;height:54px;flex-shrink:0;border-radius:50%;background:var(--accent-fill,var(--accent));color:#182331;font-size:18px;font-weight:600}
+.login-account-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:6px}
+.login-account-copy>span{font-size:16px;color:var(--muted)}
+.login-account-copy>strong{font-size:21px;line-height:1.35;font-weight:600;overflow-wrap:anywhere}
+.logout-button{flex-shrink:0}
+.page-intro:has(>.logout-button){flex-wrap:wrap;row-gap:18px}
+@media(max-width:600px){.login-account{gap:12px;padding:16px}.login-avatar{width:44px;height:44px;font-size:16px}.login-account-copy>strong{font-size:18px}}

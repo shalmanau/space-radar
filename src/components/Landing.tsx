@@ -2,16 +2,14 @@ import './landing.css';
 import type { Opportunity } from '../types';
 import { dateLabel } from '../types';
 
-type Role = 'teacher' | 'organization';
 type Props = {
   events: Opportunity[];
-  onRegister: () => void;
+  onLogin: () => void;
   onExplore: () => void;
   onOpenEvent: (event: Opportunity) => void;
-  onChooseRole: (role: Role) => void;
 };
 
-export default function Landing({ events, onRegister, onExplore, onOpenEvent, onChooseRole }: Props) {
+export default function Landing({ events, onLogin, onExplore, onOpenEvent }: Props) {
   const upcoming = events.slice(0, 3);
   return (
     <main className="landing-page">
@@ -20,7 +18,7 @@ export default function Landing({ events, onRegister, onExplore, onOpenEvent, on
           <h1 id="landing-title">Внеклассные активности. <span>В одном месте.</span></h1>
           <p className="landing-lead">Олимпиады, мастер-классы и проекты для школьников Беларуси.</p>
           <div className="landing-hero-actions">
-            <button className="landing-button landing-button-dark" onClick={onRegister}>Создать профиль</button>
+            <button className="landing-button landing-button-dark" onClick={onLogin}>Войти</button>
             <button className="landing-button landing-button-outline" onClick={onExplore}>Посмотреть события</button>
           </div>
         </div>
@@ -58,19 +56,19 @@ export default function Landing({ events, onRegister, onExplore, onOpenEvent, on
           <article className="landing-role-card">
             <h3>Учителям</h3>
             <p>Находи олимпиады, проекты и мастер-классы для учеников по теме и формату.</p>
-            <button className="landing-role-action" onClick={() => onChooseRole('teacher')}>Продолжить как учитель <span aria-hidden="true">↗</span></button>
+            <button className="landing-role-action" onClick={onLogin}>Продолжить как учитель <span aria-hidden="true">↗</span></button>
           </article>
           <article className="landing-role-card">
             <h3>Организациям</h3>
             <p>Рассказывай о мероприятиях и приглашай школьников присоединиться.</p>
-            <button className="landing-role-action" onClick={() => onChooseRole('organization')}>Разместить событие <span aria-hidden="true">↗</span></button>
+            <button className="landing-role-action" onClick={onLogin}>Разместить событие <span aria-hidden="true">↗</span></button>
           </article>
         </div>
       </section>
 
       <section className="landing-final-cta" aria-labelledby="landing-final-title">
-        <div><h2 id="landing-final-title">Создай профиль</h2></div>
-        <button className="landing-button landing-button-dark" onClick={onRegister}>Создать профиль <span aria-hidden="true">↗</span></button>
+        <div><h2 id="landing-final-title">Выбери свой профиль</h2></div>
+        <button className="landing-button landing-button-dark" onClick={onLogin}>Войти <span aria-hidden="true">↗</span></button>
       </section>
     </main>
   );

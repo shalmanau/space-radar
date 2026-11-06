@@ -6,6 +6,7 @@ import EventDiscovery from './components/EventDiscovery';
 import ThemeSelector from './components/ThemeSelector';
 import StudentPath from './components/StudentPath';
 import Brand from './components/Brand';
+import LogoutButton from './components/LogoutButton';
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Bell, CalendarDays, Check, CheckCheck, CircleHelp, Clock3, Compass, MapPin, Menu, Monitor, Search, SlidersHorizontal, Trophy, UserRound, Users, X } from 'lucide-react';
@@ -27,8 +28,8 @@ function Modal({ title, children, onClose, wide = false }: { title: string; chil
   return <dialog ref={ref} className={`modal ${wide ? 'wide' : ''}`} onCancel={onClose} onClick={e => { if (e.target === ref.current) onClose(); }} aria-label={title}><div className="modal-head"><h2>{title}</h2><button className="icon-button" aria-label="Закрыть" onClick={onClose}><X size={21} /></button></div>{children}</dialog>;
 }
 
-type Props = { navigationRequest?: { page: Page; id: number }; onApply: (event: Opportunity) => void; school: SchoolData; enrollments: Enrollment[]; sharedEvents: Opportunity[]; participationIds: string[]; onParticipationChange: (ids: string[]) => void; messagesView: ReactNode; profile: Profile; onEditPhoto: () => void; notices: Notice[]; noticesRead: boolean; onInterestsChange: (interests: string[]) => Promise<void>; onReadNotices: () => Promise<void> };
-export default function StudentApp({ navigationRequest, onApply, school, enrollments, sharedEvents, participationIds, onParticipationChange, messagesView, profile, onEditPhoto, notices, noticesRead, onInterestsChange, onReadNotices }: Props) {
+type Props = { onLogout: () => void; navigationRequest?: { page: Page; id: number }; onApply: (event: Opportunity) => void; school: SchoolData; enrollments: Enrollment[]; sharedEvents: Opportunity[]; participationIds: string[]; onParticipationChange: (ids: string[]) => void; messagesView: ReactNode; profile: Profile; onEditPhoto: () => void; notices: Notice[]; noticesRead: boolean; onInterestsChange: (interests: string[]) => Promise<void>; onReadNotices: () => Promise<void> };
+export default function StudentApp({ onLogout, navigationRequest, onApply, school, enrollments, sharedEvents, participationIds, onParticipationChange, messagesView, profile, onEditPhoto, notices, noticesRead, onInterestsChange, onReadNotices }: Props) {
   const data = sharedEvents;
   const interests = profile.interests;
   const [savingInterests, setSavingInterests] = useState(false);
@@ -112,7 +113,7 @@ export default function StudentApp({ navigationRequest, onApply, school, enrollm
         </div>
       </>}
       {page === 'profile' && <>
-        <div className="page-intro"><h1><span>Профиль</span></h1></div>
+        <div className="page-intro"><h1><span>Профиль</span></h1><LogoutButton onLogout={onLogout} /></div>
         <section className="portfolio-profile"><EditAvatar photo={profile.photo} initials={profile.initials} name={profile.fullName} onClick={onEditPhoto} /><div className="profile-identity"><h2>{profile.fullName}</h2><p>{profile.school} · {school.region} · {profile.grade} класс</p></div><TelegramPanel compact /><button className="button secondary profile-interest-button" onClick={() => setEditingInterests(true)} aria-haspopup="dialog"><SlidersHorizontal size={21} />Мои интересы</button></section>
         <StudentProfileOverview events={data} participation={participation} school={school} profile={profile} onOpenEvent={setSelected} onFindEvents={() => navigate('catalog')} onEditInterests={() => setEditingInterests(true)} />
 
