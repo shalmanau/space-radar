@@ -35,9 +35,13 @@ export default function EventRadar({ events, onSelect, activeId }: Props) {
         const point = pointFor(opportunity, index, markers.length);
         const active = activeId === opportunity.id;
         return <g key={opportunity.id} className={`radar-marker${active ? ' active selected' : ''}`} role="button" tabIndex={0} aria-pressed={active} aria-label={`${opportunity.title}, ${opportunity.date}`} onClick={() => onSelect(opportunity)} onKeyDown={event => activateWithKey(event, opportunity)}>
-          <title>{opportunity.title}</title><circle cx={point.x} cy={point.y} r="18" fill="transparent" />
-          <circle className="radar-marker-halo" cx={point.x} cy={point.y} r="10" />
-          <circle className="radar-marker-dot" cx={point.x} cy={point.y} r="4.5" />
+          <title>{opportunity.title}</title><circle cx={point.x} cy={point.y} r="23" fill="transparent" />
+          <circle className="radar-marker-halo" cx={point.x} cy={point.y} r="17" />
+          <g transform={`translate(${point.x} ${point.y})`} aria-hidden="true">
+            <path className="radar-marker-star" d="M0 -13C2 -4 4 -2 11 0C4 2 2 4 0 13C-2 4 -4 2 -11 0C-4 -2 -2 -4 0 -13Z" />
+            <circle className="radar-star-core" r="1.6" />
+          </g>
+          <circle className="radar-star-focus" cx={point.x} cy={point.y} r="23" />
         </g>;
       })}
     </svg>

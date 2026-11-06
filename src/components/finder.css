@@ -130,3 +130,14 @@
 @media(max-width:600px){.finder-event-grid{grid-template-columns:minmax(0,1fr)}}
 
 @media(max-width:600px){.event-finder .event-radar{display:grid;grid-template-columns:minmax(0,1fr) 136px;gap:10px}.event-finder .event-radar-heading{grid-column:1;grid-row:1;align-self:end;padding:0;flex-wrap:wrap;gap:8px}.event-finder .event-radar svg{grid-column:2;grid-row:1/3;max-width:136px;margin:0}.event-finder .event-radar>p{grid-column:1;grid-row:2;text-align:left;font-size:16px;margin:0;align-self:start}.event-radar-heading>span{height:30px;min-width:30px}}
+
+/* Bigger four-point stars retain the same event hit areas and keyboard controls. */
+.radar-marker-star{fill:var(--accent);stroke:var(--panel);stroke-width:.8;transform-origin:0 0;transition:transform .18s,filter .18s;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--accent) 50%,transparent))}
+.radar-star-core{fill:#fff;pointer-events:none}
+.radar-star-focus{fill:none;stroke:var(--accent);stroke-width:1.5;opacity:0;pointer-events:none}
+.radar-marker:hover .radar-marker-star{transform:scale(1.14)}
+.event-discovery .radar-marker.active .radar-marker-star,.radar-marker:focus-visible .radar-marker-star{transform:scale(1.3)}
+.event-discovery .radar-marker.active .radar-marker-halo{r:21;opacity:.22}
+.radar-marker:focus-visible .radar-star-focus{opacity:1}
+[data-theme=light] .radar-marker-star{fill:#39745c;stroke:#f5fffa;filter:drop-shadow(0 0 3px #39745c30)}
+[data-theme=light] .radar-star-focus{stroke:#39745c}
