@@ -18,3 +18,5 @@
 .telegram-retry .telegram-error{margin:0}
 .telegram-retry .button{flex-shrink:0}
 @media(max-width:700px){.telegram-retry{align-items:flex-start;flex-direction:column}}
+
+.telegram-compact{position:relative;margin-left:auto}.telegram-compact-popover{position:absolute;z-index:45;right:0;top:calc(100% + 12px);width:350px;max-width:calc(100vw - 40px);padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--panel);box-shadow:0 12px 35px #0002;font-size:16px;line-height:1.5}.telegram-compact-popover .telegram-preferences{grid-template-columns:1fr;border:0;margin:0 0 18px;padding:0}.telegram-compact-popover .telegram-preferences label{font-size:16px}.telegram-compact-popover p+.button{margin-top:14px}.portfolio-profile .profile-interest-button{margin-left:0}@media(max-width:760px){.telegram-compact{margin-left:0}.telegram-compact-popover{left:0;right:auto}}

@@ -13,7 +13,8 @@ const options: { key: keyof Preferences; label: string }[] = [
   { key: 'participation', label: 'Заявки и участие' },
 ];
 
-export default function TelegramPanel() {
+export default function TelegramPanel({ compact = false }: { compact?: boolean }) {
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [connection, setConnection] = useState<Connection | null>(null);
   const [link, setLink] = useState<Link | null>(null);
   const [busy, setBusy] = useState(false);
@@ -71,6 +72,14 @@ export default function TelegramPanel() {
     finally { if (alive.current) setBusy(false); }
   };
 
+  if (compact) return <div className="telegram-compact">
+    {connection?.connected ? <button className="button secondary" onClick={() => setSettingsOpen(!settingsOpen)} aria-expanded={settingsOpen}><Send size={20}/>Telegram подключён</button> : link && link.expiresAt * 1000 > Date.now() ? <a className="button primary" href={link.url} target="_blank" rel="noopener noreferrer">Открыть Telegram<ExternalLink size={19}/></a> : <button className="button secondary" disabled={busy || !connection?.available} onClick={() => void connect()}><Send size={20}/>{busy ? 'Подключение…' : 'Подключить Telegram'}</button>}
+    {(settingsOpen || error || (connection && !connection.available) || link) && <div className="telegram-compact-popover">
+      {connection?.connected && <><div className="telegram-preferences">{options.map(option => <label key={option.key}><input type="checkbox" checked={connection.preferences[option.key]} disabled={busy} onChange={() => void changePreference(option.key)}/><span>{option.label}</span></label>)}</div><button className="button secondary" disabled={busy} onClick={() => void disconnect()}>Отключить Telegram</button></>}
+      {link && !connection?.connected && <p>Нажми «Запустить» в боте.</p>}
+      {(error || (connection && !connection.available)) && <><p role="status">{error || 'Бот временно недоступен'}</p><button className="button secondary" disabled={busy} onClick={() => void retry()}>Повторить</button></>}
+    </div>}
+  </div>;
   return <section className="telegram-panel" aria-label="Уведомления в Telegram">
     <div className="telegram-heading"><div className="telegram-title"><span className="telegram-mark"><Send size={25} /></span><div><h2>Telegram</h2><p>{connection?.connected ? `Подключён${connection.account ? ` · ${connection.account}` : ''}` : 'Сообщения, события и дедлайны'}</p></div></div>
       {connection?.connected ? <button className="button secondary" disabled={busy} onClick={() => void disconnect()}><Unplug size={19} />Отключить</button> : link && link.expiresAt * 1000 > Date.now() ? <a className="button primary" href={link.url} target="_blank" rel="noopener noreferrer">Открыть Telegram<ExternalLink size={19} /></a> : <button className="button primary" disabled={busy || !connection?.available} onClick={() => void connect()}><Send size={20} />{busy ? 'Подключение…' : 'Подключить Telegram'}</button>}

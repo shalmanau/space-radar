@@ -1,7 +1,7 @@
 import type { KeyboardEvent } from 'react';
 import type { Opportunity } from '../types';
 
-type Props = { events: Opportunity[]; onSelect: (event: Opportunity) => void };
+type Props = { events: Opportunity[]; onSelect: (event: Opportunity) => void; activeId?: string };
 
 function pointFor(event: Opportunity, index: number, total: number) {
   let seed = 0;
@@ -13,7 +13,7 @@ function pointFor(event: Opportunity, index: number, total: number) {
   return { x: 160 + Math.cos(radians) * scaledRadius, y: 160 + Math.sin(radians) * scaledRadius };
 }
 
-export default function EventRadar({ events, onSelect }: Props) {
+export default function EventRadar({ events, onSelect, activeId }: Props) {
   const markers = events.slice(0, 48);
   const activateWithKey = (event: KeyboardEvent<SVGGElement>, opportunity: Opportunity) => {
     if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect(opportunity); }
@@ -33,7 +33,8 @@ export default function EventRadar({ events, onSelect }: Props) {
       <circle className="radar-origin" cx="160" cy="160" r="4" />
       {markers.map((opportunity, index) => {
         const point = pointFor(opportunity, index, markers.length);
-        return <g key={opportunity.id} className="radar-marker" role="button" tabIndex={0} aria-label={`${opportunity.title}, ${opportunity.date}`} onClick={() => onSelect(opportunity)} onKeyDown={event => activateWithKey(event, opportunity)}>
+        const active = activeId === opportunity.id;
+        return <g key={opportunity.id} className={`radar-marker${active ? ' active selected' : ''}`} role="button" tabIndex={0} aria-pressed={active} aria-label={`${opportunity.title}, ${opportunity.date}`} onClick={() => onSelect(opportunity)} onKeyDown={event => activateWithKey(event, opportunity)}>
           <title>{opportunity.title}</title><circle cx={point.x} cy={point.y} r="18" fill="transparent" />
           <circle className="radar-marker-halo" cx={point.x} cy={point.y} r="10" />
           <circle className="radar-marker-dot" cx={point.x} cy={point.y} r="4.5" />

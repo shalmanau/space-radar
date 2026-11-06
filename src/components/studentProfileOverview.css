@@ -1,0 +1,74 @@
+.profile-overview{width:100%;color:var(--ink)}
+.profile-overview-columns{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);align-items:start;gap:24px}
+.profile-overview-left,.profile-overview-right{display:grid;gap:22px;min-width:0}
+.po-panel{min-width:0;padding:22px;border:1px solid var(--line);border-radius:22px;background:var(--surface,#f3f5f8);box-shadow:0 7px 22px #101d2a0a}
+.po-section-heading{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.po-section-heading>div{min-width:0}
+.po-section-heading h2{margin:0;font-size:23px;line-height:1.25;font-weight:650;letter-spacing:-.3px}
+.po-icon{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border-radius:15px;background:var(--accent);color:var(--accent-ink)}
+.po-icon.miki{overflow:hidden;background:#d8efe2}
+.po-icon.miki img{object-fit:contain}
+.po-achievement-list,.po-milestone-list,.po-calendar-list ul,.po-deadlines ul,.po-reminder-list{list-style:none;margin:0;padding:0}
+.po-achievement-list li+li,.po-calendar-list li+li,.po-deadlines li+li{border-top:1px solid var(--line)}
+.po-event-link{display:flex;align-items:center;gap:12px;width:100%;min-width:0;padding:14px 2px;text-align:left;color:var(--ink);border-radius:10px}
+.po-event-link:hover .po-item-copy strong,.po-event-link:focus-visible .po-item-copy strong{color:var(--accent-ink,#23684f);text-decoration:underline;text-underline-offset:3px}
+.po-event-link:focus-visible,.po-check:focus-visible,.po-inline-action:focus-visible,.po-add-reminder:focus-visible,.po-remove-reminder:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.po-achievement-mark,.po-deadline-icon{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:13px;background:color-mix(in srgb,var(--accent) 55%,var(--surface,#fff));color:var(--accent-ink)}
+.po-item-copy{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+.po-item-copy strong{font-size:17px;line-height:1.35;font-weight:650;overflow-wrap:anywhere}
+.po-item-copy>span{font-size:16px;line-height:1.45;color:var(--muted)}
+.po-open{flex:0 0 auto;color:var(--muted);font-size:16px}
+.po-empty{margin:0;padding:8px 2px;color:var(--muted);font-size:16px;line-height:1.55}
+.po-check{display:grid;place-items:center;flex:0 0 28px;width:28px;height:32px;padding:0;color:var(--muted);border-radius:8px}
+.po-check[aria-pressed=true]{color:var(--accent-ink,#23684f)}
+.po-milestone-list{display:grid;gap:5px}
+.po-milestone-list>li{display:flex;align-items:flex-start;gap:14px;min-width:0;min-height:90px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--panel,var(--surface,#fff))}
+.po-milestone-icon{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:13px;background:color-mix(in srgb,var(--accent) 55%,var(--surface,#fff));color:var(--accent-ink)}
+.po-milestone-copy{display:flex;flex:1;flex-direction:column;gap:8px;min-width:0}
+.po-milestone-heading{min-width:0}
+.po-milestone-heading strong{display:block;font-size:17px;line-height:1.35;font-weight:650;overflow-wrap:anywhere}
+.po-progress-track{height:5px;flex:0 0 5px;overflow:hidden;border-radius:99px;background:var(--line)}
+.po-progress-track>span{display:block;height:100%;border-radius:inherit;background:var(--accent-ink);transition:width .2s ease}
+.po-milestone-status{color:var(--muted);font-size:16px;line-height:1.35;overflow-wrap:anywhere}
+.po-milestone-list>li.is-done{border-color:color-mix(in srgb,var(--muted) 28%,var(--line));background:color-mix(in srgb,var(--muted) 10%,var(--surface,#fff))}
+.po-milestone-list .is-done .po-milestone-icon{background:color-mix(in srgb,var(--muted) 18%,var(--surface,#fff));color:var(--muted)}
+.po-milestone-list .is-done .po-milestone-heading strong,.po-milestone-list .is-done .po-milestone-status{color:var(--muted)}
+.po-milestone-list .is-done .po-milestone-status{font-weight:650}
+.po-milestone-list .is-done .po-progress-track{background:color-mix(in srgb,var(--muted) 20%,var(--surface,#fff))}
+.po-milestone-list .is-done .po-progress-track>span{background:var(--muted)}
+.po-reminder-copy strong{font-size:17px;line-height:1.35;font-weight:650}
+.po-reminder-copy>span{font-size:16px;line-height:1.45;color:var(--muted)}
+.po-reminder-list .is-done .po-reminder-copy>strong{text-decoration:line-through;text-decoration-thickness:1px;color:var(--muted)}
+.po-calendar-panel>.event-calendar.compact{width:100%;max-width:360px;box-sizing:border-box;margin:0 auto 18px;padding:16px;border:1px solid var(--line);border-radius:17px;background:var(--panel,var(--surface,#fff));box-shadow:none}
+.po-calendar-panel .compact .calendar-title{display:none}
+.po-calendar-panel .compact .calendar-toolbar{margin-bottom:12px}
+.po-calendar-panel .compact .calendar-toolbar h3{font-size:20px}
+.po-calendar-panel .compact .calendar-days{padding-bottom:8px;font-size:16px}
+.po-calendar-panel .compact .calendar-cell,.po-calendar-panel .compact .calendar-blank{min-height:43px;padding:4px;border-radius:9px}
+.po-calendar-panel .compact .cell-number{font-size:16px}
+.po-calendar-panel .compact .month-controls .icon-button{width:36px;height:38px}
+.po-calendar-list h3,.po-deadlines h3{display:flex;align-items:center;gap:8px;margin:0 0 7px;font-size:18px;line-height:1.35;font-weight:650}
+.po-date-badge{display:grid;place-items:center;flex:0 0 54px;min-height:44px;padding:4px;border-radius:12px;background:color-mix(in srgb,var(--accent) 58%,var(--surface,#fff));color:var(--accent-ink);font-size:16px;font-weight:650;text-align:center}
+.po-calendar-list .po-item-copy>span,.po-deadlines .po-item-copy>span{font-size:16px}
+.po-deadlines{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.po-deadlines h3 svg{color:var(--accent-ink,#23684f)}
+.po-reminder-form{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:11px}
+.po-reminder-form label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:16px}
+.po-reminder-name{grid-column:1/-1}
+.po-reminder-form input{width:100%;min-width:0;min-height:44px;padding:9px 11px;border:1px solid var(--line);border-radius:11px;background:var(--panel,var(--surface,#fff));color:var(--ink);font:inherit;font-size:16px}
+.po-reminder-form input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.po-reminder-fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;min-width:0}
+.po-add-reminder{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:9px 13px;border:1px solid var(--line);border-radius:12px;background:var(--accent);color:var(--ink);font-size:16px;font-weight:650;white-space:nowrap}
+.po-reminder-list{margin-top:15px}
+.po-reminder-list li{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--line)}
+.po-reminder-date-row{display:flex;align-items:center;gap:10px}
+.po-reminder-date-row.is-done .po-item-copy strong{text-decoration:line-through;text-decoration-thickness:1px;color:var(--muted)}
+.po-reminder-copy{display:flex;flex:1;flex-direction:column;gap:3px;min-width:0}
+.po-reminder-copy strong{overflow-wrap:anywhere}
+.po-remove-reminder{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:9px;color:var(--muted)}
+.po-remove-reminder:hover{color:#a44242;background:color-mix(in srgb,#a44242 10%,transparent)}
+@media(max-width:900px){.profile-overview-columns{grid-template-columns:1fr;gap:18px}.profile-overview-left,.profile-overview-right{gap:18px}}
+@media(max-width:560px){.po-panel{padding:17px;border-radius:19px}.po-section-heading{gap:11px;margin-bottom:16px}.po-section-heading h2{font-size:21px}.po-icon{width:42px;height:42px;flex-basis:42px}.po-event-link{gap:9px;padding:13px 0}.po-item-copy strong,.po-milestone-heading strong,.po-reminder-copy strong{font-size:16px}.po-item-copy>span,.po-open,.po-milestone-status,.po-reminder-copy>span{font-size:16px}.po-milestone-list>li{gap:12px;min-height:90px;padding:16px}.po-milestone-copy{gap:8px}.po-calendar-panel>.event-calendar.compact{padding:12px}.po-calendar-panel .compact .calendar-cell,.po-calendar-panel .compact .calendar-blank{min-height:40px}.po-reminder-form{grid-template-columns:1fr}.po-reminder-name{grid-column:auto}.po-reminder-fields{grid-template-columns:1fr 1fr}.po-add-reminder{width:100%}}
+@media(prefers-reduced-motion:reduce){.profile-overview *{scroll-behavior:auto!important}}
+
+.po-add-reminder{background:var(--accent-fill);color:var(--accent-ink)}[data-theme=dark] .po-event-link:hover .po-item-copy strong,[data-theme=dark] .po-event-link:focus-visible .po-item-copy strong{color:var(--accent)}
